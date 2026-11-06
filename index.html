@@ -1926,7 +1926,14 @@ Promise.all([document.fonts.load('800 60px "Archivo V"'),document.fonts.load('50
     M.w.style.filter = 'none';
   }
   MPH.forEach(morphDraw);
-  function playMorph(M, from = 0) { M.t = from; M.run = true; }
+  function fitMA(M) {
+    // la versión píxel nunca más ancha que el espacio disponible
+    M.a.style.fontSize = '';
+    const box = (M.el.closest('h2') || M.el).clientWidth, w = M.a.scrollWidth;
+    if (w > box) M.a.style.fontSize = (1.4 * box / w * .97).toFixed(3) + 'em';
+  }
+  addEventListener('resize', () => MPH.forEach(fitMA));
+  function playMorph(M, from = 0) { fitMA(M); M.t = from; M.run = true; }
   MPH.forEach(M => M.box = M.el.closest('.sec-head, #contacto, .divider, .pw-center, .s-text') || M.el);
   const mio = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { MPH.filter(m => m.box === e.target && m.t === 0 && !m.run).forEach(M => setTimeout(() => playMorph(M), 350)); mio.unobserve(e.target); } }), { threshold: .35 });
   MPH.forEach(M => { mio.observe(M.box); M.el.addEventListener('pointerenter', () => { if (!M.run) playMorph(M, 0); }); });
