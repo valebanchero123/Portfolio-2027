@@ -897,6 +897,14 @@ nav .brand{font-family:var(--hn);font-weight:700;letter-spacing:var(--ls);font-s
 .tes-chip{position:absolute;right:0;top:0;padding:.6em 1.1em;border-radius:999px;background:#9ee35a;color:#0b0b0b}
 a.s-media{display:block;color:inherit}
 @media (max-width:820px){.tes-body{grid-template-columns:1fr;aspect-ratio:auto}.tes-poster{aspect-ratio:4/3}.tes-win{transform:none}}
+
+.tes-uni{position:relative;aspect-ratio:3038/1462;overflow:hidden;background:#0b0b0d}
+.tu-bg{position:absolute;inset:-3%;background:url(assets/tesis/universo.jpg) center/cover;will-change:transform}
+.tu-cv{position:absolute;inset:0;width:100%;height:100%}
+.tu-burst{position:absolute;left:50%;top:60%;width:21.2%;aspect-ratio:1;background:url(assets/tesis/burst.png) center/contain no-repeat;mix-blend-mode:screen;will-change:transform,filter}
+.tu-glow{position:absolute;left:50%;top:62%;width:34%;aspect-ratio:1;transform:translate(-50%,-50%);background:radial-gradient(closest-side,rgba(255,110,30,.28),transparent);animation:tuG 3.2s ease-in-out infinite;pointer-events:none;mix-blend-mode:screen}
+@keyframes tuG{50%{opacity:.45;transform:translate(-50%,-50%) scale(1.15)}}
+.m-tes{width:min(100%,calc(78vh * 2.08))}
 </style></head>
 <body>
 <div class="grain"></div>
@@ -1858,10 +1866,7 @@ Promise.all([document.fonts.load('800 60px "Archivo V"'),document.fonts.load('50
     if (S.kind === 'id') return `<div class="m-id"><canvas></canvas><div class="dots">${DATA.id[S.k].pages.map(() => '<i></i>').join('')}</div><div class="cap mono"><span class="pg">01 — Portada</span><span>Manual de marca</span></div></div>`;
     if (S.kind === 'web') { const w = DATA.web[S.k]; return `<div class="m-web"><div class="laptop"><div class="lt-screen"><div class="lt-view"><img src="assets/web/${w.id}.jpg" alt="Landing ${w.name}"></div></div><div class="lt-base"></div></div><div class="lt-shadow"></div><div class="float f1" style="background-image:url(assets/web/${w.id}.jpg);background-position:0 18%"></div><div class="float f2" style="background-image:url(assets/web/${w.id}.jpg);background-position:0 62%"></div></div>`; }
     if (S.kind === 'tesis') return `<div class="m-tes"><div class="tes-win"><div class="tes-bar"><i></i><i></i><i></i><span class="mono">pitchbio.vercel.app</span><b class="mono">Universo del proyecto</b></div>
-      <div class="tes-body"><div class="tes-poster" style="background-image:url(assets/po/bioferia.jpg)"></div>
-      <div class="tes-side"><div class="tes-k mono">Bioferia · BUTBE</div><div class="tes-h">Universo<br>del proyecto</div>
-      ${['Sectores y espacios', 'Catálisis — el juego', 'Activemos el cambio', 'Campaña en vía pública'].map((t, k) => `<div class="tes-row mono" style="--d:${k}"><span>${pad2(k + 1)}</span><span>${t}</span><span>→</span></div>`).join('')}
-      <div class="tes-seed"><i></i><span class="mono">Tu semilla crece</span></div></div></div></div>
+      <div class="tes-uni"><div class="tu-bg"></div><canvas class="tu-cv"></canvas><div class="tu-burst"></div><div class="tu-glow"></div></div></div>
       <div class="tes-chip mono">Proyecto en equipo</div></div>`;
     if (S.kind === 'mo') return `<div class="m-iso"><div class="iso-plane">${DATA.mo.map((m, i) => `<div class="iso-c" data-i="${i}"><div class="iso-sh"></div><div class="iso-v"><video src="assets/mo/${m.id}.mp4" poster="assets/mo/${m.id}.jpg" muted loop playsinline preload="metadata"></video><span class="mono">${pad2(i + 1)}</span></div></div>`).join('')}</div><div class="now mono"><span class="nm"></span><span class="ct"></span></div></div>`;
     if (S.kind === 'po') return `<div class="m-po">${DATA.po.map(p => `<div class="pc"><img src="assets/po/${p.src}.jpg" alt="${p.t}" draggable="false"></div>`).join('')}</div>`;
@@ -1948,6 +1953,35 @@ Promise.all([document.fonts.load('800 60px "Archivo V"'),document.fonts.load('50
     Wb.lap.style.transform = `rotateX(${10 - sp * 10 + mouse.ny * -3}deg) rotateY(${mouse.nx * 6}deg)`;
     Wb.f1.style.transform = `translate3d(${mouse.nx * -14}px,${(sp - .5) * -60}px,60px) rotateY(18deg) rotateZ(-4deg)`;
     Wb.f2.style.transform = `translate3d(${mouse.nx * 14}px,${(sp - .5) * 70}px,80px) rotateY(-18deg) rotateZ(3deg)`;
+  }
+
+  /* --- tesis: universo animado --- */
+  const TU = $$('.tes-uni').map(el => {
+    const cv = el.querySelector('canvas');
+    const stars = Array.from({ length: 140 }, () => ({ x: Math.random(), y: Math.random() * .75, r: Math.random() * 1.2 + .3, p: Math.random() * 6 }));
+    const planets = [{ a: .46, b: .055, s: .09, c: '190,150,255', o: 2.3 }, { a: .17, b: .03, s: .16, c: '60,170,255', o: 3.5 }, { a: .14, b: .028, s: .2, c: '140,200,255', o: .4 },
+                     { a: .33, b: .045, s: .12, c: '40,230,210', o: 5.5 }, { a: .52, b: .07, s: .07, c: '230,255,200', o: .9 }];
+    const sparks = Array.from({ length: 60 }, () => ({ a: Math.random() * 6.28, d: Math.random(), v: .15 + Math.random() * .35 }));
+    return { el, cv, stars, planets, sparks, burst: el.querySelector('.tu-burst'), bg: el.querySelector('.tu-bg') };
+  });
+  function tuFrame(U, T) {
+    if (!onScreen(U.el)) return;
+    const ctx = fitCanvas(U.cv), W = U.cv.width, H = U.cv.height; ctx.clearRect(0, 0, W, H);
+    const cx = W * .5, cy = H * .6;
+    U.stars.forEach(s => { ctx.fillStyle = `rgba(255,255,255,${.15 + .35 * (.5 + .5 * Math.sin(T * 1.5 + s.p))})`; ctx.beginPath(); ctx.arc(s.x * W, s.y * H, s.r * DPR, 0, 7); ctx.fill(); });
+    ctx.globalCompositeOperation = 'lighter';
+    U.sparks.forEach(p => { const d = ((p.d + T * p.v * .25) % 1); const rr = d * H * .32; const x = cx + Math.cos(p.a) * rr, y = cy + Math.sin(p.a) * rr * .8;
+      ctx.fillStyle = `rgba(255,${120 + d * 80 | 0},40,${(1 - d) * .55})`; ctx.beginPath(); ctx.arc(x, y, (1.6 - d) * DPR, 0, 7); ctx.fill(); });
+    U.planets.forEach(p => { const ang = T * p.s + p.o, x = cx + Math.cos(ang) * p.a * W, y = cy + Math.sin(ang) * p.b * W * 1.2 + p.b * W * .2;
+      const front = Math.sin(ang) > 0, rad = (front ? 7 : 4.5) * DPR * (W / 1600 + .5);
+      const g = ctx.createRadialGradient(x, y, 0, x, y, rad * 5); g.addColorStop(0, `rgba(${p.c},.95)`); g.addColorStop(.25, `rgba(${p.c},.35)`); g.addColorStop(1, `rgba(${p.c},0)`);
+      ctx.fillStyle = g; ctx.beginPath(); ctx.arc(x, y, rad * 5, 0, 7); ctx.fill();
+      ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.arc(x, y, rad * .45, 0, 7); ctx.fill(); });
+    ctx.globalCompositeOperation = 'source-over';
+    const pulse = 1 + Math.sin(T * 1.7) * .045 + Math.sin(T * 4.3) * .015;
+    U.burst.style.transform = `translate(-50%,-50%) rotate(${T * 4}deg) scale(${pulse})`;
+    U.burst.style.filter = `brightness(${1.05 + Math.sin(T * 2.1) * .15}) saturate(1.15)`;
+    U.bg.style.transform = `scale(${1.04 + Math.sin(T * .15) * .02}) translate(${mouse.nx * -6}px,${mouse.ny * -4}px)`;
   }
 
   /* --- motion: flyers isométricos --- */
@@ -2316,6 +2350,7 @@ Promise.all([document.fonts.load('800 60px "Archivo V"'),document.fonts.load('50
       WEBS.forEach(Wb => webFrame(Wb, T));
       MO.forEach(M => moFrame(M, now));
       wallFrame(T);
+      TU.forEach(U => tuFrame(U, T));
       MEETS.forEach(M => meetMini(M, T));
       conFrame(T);
     }
