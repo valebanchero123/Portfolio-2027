@@ -973,6 +973,43 @@ p,.s-desc,.m-par,.ab-lead{text-wrap:pretty}
 .bbw-nav img{filter:none}
 
 .bbw-vid{top:12%!important;height:88%!important;object-fit:contain!important;background:#000}
+
+.wstack img{display:block;width:100%;height:auto;margin:0}
+.lt-view .wstack{position:absolute;left:0;top:0;width:100%;will-change:transform}
+.p-browser .wstack img{display:block}
+
+/* paleta reconstruida con los códigos */
+.br-pal2{background:#121212;padding:6%;display:flex;flex-direction:column;gap:5%;aspect-ratio:4/3;font-family:var(--hn);color:#fff}
+.bp-top{display:flex;justify-content:space-between;align-items:baseline;font-size:clamp(9px,.85vw,16px)}
+.bp-top b{font-weight:700}.bp-top span{opacity:.55;font-size:.8em;text-transform:uppercase;letter-spacing:-.02em}
+.bp-sw{flex:1;display:flex;gap:3%}
+.bp-sw div{flex:1;border-radius:8px;padding:7% 7% 8%;display:flex;flex-direction:column;justify-content:flex-end;gap:2px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.12);font-size:clamp(6px,.52vw,11px);text-transform:uppercase;letter-spacing:-.02em}
+.bp-sw div b{font-weight:700;font-size:1.25em;text-transform:none;margin-bottom:auto}
+.bp-grad{height:18%;border-radius:8px;display:flex;align-items:center;padding:0 4%;font-size:clamp(7px,.6vw,12px);color:#fff}
+.bp-grad b{font-weight:700}
+.br-scene,.br-c{backface-visibility:hidden}
+
+.bp-sw{min-height:0}
+.bp-sw div{min-width:0;overflow:hidden;white-space:nowrap;padding:6% 6% 7%;font-size:clamp(5px,.44vw,9px)}
+.br-pal2{gap:4%;padding:5%}
+.bp-grad{flex:0 0 16%}
+
+.bp-sw div{font-size:clamp(6px,.55vw,11px);justify-content:flex-end;gap:4px}
+.bp-sw div b{margin-bottom:auto;font-size:1.3em}
+/* paleta v2: medidas relativas a la tarjeta */
+.br-c.br-pal{container-type:inline-size}
+.br-pal2{aspect-ratio:4/3;padding:6cqw!important;display:grid!important;grid-template-rows:auto 1fr auto;gap:4cqw!important;background:#121212}
+.bp-top{font-size:5.2cqw!important}
+.bp-top span{font-size:3cqw}
+.bp-sw{display:grid!important;grid-auto-flow:column;grid-auto-columns:1fr;gap:2.6cqw!important}
+.bp-sw div{border-radius:2.4cqw!important;padding:3.4cqw!important;font-size:3cqw!important;white-space:normal!important;overflow:visible!important;display:flex;flex-direction:column;justify-content:space-between!important}
+.bp-sw div b{font-size:4.4cqw!important;margin:0!important}
+.bp-grad{height:13cqw!important;flex:none!important;border-radius:2.4cqw!important;padding:0 4cqw!important;font-size:3.6cqw!important}
+
+.bp-sw div span{font-size:2.5cqw!important;opacity:.85}
+.bp-top{gap:2cqw}
+
+.br-c.br-pal{padding:0!important;background:none!important;display:block!important}
 </style></head>
 <body>
 <div class="grain"></div>
@@ -1212,7 +1249,7 @@ void main(){
   function render(o) {
     if (!ok) init();
     if (!ok) return null;
-    const w = Math.max(16, Math.min(1400, Math.round(o.w))), h = Math.max(16, Math.min(1400, Math.round(o.h)));
+    const w = Math.max(16, Math.min(2048, Math.round(o.w))), h = Math.max(16, Math.min(2048, Math.round(o.h)));
     if (cv.width !== w || cv.height !== h) { cv.width = w; cv.height = h; }
     gl.viewport(0, 0, w, h);
     gl.clearColor(0, 0, 0, 0); gl.clear(gl.COLOR_BUFFER_BIT);
@@ -1701,7 +1738,7 @@ Promise.all([document.fonts.load('800 60px "Archivo V"'),document.fonts.load('50
    ============================================================ */
 (() => {
   const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
-  const DPR = Math.min(window.devicePixelRatio || 1, 1.5);
+  const DPR = Math.min(window.devicePixelRatio || 1, 2);
   const clamp = (v, a = 0, b = 1) => Math.max(a, Math.min(b, v));
   const lerp = (a, b, t) => a + (b - a) * t;
   const rnd = n => { const x = Math.sin(n * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); };
@@ -1879,7 +1916,7 @@ Promise.all([document.fonts.load('800 60px "Archivo V"'),document.fonts.load('50
     const narrow = W < H, cx = narrow ? W * .5 : W * .68, cy = H * .5, S = Math.min(W, H) * (narrow ? 1.25 : 1.15);
     const o = { mat: MST[si][0], tint: MST[si][1], time: t, morph: .05 + p * .9, zoom: .7, seed: 3, mouse: [mouse.nx * .4, mouse.ny * .3] };
     if ((fr < .05 && si > 0) || (fr > .96 && si < 3)) U.pixelBlob(ctx, cx, cy, S, 30, '#ee2a1b', Object.assign({}, o, { mat: 'clay' }), 1);
-    else { const c = Matter.render(Object.assign({}, o, { w: S * .7, h: S * .7 })); if (c) ctx.drawImage(c, cx - S / 2, cy - S / 2, S, S); }
+    else { const c = Matter.render(Object.assign({}, o, { w: S * .95, h: S * .95 })); if (c) ctx.drawImage(c, cx - S / 2, cy - S / 2, S, S); }
     const b = S * .5;
     U.handles(ctx, cx - b / 2, cy - b / 2, b, b, '#ee2a1b', 7 * DPR, false);
     U.label(ctx, 'ESTADO_0' + (si + 1) + ' · ' + ['SÓLIDO', 'LÍQUIDO', 'GASEOSO', 'VÍTREO'][si] + ' · ' + Math.round(p * 100) + '%', cx - b / 2, cy - b / 2 - 10 * DPR, '#ece7df', 11 * DPR);
@@ -1936,7 +1973,7 @@ Promise.all([document.fonts.load('800 60px "Archivo V"'),document.fonts.load('50
       cards: [
         { t: 'vid', x: 30, y: 22, w: 42, z: 0, src: 'assets/id/wake-mc.mp4' },
         { t: 'type', x: 6, y: 30, w: 20, z: 90, font: 'Lettering', sub: 'Logotipo caligráfico', glyph: 'img', img: 'assets/brand/wake-logo2.jpg' },
-        { t: 'pal', x: 66, y: 60, w: 26, z: 140, cols: ['#E95355', '#311C47', '#FFFFFF', '#000000'] },
+        { t: 'pal', x: 64, y: 56, w: 30, z: 140, cols: [['Coral', '#E95355'], ['Violeta', '#311C47'], ['Blanco', '#FFFFFF'], ['Negro', '#000000']], grad: 'linear-gradient(90deg,#E95355,#311C47)' },
         { t: 'img', x: 70, y: 14, w: 22, z: 60, img: 'assets/brand/wake-logo.jpg', r: 3 },
         { t: 'img', x: 24, y: 4, w: 13, z: -80, img: 'assets/brand/wake-pattern.jpg', r: -4 },
         { t: 'img', x: 34, y: 66, w: 24, z: 110, img: 'assets/brand/wake-coaster.jpg', r: -2 },
@@ -1946,7 +1983,7 @@ Promise.all([document.fonts.load('800 60px "Archivo V"'),document.fonts.load('50
       cards: [
         { t: 'vid', x: 30, y: 22, w: 42, z: 0, src: 'assets/id/finolio-mc.mp4' },
         { t: 'type', x: 6, y: 30, w: 20, z: 90, font: 'Archivo', sub: 'Variable · Regular', glyph: 'Aa', ff: '"Archivo V"' },
-        { t: 'pal', x: 67, y: 62, w: 26, z: 140, cols: ['#10B981', '#146A64', '#020617', 'linear-gradient(90deg,#146A64,#10B981,#020617)'] },
+        { t: 'pal', x: 64, y: 58, w: 30, z: 140, cols: [['Verde', '#10B981'], ['Teal', '#146A64'], ['Noche', '#020617']], grad: 'linear-gradient(90deg,#146A64,#10B981,#020617)' },
         { t: 'img', x: 74, y: 10, w: 13, z: 60, img: 'assets/brand/fin-icon.png', r: 3, dark: 1 },
         { t: 'img', x: 30, y: 4, w: 22, z: -60, img: 'assets/brand/fin-lock.jpg', r: -3 },
         { t: 'img', x: 34, y: 68, w: 26, z: 110, img: 'assets/brand/fin-web.jpg', r: -2 },
@@ -1956,9 +1993,17 @@ Promise.all([document.fonts.load('800 60px "Archivo V"'),document.fonts.load('50
   function brCard(c, B) {
     if (c.t === 'vid') return `<video src="${c.src}" muted loop playsinline preload="metadata"></video>`;
     if (c.t === 'type') return `<div class="br-type"><div class="br-th"><b>${c.font}</b><span class="mono">${c.sub}</span></div>${c.glyph === 'img' ? `<img src="${c.img}" alt="">` : `<div class="br-aa" style="font-family:${c.ff}">Aa</div>`}<div class="mono br-abc">ABCDEFGHIJKLM 0123456789</div></div>`;
-    if (c.t === 'pal') return `<div class="br-pal">${c.cols.map(k => `<i style="background:${k}"></i>`).join('')}<span class="mono">${c.cols.filter(k => k[0] === '#').join(' · ')}</span></div>`;
+    if (c.t === 'pal') {
+      const lum = h => { const n = parseInt(h.slice(1), 16); return ((n >> 16) * .299 + (n >> 8 & 255) * .587 + (n & 255) * .114); };
+      const rgb = h => { const n = parseInt(h.slice(1), 16); return `${n >> 16} ${n >> 8 & 255} ${n & 255}`; };
+      return `<div class="br-pal2"><div class="bp-top"><b>Paleta</b><span>${c.cols.length + 1} colores</span></div>
+        <div class="bp-sw">${c.cols.map(([nm, h]) => `<div style="background:${h};color:${lum(h) > 150 ? '#0b0b0b' : '#ffffff'}"><b>${nm}</b><span>#${h.slice(1).toUpperCase()}</span></div>`).join('')}</div>
+        <div class="bp-grad" style="background:${c.grad}"><b>Gradiente</b></div></div>`;
+    }
     return `<img src="${c.img}" alt="" ${c.dark ? 'class="dk"' : ''}>`;
   }
+  const WPARTS = { axioma: 7, lythium: 10 };
+  const wstack = (id, alt) => `<div class="wstack">${Array.from({ length: WPARTS[id] }, (_, k) => `<img src="assets/web/${id}-${k}.jpg" alt="${k ? '' : alt}" loading="${k < 2 ? 'eager' : 'lazy'}" decoding="async">`).join('')}</div>`;
   function media(S) {
     if (S.kind === 'id') {
       const B = BRAND[DATA.id[S.k].id];
@@ -1969,7 +2014,7 @@ Promise.all([document.fonts.load('800 60px "Archivo V"'),document.fonts.load('50
     }
     if (S.kind === 'id') return `<div class="m-idv"><video src="assets/id/${DATA.id[S.k].id}-mc.mp4" poster="assets/id/${DATA.id[S.k].id}-mc.jpg" muted loop playsinline preload="metadata"></video><div class="cap mono"><span>Match cut — el logo en todas sus aplicaciones</span><span>Manual de marca</span></div></div>`;
     if (S.kind === 'id') return `<div class="m-id"><canvas></canvas><div class="dots">${DATA.id[S.k].pages.map(() => '<i></i>').join('')}</div><div class="cap mono"><span class="pg">01 — Portada</span><span>Manual de marca</span></div></div>`;
-    if (S.kind === 'web') { const w = DATA.web[S.k]; return `<div class="m-web"><div class="laptop"><div class="lt-screen"><div class="lt-view"><img src="assets/web/${w.id}.jpg" alt="Landing ${w.name}"></div></div><div class="lt-base"></div></div><div class="lt-shadow"></div><div class="float f1" style="background-image:url(assets/web/${w.id}.jpg);background-position:0 18%"></div><div class="float f2" style="background-image:url(assets/web/${w.id}.jpg);background-position:0 62%"></div></div>`; }
+    if (S.kind === 'web') { const w = DATA.web[S.k]; return `<div class="m-web"><div class="laptop"><div class="lt-screen"><div class="lt-view">${wstack(w.id, 'Landing ' + w.name)}</div></div><div class="lt-base"></div></div><div class="lt-shadow"></div><div class="float f1" style="background-image:url(assets/web/${w.id}-1.jpg);background-position:0 30%"></div><div class="float f2" style="background-image:url(assets/web/${w.id}-${Math.round(WPARTS[w.id] * .6)}.jpg);background-position:0 40%"></div></div>`; }
     if (S.kind === 'tesis') return `<div class="m-tes"><div class="tes-win"><div class="tes-bar"><i></i><i></i><i></i><span class="mono">pitchbio.vercel.app</span><b class="mono">Universo del proyecto</b></div>
       <div class="tes-uni"><div class="tu-bg"></div><canvas class="tu-cv"></canvas><div class="tu-burst"></div><div class="tu-glow"></div></div></div></div>`;
     if (S.kind === 'bbvid') return `<div class="m-bbv"><video src="assets/butbe/concepto-prev.mp4" poster="assets/butbe/concepto.jpg" muted loop playsinline preload="metadata"></video><div class="bbv-play mono">▶ Ver con sonido · 1:20</div></div>`;
@@ -2052,7 +2097,7 @@ Promise.all([document.fonts.load('800 60px "Archivo V"'),document.fonts.load('50
   }
 
   /* --- web: laptop con la landing desplazándose + tarjetas flotantes --- */
-  const WEBS = $$('.m-web').map(el => ({ el, lap: el.querySelector('.laptop'), img: el.querySelector('.lt-view img'), view: el.querySelector('.lt-view'), f1: el.querySelector('.f1'), f2: el.querySelector('.f2'), slot: el.closest('.slot') }));
+  const WEBS = $$('.m-web').map(el => ({ el, lap: el.querySelector('.laptop'), img: el.querySelector('.lt-view .wstack'), view: el.querySelector('.lt-view'), f1: el.querySelector('.f1'), f2: el.querySelector('.f2'), slot: el.closest('.slot') }));
   function webFrame(Wb, T) {
     if (!onScreen(Wb.el)) return;
     const r = Wb.slot.getBoundingClientRect(), sp = clamp((innerHeight - r.top) / (innerHeight + r.height));
@@ -2187,7 +2232,7 @@ Promise.all([document.fonts.load('800 60px "Archivo V"'),document.fonts.load('50
     con.x = lerp(con.x, clamp(tx), .06); con.y = lerp(con.y, clamp(ty), .06);
     con.v = lerp(con.v, Math.min(1, Math.hypot(con.x - px, con.y - py) * 40), .1);
     const S = Math.min(W, H) * .5;
-    const c = Matter.render({ mat: 'wax', tint: '#ee2a1b', time: t, morph: .35 + con.v * .6, zoom: .7, seed: 8, w: S * .7, h: S * .7, mouse: [con.x - .5, con.y - .5] });
+    const c = Matter.render({ mat: 'wax', tint: '#ee2a1b', time: t, morph: .35 + con.v * .6, zoom: .7, seed: 8, w: S * .95, h: S * .95, mouse: [con.x - .5, con.y - .5] });
     if (c) ctx.drawImage(c, con.x * W - S / 2, con.y * H - S / 2, S, S);
   }
   $('#mail').onclick = async () => { try { await navigator.clipboard.writeText('valebanchero123@gmail.com'); $('#copied').classList.add('on'); setTimeout(() => $('#copied').classList.remove('on'), 1600); } catch (e) { } };
@@ -2290,7 +2335,7 @@ Promise.all([document.fonts.load('800 60px "Archivo V"'),document.fonts.load('50
     const light = w.id === 'lythium';
     return { bg: light ? '#ffffff' : '#070707', fg: light ? '#0b0b0b' : '#f2f2f2', ac: light ? HOT : w.ac, cat: '(04) Landing page', name: w.name, html: `
       <div class="p-head"><div><h1 class="wide">${w.name}</h1></div><div><p>${w.desc}</p><dl class="mono"><dt>Rol</dt><dd>${w.role}</dd><dt>Paleta</dt><dd>${w.colors.join(' · ')}</dd></dl></div></div>
-      <div class="p-browser"><div class="bar"><i></i><i></i><i></i><span>${w.url}</span></div><img src="assets/web/${w.id}.jpg" alt="Landing ${w.name}"></div>` };
+      <div class="p-browser"><div class="bar"><i></i><i></i><i></i><span>${w.url}</span></div>${wstack(w.id, 'Landing ' + w.name)}</div>` };
   }
   function tplMo(i) { return tplMos(i); }
   function tplPo(i) {
@@ -2481,7 +2526,7 @@ Promise.all([document.fonts.load('800 60px "Archivo V"'),document.fonts.load('50
   noWidow(); window.__noWidow = noWidow;
 
   /* ======================= LOOP ======================= */
-  Intro.setQuality(.62);
+  Intro.setQuality(.8);
   function frame(now) {
     const T = now / 1000;
     cur.style.transform = `translate(${mouse.sx = lerp(mouse.sx, mouse.x, .25)}px,${mouse.sy = lerp(mouse.sy, mouse.y, .25)}px)`;
