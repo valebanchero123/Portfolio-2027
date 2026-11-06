@@ -469,6 +469,10 @@ nav .links a:hover::after{width:100%}
   .divider .mono{text-align:left}
   #ball{width:84px;height:84px}
 }
+
+/* header sólido */
+nav{mix-blend-mode:normal;background:#0b0b0b;color:#ece7df;padding-top:14px;padding-bottom:14px;border-bottom:1px solid rgba(236,231,223,.12)}
+nav .links a:hover{color:var(--red)}
 </style></head>
 <body>
 <div class="grain"></div>
@@ -507,7 +511,6 @@ nav .links a:hover::after{width:100%}
   </div>
 </section>
 
-<div class="marquee wide"><div class="track" id="mq"></div></div>
 
 <!-- ÍNDICE -->
 <section id="indice">
@@ -1290,7 +1293,6 @@ Promise.all([document.fonts.load('800 60px "Archivo V"'),document.fonts.load('50
     $('#mTemp').textContent = 'T° ' + (20 + p * 1500 + Math.sin(t * 3) * 2).toFixed(2) + '°C';
   }
   const disc = ['Identidad', 'Posters', 'Motion', 'Web', 'Dirección de arte', 'Redes'];
-  $('#mq').innerHTML = [...disc, ...disc].map(d => `<span>${d}</span><b></b>`).join('');
 
   /* ======================= ÍNDICE ======================= */
   const CH = [['p-meet', 'MEET 26', 'Destacado', 'Stickers · 3D'], ['d-id', 'Identidades', 'Estado sólido', '02 proyectos'], ['d-po', 'Posters', 'Estado líquido', '08 piezas'], ['d-mo', 'Motion', 'Estado gaseoso', '04 videos'], ['d-web', 'Web', 'Estado vítreo', '02 landings']];
