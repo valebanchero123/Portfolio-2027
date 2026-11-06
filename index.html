@@ -805,7 +805,7 @@ nav .brand{font-family:var(--hn);font-weight:700;letter-spacing:var(--ls);font-s
 .ab{display:grid;grid-template-columns:minmax(260px,34%) 1fr;gap:clamp(30px,5vw,110px);padding:30px var(--pad) 90px;align-items:start}
 .ab-pic{position:sticky;top:90px;display:flex;gap:6px;height:min(78vh,900px)}
 .ab-pic div{flex:1;background-size:cover;filter:grayscale(1) contrast(1.15)}
-.ab-pic div:nth-child(2){filter:none}
+.ab-pic div:nth-child(2){filter:grayscale(1) contrast(1.15)}
 .ab h1{font-size:clamp(56px,8vw,170px);line-height:.82;margin-bottom:clamp(24px,3vw,50px)}
 .ab h1 .tl{color:#ff1a0a}
 .ab-lead{font-size:clamp(20px,1.9vw,36px);line-height:1.18;letter-spacing:-.02em;max-width:26ch;margin-bottom:clamp(30px,4vw,70px)}
@@ -1637,10 +1637,10 @@ Promise.all([document.fonts.load('800 60px "Archivo V"'),document.fonts.load('50
 
   /* ===================== PORTADA ===================== */
   const cover = $('#cover'), cvStrips = $('#cvStrips');
-  const IMG = { f: 'assets/me/face.jpg', b: 'assets/me/body_bw.jpg' };
+  const IMG = { f: 'assets/me/face.jpg' };
   // recortes: [imagen, tamaño %, x %, y %]
   const CROPS = [['f', 330, 14, 40], ['f', 520, 47, 62], ['f', 230, 52, 42], ['f', 560, 58, 78], ['f', 300, 86, 38],
-                 ['b', 260, 48, 32], ['f', 700, 36, 46], ['b', 330, 40, 52], ['f', 420, 62, 30], ['b', 220, 55, 22]];
+                 ['f', 700, 36, 46], ['f', 420, 62, 30], ['f', 380, 70, 55], ['f', 620, 22, 30], ['f', 260, 40, 70], ['f', 900, 50, 60]];
   const STATES = ['st-mono', 'st-red', 'st-inv', 'st-burn'];
   const SNAMES = ['Sólido', 'Líquido', 'Gaseoso', 'Plasma'];
   const N = 5;
@@ -2088,7 +2088,7 @@ Promise.all([document.fonts.load('800 60px "Archivo V"'),document.fonts.load('50
   function tplAbout() {
     return { bg: '#070707', fg: '#f2f2f2', ac: HOT, cat: '(VB) Sobre mí', name: 'Valentina Banchero', html: `
       <div class="ab">
-        <div class="ab-pic"><div style="background-image:url(assets/me/face.jpg);background-position:30% 40%"></div><div style="background-image:url(assets/me/body.jpg);background-position:50% 40%"></div><div style="background-image:url(assets/me/face.jpg);background-position:75% 50%"></div></div>
+        <div class="ab-pic"><div style="background-image:url(assets/me/face.jpg);background-position:30% 40%"></div><div style="background-image:url(assets/me/face.jpg);background-size:auto 160%;background-position:52% 70%"></div><div style="background-image:url(assets/me/face.jpg);background-position:75% 50%"></div></div>
         <div>
           <h1 class="wide">Sobre mí</h1>
           <p class="ab-lead"><b>Soy Valentina Banchero</b>, diseñadora gráfica y audiovisual de Buenos Aires. Trabajo entre la identidad, el motion, el 3D y la web: <b>materia en transformación</b>, una forma de diseñar que sigue cambiando conmigo.</p>
