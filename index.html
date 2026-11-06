@@ -473,6 +473,32 @@ nav .links a:hover::after{width:100%}
 /* header sólido */
 nav{mix-blend-mode:normal;background:#0b0b0b;color:#ece7df;padding-top:14px;padding-bottom:14px;border-bottom:1px solid rgba(236,231,223,.12)}
 nav .links a:hover{color:var(--red)}
+
+/* --- posters: muro curvo + galería --- */
+.wall-slot{display:block;padding:8vh 0 14vh}
+.po-wall{position:relative;width:100vw;margin-left:calc(50% - 50vw);height:min(88vh,860px);overflow:hidden;perspective:760px;perspective-origin:50% 46%}
+.pw-scene{position:absolute;left:50%;top:46%;transform-style:preserve-3d}
+.pw-row{position:absolute;left:0;top:0;transform-style:preserve-3d}
+.pw-tile{position:absolute;width:var(--tw);aspect-ratio:153/208;left:calc(var(--tw) / -2);top:calc(var(--tw) * -.68);border-radius:10px;overflow:hidden;backface-visibility:hidden;cursor:none;background:#151515}
+.pw-tile img{width:100%;height:100%;object-fit:cover;display:block;filter:saturate(.9) brightness(.82);transition:filter .3s}
+.pw-tile:hover img{filter:none}
+.pw-fade{position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,var(--wbg) 0%,transparent 14%,transparent 58%,var(--wbg) 96%),radial-gradient(40% 32% at 50% 46%,rgba(0,0,0,.72),transparent 75%)}
+.pw-center{position:absolute;left:50%;top:46%;transform:translate(-50%,-50%);width:min(500px,88vw);text-align:center;z-index:5;padding:30px 34px 34px;background:rgba(7,7,7,.62);-webkit-backdrop-filter:blur(14px) saturate(1.2);backdrop-filter:blur(14px) saturate(1.2);border:1px solid rgba(255,255,255,.1);border-radius:18px}
+.pw-center .anchor{right:-120px!important;left:auto!important;top:30px}
+@media (max-width:820px){.pw-center{padding:22px}.pw-center .anchor{right:20px!important;top:-70px}}
+.pw-center .s-meta{text-align:left}
+.pw-center .s-name{font-size:clamp(40px,5vw,78px)}
+.pw-center .s-desc{margin-left:auto;margin-right:auto}
+.wall-slot .pw-center>*{opacity:0;transform:translateY(20px);transition:opacity .9s,transform .9s}
+.wall-slot.in .pw-center>*{opacity:1;transform:none}
+.po-gallery{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(16px,2.4vw,34px);margin-top:4vh}
+.po-gallery figure{cursor:none;opacity:0;transform:translateY(40px);transition:opacity .9s var(--d),transform .9s cubic-bezier(.2,.8,.2,1) var(--d)}
+.po-gallery figure.in{opacity:1;transform:none}
+.po-gallery .fr{aspect-ratio:3/4;background:#141414;display:flex;align-items:center;justify-content:center;padding:8%;transition:background .4s}
+.po-gallery img{width:100%;height:100%;object-fit:contain;display:block;filter:drop-shadow(0 18px 30px rgba(0,0,0,.5));transition:transform .5s cubic-bezier(.2,.8,.2,1)}
+.po-gallery figure:hover img{transform:translateY(-8px) scale(1.03)}
+.po-gallery figcaption{display:flex;justify-content:space-between;gap:10px;padding-top:10px;opacity:.7}
+@media (max-width:820px){.po-gallery{grid-template-columns:1fr 1fr}.po-wall{height:78vh}}
 </style></head>
 <body>
 <div class="grain"></div>
@@ -1308,12 +1334,12 @@ Promise.all([document.fonts.load('800 60px "Archivo V"'),document.fonts.load('50
     { id: 'p-wake', kind: 'id', k: 0, th: 'white', ac: HOT, mat: 'pixel', meta: ['(01.01) Identidad', '2026'], name: 'Wake', desc: DATA.id[0].desc, tags: ['Logotipo', 'Patrones', 'Paleta', 'Mockups'], open: 'id:0' },
     { id: 'p-finolio', kind: 'id', k: 1, th: 'white', ac: HOT, mat: 'pixel', rev: 1, meta: ['(01.02) Identidad', '2026'], name: 'Finolio', desc: DATA.id[1].desc, tags: ['Logotipo', 'UI', 'App', 'Website'], open: 'id:1' },
     { div: ['(02)', 'Posters', 'Estado líquido · 08 piezas'], th: 'black', ac: HOT, mat: 'glass', did: 'd-po' },
-    { id: 'p-posters', kind: 'po', th: 'black', ac: HOT, mat: 'glass', meta: ['(02.01) Gráfica', '2025—26'], name: 'Posters', desc: 'Serie de afiches para Sweed, Bioferia y proyectos personales: tipografía expresiva, fotografía intervenida y retículas que se rompen.', tags: ['Sweed', 'Bioferia', 'Focus', 'Merch'], open: 'pos:0' },
-    { div: ['(03)', 'Motion', 'Estado gaseoso · 04 videos'], th: 'red', ac: '#ffffff', mat: 'chrome', did: 'd-mo' },
-    { id: 'p-motion', kind: 'mo', th: 'red', ac: '#ffffff', mat: 'chrome', rev: 1, meta: ['(03.01) Motion', '2026'], name: 'Flyers animados', desc: 'Piezas verticales para lanzar fechas y artistas: Emiliano Demarco, Cloudy y Semana Cadelago. Animación, 3D y edición pensadas para stories y reels.', tags: ['Demarco', 'Cloudy', 'Cadelago', '9:16'], open: 'mos:0' },
-    { div: ['(04)', 'Web', 'Estado vítreo · 02 landings'], th: 'gray', ac: '#0b0b0b', mat: 'glassw', did: 'd-web' },
-    { id: 'p-axioma', kind: 'web', k: 0, th: 'gray', ac: '#0b0b0b', mat: 'glassw', meta: ['(04.01) Landing page', '2026'], name: 'Axioma', desc: DATA.web[0].desc, tags: ['Landing', 'Moda', 'Dirección de arte'], open: 'web:0' },
-    { id: 'p-lythium', kind: 'web', k: 1, th: 'black', ac: '#a9d8ff', mat: 'glassw', rev: 1, meta: ['(04.02) Landing page', '2026'], name: 'Lythium', desc: DATA.web[1].desc, tags: ['Landing', 'Skincare', 'Redes'], open: 'web:1' },
+    { id: 'p-posters', kind: 'wall', th: 'black', ac: HOT, mat: 'glass', meta: ['(02.01) Gráfica', '2025—26'], name: 'Posters', desc: 'Serie de afiches para Sweed, Bioferia y proyectos personales: tipografía expresiva, fotografía intervenida y retículas que se rompen.', tags: ['Sweed', 'Bioferia', 'Focus', 'Merch'], open: 'pos:0' },
+    { div: ['(03)', 'Motion', 'Estado gaseoso · 04 videos'], th: 'white', ac: HOT, mat: 'chrome', did: 'd-mo' },
+    { id: 'p-motion', kind: 'mo', th: 'white', ac: HOT, mat: 'chrome', rev: 1, meta: ['(03.01) Motion', '2026'], name: 'Flyers animados', desc: 'Piezas verticales para lanzar fechas y artistas: Emiliano Demarco, Cloudy y Semana Cadelago. Animación, 3D y edición pensadas para stories y reels.', tags: ['Demarco', 'Cloudy', 'Cadelago', '9:16'], open: 'mos:0' },
+    { div: ['(04)', 'Web', 'Estado vítreo · 02 landings'], th: 'black', ac: '#a9d8ff', mat: 'glassw', did: 'd-web' },
+    { id: 'p-axioma', kind: 'web', k: 0, th: 'black', ac: '#a9d8ff', mat: 'glassw', meta: ['(04.01) Landing page', '2026'], name: 'Axioma', desc: DATA.web[0].desc, tags: ['Landing', 'Moda', 'Dirección de arte'], open: 'web:0' },
+    { id: 'p-lythium', kind: 'web', k: 1, th: 'white', ac: HOT, mat: 'glassw', rev: 1, meta: ['(04.02) Landing page', '2026'], name: 'Lythium', desc: DATA.web[1].desc, tags: ['Landing', 'Skincare', 'Redes'], open: 'web:1' },
   ];
   function media(S) {
     if (S.kind === 'id') return `<div class="m-id"><canvas></canvas><div class="dots">${DATA.id[S.k].pages.map(() => '<i></i>').join('')}</div><div class="cap mono"><span class="pg">01 — Portada</span><span>Manual de marca</span></div></div>`;
@@ -1322,7 +1348,16 @@ Promise.all([document.fonts.load('800 60px "Archivo V"'),document.fonts.load('50
     if (S.kind === 'po') return `<div class="m-po">${DATA.po.map(p => `<div class="pc"><img src="assets/po/${p.src}.jpg" alt="${p.t}" draggable="false"></div>`).join('')}</div>`;
     return `<div class="m-meet">${[3, 9, 10, 14, 16, 5].map(f => `<div class="fg"><img src="assets/meet/fig-${pad2(f)}.jpg" alt="" draggable="false"></div>`).join('')}<div class="ph"><video src="assets/meet/video.mp4" poster="assets/meet/video.jpg" muted loop playsinline preload="metadata"></video></div><div class="tk"><img src="assets/meet/fig-17.jpg" alt="Golden ticket"></div></div>`;
   }
-  wList.innerHTML = SLOTS.map(S => S.div
+  const wallHTML = S => `<article class="slot wall-slot" id="${S.id}" data-th="${S.th}" data-ac="${S.ac}" data-mat="${S.mat}">
+      <div class="po-wall" id="poWall"><div class="pw-scene"></div><div class="pw-fade"></div>
+        <div class="pw-center"><i class="anchor"></i>
+          <div class="s-meta mono"><span>${S.meta[0]}</span><span>${S.meta[1]}</span></div>
+          <h3 class="s-name wide">${S.name}</h3><p class="s-desc">${S.desc}</p>
+          <button class="s-btn mono" data-cur="Bajar" id="poGo">Ver galería completa <span>↓</span></button>
+        </div></div>
+      <div class="po-gallery" id="poGallery">${DATA.po.map((p, i) => `<figure data-open="po:${i}" data-cur="Ver grande" style="--d:${i * .07}s"><div class="fr"><img src="assets/po/${p.src}.jpg" alt="${p.t}" loading="lazy"></div><figcaption class="mono"><span>${pad2(i + 1)}</span><span>${p.t}</span></figcaption></figure>`).join('')}</div>
+    </article>`;
+  wList.innerHTML = SLOTS.map(S => S.kind === 'wall' ? wallHTML(S) : S.div
     ? `<div class="divider" ${S.did ? `id="${S.did}"` : ''} data-th="${S.th}" data-ac="${S.ac}" data-mat="${S.mat}"><h2 class="wide"><small>${S.div[0]}</small>${S.div[1]}</h2><span class="mono">${S.div[2]}</span></div>`
     : `<article class="slot${S.rev ? ' rev' : ''}" id="${S.id}" data-th="${S.th}" data-ac="${S.ac}" data-mat="${S.mat}">
         <div class="s-grid">
@@ -1426,6 +1461,35 @@ Promise.all([document.fonts.load('800 60px "Archivo V"'),document.fonts.load('50
     });
   }
 
+  /* --- posters: muro curvo en movimiento --- */
+  const wall = $('#poWall'), wScene = wall.querySelector('.pw-scene');
+  const W_ROWS = 4, W_N = 20, W_STEP = 360 / W_N;
+  wScene.innerHTML = Array.from({ length: W_ROWS }, (_, r) => `<div class="pw-row">${Array.from({ length: W_N }, (_, i) => `<div class="pw-tile" data-open="po:${(i + r * 3) % DATA.po.length}" data-cur="Ver poster"><img src="assets/po/${DATA.po[(i + r * 3) % DATA.po.length].src}.jpg" alt="" draggable="false"></div>`).join('')}</div>`).join('');
+  const wRows = [...wScene.querySelectorAll('.pw-row')].map((el, r) => ({ el, tiles: [...el.querySelectorAll('.pw-tile')], vis: [] }));
+  $('#poGo').onclick = () => $('#poGallery').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  const gio = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); gio.unobserve(e.target); } }), { threshold: .2 });
+  $$('#poGallery figure').forEach(f => gio.observe(f));
+  let wallLay = 0;
+  function wallFrame(T) {
+    if (!onScreen(wall)) return;
+    const tw = clamp(wall.clientWidth * .1, 96, 168), th = tw * 1.36, R = tw * 1.12 * W_N / (2 * Math.PI);
+    if (wallLay !== tw) {
+      wallLay = tw; wall.style.setProperty('--tw', tw + 'px');
+      wRows.forEach((row, r) => row.tiles.forEach((t, i) => t.style.transform = `rotateY(${i * W_STEP}deg) translateZ(${-R}px)`));
+    }
+    wScene.style.transform = `translateZ(${R * .62}px) rotateX(${-mouse.ny * 3}deg) rotateY(${mouse.nx * 5}deg)`;
+    wRows.forEach((row, r) => {
+      const off = (r % 2 ? -1 : 1) * T * (3 + r * .6) + r * 7;
+      const y = (r - (W_ROWS - 1) / 2) * (th + 14);
+      row.el.style.transform = `translateY(${y}px) rotateX(${-(r - (W_ROWS - 1) / 2) * 5}deg) rotateY(${off}deg)`;
+      row.tiles.forEach((t, i) => {
+        let a = ((i * W_STEP + off) % 360 + 540) % 360 - 180;
+        const v = Math.abs(a) < 80;
+        if (row.vis[i] !== v) { row.vis[i] = v; t.style.visibility = v ? 'visible' : 'hidden'; }
+      });
+    });
+  }
+
   /* --- MEET: figuritas orbitando alrededor del video --- */
   const MEETS = $$('.m-meet').map(el => ({ el, fgs: [...el.querySelectorAll('.fg')], vid: el.querySelector('video'), playing: false }));
   function meetMini(M, T) {
@@ -1492,7 +1556,7 @@ Promise.all([document.fonts.load('800 60px "Archivo V"'),document.fonts.load('50
     let ty = tyDoc - scrollY + mouse.ny * 10, tX = tx + mouse.nx * 10;
     // esquivar contenido: si el punto cae sobre texto/imagen/título, correrlo al hueco más cercano
     const Rb = ball.clientWidth / 2 + 14;
-    const obs = $$('.slot .s-text, .slot .s-media > div, .divider h2, .divider .mono, #indice .sec-head, #indice .idx').map(e => e.getBoundingClientRect()).filter(r => r.bottom > -100 && r.top < innerHeight + 100);
+    const obs = $$('.slot .s-text, .slot .s-media > div, .divider h2, .divider .mono, #indice .sec-head, #indice .idx, .pw-center, .po-gallery figure').map(e => e.getBoundingClientRect()).filter(r => r.bottom > -100 && r.top < innerHeight + 100);
     for (let it = 0; it < 3; it++) {
       let moved = false;
       for (const r of obs) {
@@ -1632,7 +1696,7 @@ Promise.all([document.fonts.load('800 60px "Archivo V"'),document.fonts.load('50
       IDS.forEach(I => idFrame(I, now));
       WEBS.forEach(Wb => webFrame(Wb, T));
       MO.forEach(M => moFrame(M, now));
-      PO.forEach(poFrame);
+      wallFrame(T);
       MEETS.forEach(M => meetMini(M, T));
       conFrame(T);
     }
