@@ -692,7 +692,7 @@ nav .links{gap:clamp(20px,2vw,44px)}
 
 <nav id="nav">
   <a href="#hero" class="brand">VALENTINA BANCHERO</a>
-  <span class="mid mono">Diseño gráfico &amp; audiovisual — <span id="clock">BA 00:00</span></span>
+  <span class="mid mono">Diseño gráfico &amp; audiovisual</span>
   <div class="links mono"><a href="#manifiesto">Manifiesto</a><a href="#indice">Trabajos</a><a href="#contacto">Contacto</a></div>
 </nav>
 
@@ -1887,7 +1887,6 @@ Promise.all([document.fonts.load('800 60px "Archivo V"'),document.fonts.load('50
   const cio = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.querySelectorAll(':scope > .clip').forEach(c => c.classList.add('in')); cio.unobserve(e.target); } }), { threshold: .1 });
   $$('.clip').forEach(el => cio.observe(el.parentElement));
   const clock = () => { try { $('#clock').textContent = 'BA ' + new Intl.DateTimeFormat('es-AR', { timeZone: 'America/Argentina/Buenos_Aires', hour: '2-digit', minute: '2-digit' }).format(new Date()); } catch (e) { } };
-  clock(); setInterval(clock, 15000);
   /* títulos en una sola línea: achica la letra hasta que entre, sin cortar palabras */
   function fitLines() {
     $$('.fitline').forEach(el => {
