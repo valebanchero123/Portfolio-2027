@@ -707,6 +707,9 @@ nav .links{gap:clamp(20px,2vw,44px)}
 .snd.on .bars i:nth-child(2){animation-delay:.2s}.snd.on .bars i:nth-child(3){animation-delay:.4s}
 .snd.on{color:var(--red)}
 @keyframes eq{0%,100%{height:3px}50%{height:12px}}
+
+.m-idv{width:min(100%,calc(80vh * 16 / 9));margin:0 auto}
+.m-idv video{width:100%;aspect-ratio:16/9;display:block;background:#000;box-shadow:0 40px 90px rgba(0,0,0,.18)}
 </style></head>
 <body>
 <div class="grain"></div>
@@ -1604,6 +1607,7 @@ Promise.all([document.fonts.load('800 60px "Archivo V"'),document.fonts.load('50
     { id: 'p-lythium', kind: 'web', k: 1, th: 'white', ac: HOT, mat: 'glassw', rev: 1, meta: ['(04.02) Landing page', '2026'], name: 'Lythium', desc: DATA.web[1].desc, tags: ['Landing', 'Skincare', 'Redes'], open: 'web:1' },
   ];
   function media(S) {
+    if (S.kind === 'id' && DATA.id[S.k].id === 'wake') return `<div class="m-idv"><video src="assets/id/wake-mc.mp4" poster="assets/id/wake-mc.jpg" muted loop playsinline preload="metadata"></video><div class="cap mono"><span>Match cut — el logo en todas sus aplicaciones</span><span>Manual de marca</span></div></div>`;
     if (S.kind === 'id') return `<div class="m-id"><canvas></canvas><div class="dots">${DATA.id[S.k].pages.map(() => '<i></i>').join('')}</div><div class="cap mono"><span class="pg">01 — Portada</span><span>Manual de marca</span></div></div>`;
     if (S.kind === 'web') { const w = DATA.web[S.k]; return `<div class="m-web"><div class="laptop"><div class="lt-screen"><div class="lt-view"><img src="assets/web/${w.id}.jpg" alt="Landing ${w.name}"></div></div><div class="lt-base"></div></div><div class="lt-shadow"></div><div class="float f1" style="background-image:url(assets/web/${w.id}.jpg);background-position:0 18%"></div><div class="float f2" style="background-image:url(assets/web/${w.id}.jpg);background-position:0 62%"></div></div>`; }
     if (S.kind === 'mo') return `<div class="m-mo">${DATA.mo.map(m => `<div class="ph"><video src="assets/mo/${m.id}.mp4" poster="assets/mo/${m.id}.jpg" muted loop playsinline preload="metadata"></video></div>`).join('')}<div class="now mono"><span class="nm"></span><span class="ct"></span></div></div>`;
@@ -1642,8 +1646,13 @@ Promise.all([document.fonts.load('800 60px "Archivo V"'),document.fonts.load('50
     for (const el of SECS) { const r = el.getBoundingClientRect(); if (r.top <= mid && r.bottom > mid) { const key = el.dataset.th + el.dataset.ac; if (key !== curTheme) { curTheme = key; const [bg, fg] = THEME[el.dataset.th]; works.style.setProperty('--wbg', bg); works.style.setProperty('--wfg', fg); works.style.setProperty('--wac', el.dataset.ac); } break; } }
   }
 
+  /* --- videos de preview: play solo en pantalla --- */
+  const PV = $$('.m-idv video');
+  const pvio = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { const p = e.target.play(); p && p.catch(() => { }); } else e.target.pause(); }), { threshold: .3 });
+  PV.forEach(v => pvio.observe(v));
+
   /* --- identidad: manual en loop con barrido de píxeles --- */
-  const IDS = $$('.m-id').map((el, k) => { const b = DATA.id[k]; return { el, b, cv: el.querySelector('canvas'), dots: [...el.querySelectorAll('.dots i')], pg: el.querySelector('.pg'), imgs: b.pages.map((_, i) => { const im = new Image(); im.src = b.file(i); return im; }), i: 0, t0: 0, last: -1, hover: false }; });
+  const IDS = $$('.m-id').map(el => { const k = +el.closest('.slot').id.replace('p-wake', '0').replace('p-finolio', '1'); const b = DATA.id[k]; return { el, b, cv: el.querySelector('canvas'), dots: [...el.querySelectorAll('.dots i')], pg: el.querySelector('.pg'), imgs: b.pages.map((_, i) => { const im = new Image(); im.src = b.file(i); return im; }), i: 0, t0: 0, last: -1, hover: false }; });
   IDS.forEach(I => { I.el.addEventListener('pointerenter', () => I.hover = true); I.el.addEventListener('pointerleave', () => I.hover = false); });
   const offId = document.createElement('canvas');
   function idFrame(I, now) {
