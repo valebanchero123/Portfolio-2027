@@ -1010,6 +1010,10 @@ p,.s-desc,.m-par,.ab-lead{text-wrap:pretty}
 .bp-top{gap:2cqw}
 
 .br-c.br-pal{padding:0!important;background:none!important;display:block!important}
+
+.iso-c{width:clamp(80px,7.4vw,150px)}
+.iso-plane{gap:clamp(12px,1.4vw,26px)}
+@media (max-width:820px){.iso-c{width:11vw}}
 </style></head>
 <body>
 <div class="grain"></div>
@@ -1762,6 +1766,10 @@ Promise.all([document.fonts.load('800 60px "Archivo V"'),document.fonts.load('50
         desc: 'Un logotipo caligráfico, rápido, que se repite hasta volverse patrón. Coral y violeta profundo, un gradiente propio y un sistema pensado para packaging, merch y redes.',
         colors: [['#E95355', 'E95355'], ['#311C47', '311C47'], ['#FFFFFF', 'FFFFFF'], ['#000000', '000000']],
         pages: ['Portada', 'Logotipo', 'Patrón', 'Paleta cromática', 'Usos correctos', 'Positivo y negativo', 'Patrones', 'Mockups', 'Contacto'], file: i => `assets/id/wake-${i + 1}.jpg` },
+      { id: 'vanguard', name: 'Vanguard', year: '2026', role: 'Identidad visual · Social media · Merch', bg: '#000000', ac: '#FFFFFF',
+        desc: 'Logotipo para una marca de eventos de música electrónica. Una V afilada que funciona como isotipo, tramas geométricas, stickers, redes y un corpóreo iluminado para escenario.',
+        colors: [['#FFFFFF', 'FFFFFF'], ['#000000', '000000'], ['#444444', '444444']],
+        pages: ['Logotipo y paleta', 'Logotipo negro y blanco', 'Isotipo', 'Soportes pequeños', 'Soportes grandes', 'Tramas'], file: i => `assets/id/vanguard-${i + 1}.jpg` },
       { id: 'finolio', name: 'Finolio', year: '2026', role: 'Identidad visual · UI · Manual de marca', bg: '#020617', ac: '#1DB981',
         desc: 'Marca para una plataforma de inversión. El símbolo sintetiza las velas japonesas del análisis técnico en un ícono simple: verde de crecimiento sobre azul noche.',
         colors: [['#1DB981', ''], ['#16A6A4', ''], ['#0B3B3A', ''], ['#020617', '']],
@@ -1781,6 +1789,8 @@ Promise.all([document.fonts.load('800 60px "Archivo V"'),document.fonts.load('50
       { id: 'demarco', t: 'Emiliano Demarco', c: 'Flyer animado · 3hs set', d: '0:24' },
       { id: 'cloudy-postmeet', t: 'Cloudy — Post Meet', c: 'Flyer animado · Evento', d: '0:18' },
       { id: 'cloudy-xl', t: 'Cloudy XL — Post Latmun', c: 'Flyer animado · Evento', d: '0:21' },
+      { id: 'cloudy-amigo', t: 'Cloudy — Save the date', c: 'Flyer animado · Día del amigo', d: '0:26' },
+      { id: 'cloudy-postcade', t: 'Cloudy — Post Cadelago', c: 'Flyer animado · Evento', d: '0:15' },
       { id: 'cadelago', t: 'Semana Cadelago', c: 'Reel · Teaser', d: '0:27' },
     ],
     web: [
@@ -1927,7 +1937,7 @@ Promise.all([document.fonts.load('800 60px "Archivo V"'),document.fonts.load('50
   /* ======================= ÍNDICE ======================= */
   const CH = [
     ['d-tesis', 'But Be', 'Trabajo en equipo', '03 proyectos', 'assets/po/bioferia.jpg', '50% 40%'],
-    ['d-id', 'Identidad', 'Estado sólido', '02 proyectos', 'assets/id/wake-2.jpg', '50% 50%'],
+    ['d-id', 'Identidad', 'Estado sólido', '03 proyectos', 'assets/id/wake-2.jpg', '50% 50%'],
     ['d-po', 'Posters', 'Estado líquido', '08 piezas', 'assets/po/bioferia.jpg', '50% 40%'],
     ['d-mo', 'Motion', 'Estado gaseoso', '02 proyectos', 'assets/mo/demarco.jpg', '50% 40%'],
     ['d-web', 'Web', 'Estado vítreo', '02 landings', 'assets/cover/axioma.jpg', '50% 30%'],
@@ -1956,13 +1966,14 @@ Promise.all([document.fonts.load('800 60px "Archivo V"'),document.fonts.load('50
     { id: 'p-tesis', kind: 'tesis', th: 'black', ac: HOT, mat: 'glass', team: 'Proyecto de tesis · en equipo', meta: ['(00.01) Proyecto de tesis', '2026'], name: 'Bioferia', desc: 'Universo del proyecto: una feria sustentable convertida en experiencia. Entrada, acciones ambientales y Catálisis, el juego para hacer crecer tu semilla, más una campaña en vía pública.', tags: ['Tesis', 'Equipo BUTBE', 'App', 'Web', 'Campaña'], open: 'ext:https://pitchbio.vercel.app/', btn: 'Entrar al universo ↗' },
     { id: 'p-bbvid', kind: 'bbvid', th: 'white', ac: HOT, mat: 'chrome', rev: 1, team: 'Agencia But Be · en equipo', meta: ['(00.02) Video concepto', '2026'], name: 'But Be concepto', desc: 'Video manifiesto de la agencia: una parte única puede cambiar el todo. Tipografía cinética, texturas y efectos para presentar la identidad de But Be.', tags: ['Motion', 'Concepto', 'Efectos', '1:20'], open: 'bbvid:0' },
     { id: 'p-bbweb', kind: 'bbweb', th: 'black', ac: HOT, mat: 'glassw', team: 'Agencia But Be · en equipo', meta: ['(00.03) Sitio web', '2026'], name: 'But Be web', desc: 'El sitio de la agencia: marcas con personalidad, claridad y estrategia. Identidad visual, social media, campañas 360 y diseño editorial.', tags: ['Web', 'Identidad', 'Agencia'], open: 'ext:https://butbestudio.com/', btn: 'Visitar butbestudio.com ↗' },
-    { div: ['(01)', 'Identidades', 'Estado sólido · 02 proyectos'], th: 'white', ac: HOT, mat: 'pixel', did: 'd-id' },
+    { div: ['(01)', 'Identidades', 'Estado sólido · 03 proyectos'], th: 'white', ac: HOT, mat: 'pixel', did: 'd-id' },
     { id: 'p-wake', kind: 'id', k: 0, th: 'white', ac: HOT, mat: 'pixel', meta: ['(01.01) Identidad', '2026'], name: 'Wake', desc: DATA.id[0].desc, tags: ['Logotipo', 'Patrones', 'Paleta', 'Mockups'], open: 'id:0' },
-    { id: 'p-finolio', kind: 'id', k: 1, th: 'white', ac: HOT, mat: 'pixel', rev: 1, meta: ['(01.02) Identidad', '2026'], name: 'Finolio', desc: DATA.id[1].desc, tags: ['Logotipo', 'UI', 'App', 'Website'], open: 'id:1' },
+    { id: 'p-vanguard', kind: 'id', k: 1, th: 'black', ac: HOT, mat: 'pixel', meta: ['(01.02) Identidad', '2026'], name: 'Vanguard', desc: DATA.id[1].desc, tags: ['Logotipo', 'Isotipo', 'Tramas', 'Merch'], open: 'id:1' },
+    { id: 'p-finolio', kind: 'id', k: 2, th: 'white', ac: HOT, mat: 'pixel', meta: ['(01.03) Identidad', '2026'], name: 'Finolio', desc: DATA.id[2].desc, tags: ['Logotipo', 'UI', 'App', 'Website'], open: 'id:1' },
     { div: ['(02)', 'Posters', 'Estado líquido · 08 piezas'], th: 'black', ac: HOT, mat: 'glass', did: 'd-po' },
     { id: 'p-posters', kind: 'wall', th: 'black', ac: HOT, mat: 'glass', meta: ['(02.01) Gráfica', '2025—26'], name: 'Posters', desc: 'Serie de afiches para Sweed, Bioferia y proyectos personales: tipografía expresiva, fotografía intervenida y retículas que se rompen.', tags: ['Sweed', 'Bioferia', 'Focus', 'Merch'], open: 'pos:0' },
     { div: ['(03)', 'Motion', 'Estado gaseoso · 02 proyectos'], th: 'white', ac: HOT, mat: 'chrome', did: 'd-mo' },
-    { id: 'p-motion', kind: 'mo', th: 'white', ac: HOT, mat: 'chrome', rev: 1, meta: ['(03.01) Motion', '2026'], name: 'Flyers animados', desc: 'Piezas verticales para lanzar fechas y artistas: Emiliano Demarco, Cloudy y Semana Cadelago. Animación, 3D y edición pensadas para stories y reels.', tags: ['Demarco', 'Cloudy', 'Cadelago', '9:16'], open: 'mos:0' },
+    { id: 'p-motion', kind: 'mo', th: 'white', ac: HOT, mat: 'chrome', rev: 1, meta: ['(03.01) Motion', '2026'], name: 'Flyers animados', desc: 'Seis piezas verticales para lanzar fechas y artistas: Emiliano Demarco, Cloudy y Semana Cadelago. Animación, 3D y edición pensadas para stories y reels.', tags: ['Demarco', 'Cloudy', 'Cadelago', '9:16'], open: 'mos:0' },
     { id: 'p-meet', kind: 'meet', th: 'black', ac: HOT, mat: 'meet', meta: ['(03.02) Audiovisual · 3D', '2026'], name: 'MEET 26', desc: DATA.meet.desc, tags: ['Audiovisual', '3D', 'Stickers'], open: 'meet:0' },
     { div: ['(04)', 'Web', 'Estado vítreo · 02 landings'], th: 'black', ac: '#a9d8ff', mat: 'glassw', did: 'd-web' },
     { id: 'p-axioma', kind: 'web', k: 0, th: 'black', ac: '#a9d8ff', mat: 'glassw', meta: ['(04.01) Landing page', '2026'], name: 'Axioma', desc: DATA.web[0].desc, tags: ['Landing', 'Moda', 'Dirección de arte'], open: 'web:0' },
@@ -1978,6 +1989,16 @@ Promise.all([document.fonts.load('800 60px "Archivo V"'),document.fonts.load('50
         { t: 'img', x: 24, y: 4, w: 13, z: -80, img: 'assets/brand/wake-pattern.jpg', r: -4 },
         { t: 'img', x: 34, y: 66, w: 24, z: 110, img: 'assets/brand/wake-coaster.jpg', r: -2 },
         { t: 'img', x: 90, y: 34, w: 11, z: -40, img: 'assets/brand/wake-box.jpg', r: 4 },
+      ] },
+    vanguard: { bg: '#050505', ac: '#FFFFFF', steps: [[-1, 'Sistema'], [1, 'Tipografía'], [2, 'Paleta'], [3, 'Isotipo'], [4, 'Trama'], [5, 'Aplicaciones'], [6, 'Social media'], [0, 'Movimiento']],
+      cards: [
+        { t: 'vid', x: 30, y: 22, w: 42, z: 0, src: 'assets/id/vanguard-mc.mp4' },
+        { t: 'type', x: 6, y: 30, w: 20, z: 90, font: 'Logotipo', sub: 'Geométrica extendida', glyph: 'img', img: 'assets/brand/van-logo-k.jpg' },
+        { t: 'pal', x: 64, y: 56, w: 30, z: 140, cols: [['Blanco', '#FFFFFF'], ['Negro', '#000000'], ['Gris', '#444444']], grad: 'linear-gradient(90deg,#FFFFFF,#444444,#000000)' },
+        { t: 'img', x: 74, y: 8, w: 15, z: 60, img: 'assets/brand/van-corp.jpg', r: 3 },
+        { t: 'img', x: 30, y: 3, w: 14, z: -80, img: 'assets/brand/van-pattern.jpg', r: -4 },
+        { t: 'img', x: 34, y: 68, w: 24, z: 110, img: 'assets/brand/van-roll.jpg', r: -2 },
+        { t: 'img', x: 90, y: 34, w: 10, z: -40, img: 'assets/brand/van-ig.jpg', r: 4 },
       ] },
     finolio: { bg: '#020617', ac: '#10B981', steps: [[-1, 'Sistema'], [1, 'Tipografía'], [2, 'Paleta'], [3, 'Símbolo'], [4, 'Logotipo'], [5, 'Aplicaciones'], [0, 'Movimiento']],
       cards: [
@@ -1998,7 +2019,7 @@ Promise.all([document.fonts.load('800 60px "Archivo V"'),document.fonts.load('50
       const rgb = h => { const n = parseInt(h.slice(1), 16); return `${n >> 16} ${n >> 8 & 255} ${n & 255}`; };
       return `<div class="br-pal2"><div class="bp-top"><b>Paleta</b><span>${c.cols.length + 1} colores</span></div>
         <div class="bp-sw">${c.cols.map(([nm, h]) => `<div style="background:${h};color:${lum(h) > 150 ? '#0b0b0b' : '#ffffff'}"><b>${nm}</b><span>#${h.slice(1).toUpperCase()}</span></div>`).join('')}</div>
-        <div class="bp-grad" style="background:${c.grad}"><b>Gradiente</b></div></div>`;
+        <div class="bp-grad" style="background:${c.grad}"><b style="mix-blend-mode:difference">Gradiente</b></div></div>`;
     }
     return `<img src="${c.img}" alt="" ${c.dark ? 'class="dk"' : ''}>`;
   }
@@ -2110,7 +2131,7 @@ Promise.all([document.fonts.load('800 60px "Archivo V"'),document.fonts.load('50
   }
 
   /* --- identidades: composición por partes --- */
-  const BRS = $$('.m-brand').map(el => { const k = el.closest('.slot').id === 'p-wake' ? 'wake' : 'finolio'; return { el, B: BRAND[k], scene: el.querySelector('.br-scene'), cards: [...el.querySelectorAll('.br-c')], cap: el.querySelector('.br-step'), n: el.querySelector('.br-n'), i: -1, t0: 0, vid: el.querySelector('video'), playing: false }; });
+  const BRS = $$('.m-brand').map(el => { const k = el.closest('.slot').id.slice(2); return { el, B: BRAND[k], scene: el.querySelector('.br-scene'), cards: [...el.querySelectorAll('.br-c')], cap: el.querySelector('.br-step'), n: el.querySelector('.br-n'), i: -1, t0: 0, vid: el.querySelector('video'), playing: false }; });
   function brandFrame(R, now) {
     if (!onScreen(R.el)) { if (R.playing) { R.vid.pause(); R.playing = false; } return; }
     if (!R.playing) { const p = R.vid.play(); p && p.catch(() => { }); R.playing = true; }
@@ -2326,7 +2347,7 @@ Promise.all([document.fonts.load('800 60px "Archivo V"'),document.fonts.load('50
     })();
   }
   function tplId(b) {
-    return { bg: '#ffffff', fg: '#0b0b0b', ac: b.ac, cat: '(01) Identidad visual', name: b.name, html: `
+    return { bg: '#ffffff', fg: '#0b0b0b', ac: b.ac === '#FFFFFF' ? '#0b0b0b' : b.ac, cat: '(01) Identidad visual', name: b.name, html: `
       <div class="p-head"><div><h1 class="wide">${b.name}</h1></div><div><p>${b.desc}</p>
       <dl class="mono"><dt>Año</dt><dd>${b.year}</dd><dt>Rol</dt><dd>${b.role}</dd><dt>Láminas</dt><dd>${b.pages.length}</dd></dl></div></div>
       <div class="p-pages">${b.pages.map((p, i) => `<figure class="rv"><img src="${b.file(i)}" alt="${b.name} — ${p}" loading="lazy"><figcaption><span>${pad2(i + 1)} — ${p}</span><span>${b.name}</span></figcaption></figure>`).join('')}</div>` };
