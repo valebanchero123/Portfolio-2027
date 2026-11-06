@@ -601,6 +601,11 @@ h1,h2,h3,.wide{hyphens:none;overflow-wrap:normal;word-break:keep-all}
 /* etiqueta de cantidad: texto plano, sin recuadro */
 .ix-tag,.ix-card.on .ix-tag{background:none!important;border:0!important;padding:0!important;border-radius:0;color:inherit}
 @media (max-width:820px){.ix-tag{color:var(--red)!important}}
+
+/* textos de tarjeta en una sola línea */
+.ix-desc,.ix-foot span,.ix-name{white-space:nowrap}
+.ix-desc{max-width:none;right:16px;overflow:hidden;text-overflow:ellipsis}
+.ix-foot{gap:14px}
 </style></head>
 <body>
 <div class="grain"></div>
@@ -1434,7 +1439,7 @@ Promise.all([document.fonts.load('800 60px "Archivo V"'),document.fonts.load('50
     <ul class="ix-list mono">${CH.map(([id, n, s, c], i) => `<li data-i="${i}"><a href="#${id}" data-cur="Ir"><span>(${i ? pad2(i) : '★'})</span><span>${n}</span><span class="ix-c">${c}</span></a></li>`).join('')}</ul>
     <div class="ix-strips">${CH.map(([id, n, s, c, img, pos], i) => `<a class="ix-card" href="#${id}" data-i="${i}" data-cur="Ver ${n}" style="--img:url(${img});--pos:${pos};--o:${[0, 6, -4, 9, 2][i]}%;--sb:${i % 2 ? '#141414' : '#f2f2f2'};--sf:${i % 2 ? '#f2f2f2' : '#0b0b0b'}">
       <span class="ix-solid"></span>
-      <span class="ix-desc">${['Caso destacado del año: stickers, 3D y video.', 'Sistemas de marca, logotipos y manuales.', 'Afiches, gráfica y merch.', 'Flyers animados para fechas y artistas.', 'Landing pages y dirección de arte.'][i]}</span>
+      <span class="ix-desc">${['Stickers, 3D y video para MEET.', 'Marcas, logotipos y manuales.', 'Afiches, gráfica y merch.', 'Flyers animados para eventos.', 'Landing pages y dirección de arte.'][i]}</span>
       <span class="ix-btn mono">Ver sección →</span>
       <span class="ix-num mono">${i ? pad2(i) : '★'}</span>
       <span class="ix-name wide">${n}</span>
