@@ -2046,11 +2046,17 @@ Promise.all([document.fonts.load('800 60px "Archivo V"'),document.fonts.load('50
   $$('.divider h2 .fitline, #contacto .c-big, #indice .sec-head h2').forEach(el => { const m = makeMorph(el); if (m) MPH.push(m); });
   function playMorph(M) { M.t = 0; M.run = true; }
   const mio = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { const M = MPH.find(m => m.el === e.target); if (M) setTimeout(() => playMorph(M), 250); mio.unobserve(e.target); } }), { threshold: .4 });
-  MPH.forEach(M => { mio.observe(M.el); M.el.addEventListener('pointerenter', () => { if (!M.run) playMorph(M); }); });
+
   let mphLast = performance.now();
   function morphFrame(now) {
     const dt = Math.min(.25, (now - mphLast) / 1000); mphLast = now;
-    MPH.forEach(M => { if (!M.run) return; M.t += dt / 1.6; if (M.t >= 1) { M.t = 1; M.run = false; } morphDraw(M); });
+    MPH.forEach((M, k) => {
+      // loop continuo: onda de 1,6 s + pausa de 1,4 s, desfasado entre titulares
+      if (!onScreen(M.el)) return;
+      M.clock = (M.clock ?? -k * .7) + dt;
+      const cyc = 3.0, ph = ((M.clock % cyc) + cyc) % cyc;
+      M.t = Math.min(1, ph / 1.6); morphDraw(M);
+    });
     requestAnimationFrame(morphFrame);
   }
   requestAnimationFrame(morphFrame);
