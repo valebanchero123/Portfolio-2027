@@ -910,6 +910,13 @@ a.s-media{display:block;color:inherit}
 .tu-burst{top:61.1%;width:25.5%;mix-blend-mode:normal}
 .tu-glow{top:61%;width:40%}
 p,.s-desc,.m-par,.ab-lead{text-wrap:pretty}
+
+/* MEET: ticket recortado y mockup con sombra/luz */
+.m-meet .tk{border-radius:0;overflow:visible;box-shadow:none;background:none;filter:drop-shadow(0 24px 40px rgba(0,0,0,.75)) drop-shadow(0 0 30px rgba(255,190,60,.18))}
+.m-meet .tk::after{display:none}
+.m-meet .tk img{border-radius:0}
+.m-meet .ph{background:#141414;box-shadow:0 0 0 1px rgba(255,255,255,.14),0 0 0 6px #0c0c0c,0 0 0 7px rgba(255,255,255,.08),0 50px 90px rgba(0,0,0,.9),0 0 120px rgba(150,120,255,.22),0 30px 80px rgba(255,90,40,.12)}
+.m-meet::before{content:"";position:absolute;left:50%;bottom:-2%;width:46%;height:10%;transform:translateX(-50%);background:radial-gradient(closest-side,rgba(180,160,255,.25),transparent);filter:blur(8px)}
 </style></head>
 <body>
 <div class="grain"></div>
@@ -1874,7 +1881,7 @@ Promise.all([document.fonts.load('800 60px "Archivo V"'),document.fonts.load('50
       <div class="tes-uni"><div class="tu-bg"></div><canvas class="tu-cv"></canvas><div class="tu-burst"></div><div class="tu-glow"></div></div></div></div>`;
     if (S.kind === 'mo') return `<div class="m-iso"><div class="iso-plane">${DATA.mo.map((m, i) => `<div class="iso-c" data-i="${i}"><div class="iso-sh"></div><div class="iso-v"><video src="assets/mo/${m.id}.mp4" poster="assets/mo/${m.id}.jpg" muted loop playsinline preload="metadata"></video><span class="mono">${pad2(i + 1)}</span></div></div>`).join('')}</div><div class="now mono"><span class="nm"></span><span class="ct"></span></div></div>`;
     if (S.kind === 'po') return `<div class="m-po">${DATA.po.map(p => `<div class="pc"><img src="assets/po/${p.src}.jpg" alt="${p.t}" draggable="false"></div>`).join('')}</div>`;
-    return `<div class="m-meet">${[3, 9, 10, 14, 16, 5].map(f => `<div class="fg"><img src="assets/meet/fig-${pad2(f)}.jpg" alt="" draggable="false"></div>`).join('')}<div class="ph"><video src="assets/meet/video.mp4" poster="assets/meet/video.jpg" muted loop playsinline preload="metadata"></video></div><div class="tk"><img src="assets/meet/fig-17.jpg" alt="Golden ticket"></div></div>`;
+    return `<div class="m-meet">${[3, 9, 10, 14, 16, 5].map(f => `<div class="fg"><img src="assets/meet/fig-${pad2(f)}.jpg" alt="" draggable="false"></div>`).join('')}<div class="ph"><video src="assets/meet/video.mp4" poster="assets/meet/video.jpg" muted loop playsinline preload="metadata"></video></div><div class="tk"><img src="assets/meet/ticket.png" alt="Golden ticket"></div></div>`;
   }
   const wallHTML = S => `<article class="slot wall-slot" id="${S.id}" data-th="${S.th}" data-ac="${S.ac}" data-mat="${S.mat}">
       <div class="po-wall" id="poWall"><div class="pw-scene"></div><div class="pw-fade"></div>
@@ -2229,7 +2236,7 @@ Promise.all([document.fonts.load('800 60px "Archivo V"'),document.fonts.load('50
       <div class="p-video"><video src="assets/meet/video.mp4" poster="assets/meet/video.jpg" controls autoplay playsinline loop style="aspect-ratio:720/1250"></video><img src="assets/meet/feed-1.jpg" alt="Pieza feed MEET" style="height:min(82vh,1100px);width:auto;max-width:100%"></div>
       <div class="p-sec mono"><span>Figuritas coleccionables</span><span>16 + golden ticket</span></div>
       <div class="p-figs">${Array.from({ length: 16 }, (_, i) => `<img src="assets/meet/fig-${pad2(i + 1)}.jpg" alt="Figurita ${i + 1}" loading="lazy">`).join('')}</div>
-      <div class="p-light" style="padding-top:0"><img src="assets/meet/fig-17.jpg" alt="Golden ticket" style="height:auto;width:min(720px,90vw)"></div>
+      <div class="p-light" style="padding-top:0"><img src="assets/meet/ticket.png" alt="Golden ticket" style="height:auto;width:min(720px,90vw);box-shadow:none;filter:drop-shadow(0 30px 50px rgba(0,0,0,.6))"></div>
       <div class="p-sec mono"><span>Feed</span><span>4:5</span></div>
       <div class="p-feed"><img src="assets/meet/feed-1.jpg" alt="Feed 1" loading="lazy"><img src="assets/meet/feed-2.jpg" alt="Feed 2" loading="lazy"></div>` };
   }
