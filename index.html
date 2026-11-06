@@ -612,10 +612,12 @@ h1,h2,h3,.wide{hyphens:none;overflow-wrap:normal;word-break:keep-all}
 /* ===== titulares que se transforman: híbrido píxel/caligráfico → Archivo ===== */
 .mph{position:relative;display:inline-block}
 .mph .mb{display:inline-block}
-.mph .ma{position:absolute;left:0;bottom:-.04em;white-space:nowrap;font-stretch:100%;font-weight:400;letter-spacing:0;text-transform:none;line-height:1;font-size:1.4em;pointer-events:none;opacity:0}
+.mph .ma{position:absolute;left:0;bottom:-.02em;white-space:nowrap;font-stretch:100%;font-weight:400;letter-spacing:0;text-transform:none;line-height:1;font-size:1.4em;pointer-events:none;opacity:0}
 .mph .ma span:nth-child(odd){font-family:"JQ"}
 .mph .ma span:nth-child(even){font-family:"PO"}
 .mph.center .ma{left:50%;transform:translateX(-50%)}
+
+.ix-strips.has .ix-card.on{opacity:1}
 </style></head>
 <body>
 <div class="grain"></div>
@@ -1439,7 +1441,7 @@ Promise.all([document.fonts.load('800 60px "Archivo V"'),document.fonts.load('50
 
   /* ======================= ÍNDICE ======================= */
   const CH = [
-    ['p-meet', 'MEET 26', 'Destacado', 'Stickers · 3D · Video', 'assets/meet/feed-1.jpg', '50% 30%'],
+    ['p-meet', 'MEET 26', '', 'Stickers · 3D · Video', 'assets/meet/feed-1.jpg', '50% 30%'],
     ['d-id', 'Identidad', 'Estado sólido', '02 proyectos', 'assets/id/wake-2.jpg', '50% 50%'],
     ['d-po', 'Posters', 'Estado líquido', '08 piezas', 'assets/po/bioferia.jpg', '50% 40%'],
     ['d-mo', 'Motion', 'Estado gaseoso', '04 videos', 'assets/mo/demarco.jpg', '50% 40%'],
@@ -1842,33 +1844,34 @@ Promise.all([document.fonts.load('800 60px "Archivo V"'),document.fonts.load('50
     defs.insertAdjacentHTML('beforeend', `<filter id="${id}" x="-20%" y="-40%" width="140%" height="180%"><feGaussianBlur in="SourceGraphic" stdDeviation="0" result="b"/><feColorMatrix in="b" type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 26 -11"/></filter>`);
     el.innerHTML = `<span class="mph${center ? ' center' : ''}"><span class="mb">${el.innerHTML}</span><span class="ma" aria-hidden="true">${[...title].map(c => `<span>${c === ' ' ? '&nbsp;' : c}</span>`).join('')}</span></span>`;
     const M = { el, w: el.querySelector('.mph'), a: el.querySelector('.ma'), b: el.querySelector('.mb'), blur: defs.querySelector('#' + id + ' feGaussianBlur'), id, t: 1, run: false, dir: 1 };
-    M.a.style.opacity = 1; M.b.style.opacity = 0; M.t = 0;
+    M.t = 0;
     return M;
   }
   const MPH = [];
-  $$('.slot .s-name, .pw-center .s-name, .divider h2 .fitline, #contacto .c-big .fitline').forEach(el => { const m = makeMorph(el, !!el.closest('.pw-center')); if (m) MPH.push(m); });
+  $$('.divider h2 .fitline, #contacto .c-big .fitline').forEach(el => { const m = makeMorph(el, !!el.closest('.pw-center')); if (m) MPH.push(m); });
   const secH = $('#indice .sec-head h2'); if (secH && secH.firstChild && secH.firstChild.nodeType === 3) { const sp = document.createElement('span'); sp.textContent = secH.firstChild.textContent; secH.replaceChild(sp, secH.firstChild); const m = makeMorph(sp); if (m) MPH.push(m); }
   function morphDraw(M) {
-    const t = M.t, fs = parseFloat(getComputedStyle(M.el).fontSize) || 60;
-    const k = clamp((t - .25) / .6), e = k * k * (3 - 2 * k);
-    M.a.style.opacity = (1 - e).toFixed(3); M.b.style.opacity = e.toFixed(3);
-    const peak = Math.sin(Math.PI * clamp((t - .2) / .7));
-    const sd = peak * fs * .07;
-    M.blur.setAttribute('stdDeviation', sd.toFixed(2));
-    M.w.style.filter = sd > .05 ? `url(#${M.id})` : 'none';
+    const t = M.t;
+    // original → parpadeo → píxel → parpadeo → original (cortes secos, sin blur)
+    let pix = false;
+    if (t > .12 && t < .2) pix = Math.floor(t * 60) % 2 === 0;
+    else if (t >= .2 && t < .72) pix = true;
+    else if (t >= .72 && t < .82) pix = Math.floor(t * 60) % 2 === 1;
+    M.a.style.opacity = pix ? 1 : 0; M.b.style.opacity = pix ? 0 : 1;
+    M.w.style.filter = 'none';
   }
   MPH.forEach(morphDraw);
   function playMorph(M, from = 0) { M.t = from; M.run = true; }
   MPH.forEach(M => M.box = M.el.closest('.sec-head, #contacto, .divider, .pw-center, .s-text') || M.el);
   const mio = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { MPH.filter(m => m.box === e.target && m.t === 0 && !m.run).forEach(M => setTimeout(() => playMorph(M), 350)); mio.unobserve(e.target); } }), { threshold: .35 });
-  MPH.forEach(M => { mio.observe(M.box); M.el.addEventListener('pointerenter', () => { if (!M.run && M.t >= 1) { M.back = true; M.run = true; } }); });
+  MPH.forEach(M => { mio.observe(M.box); M.el.addEventListener('pointerenter', () => { if (!M.run) playMorph(M, 0); }); });
   let mphLast = performance.now();
   function morphFrame(now) {
     const dt = Math.min(.25, (now - mphLast) / 1000); mphLast = now;
     MPH.forEach(M => {
       if (!M.run) return;
       if (M.back) { M.t -= dt / .55; if (M.t <= .12) { M.t = .12; M.back = false; } }
-      else { M.t += dt / 1.5; if (M.t >= 1) { M.t = 1; M.run = false; } }
+      else { M.t += dt / 1.6; if (M.t >= 1) { M.t = 1; M.run = false; } }
       morphDraw(M);
     });
     requestAnimationFrame(morphFrame);
