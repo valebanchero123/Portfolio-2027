@@ -826,6 +826,11 @@ nav .brand{font-family:var(--hn);font-weight:700;letter-spacing:var(--ls);font-s
 
 .cv-lab{mix-blend-mode:normal;color:#fff;text-shadow:0 1px 8px rgba(0,0,0,.55)}
 .cv-lab b{color:#fff;opacity:.7}
+
+.ab-p{font-size:clamp(15px,1.1vw,20px);line-height:1.4;margin-bottom:14px}
+.ab-grid .ab-contact{grid-column:1/-1}
+.ab-sec li a:hover{color:#ff1a0a}
+.ab-sec li{grid-template-columns:110px 1fr}
 </style></head>
 <body>
 <div class="grain"></div>
@@ -897,10 +902,10 @@ nav .brand{font-family:var(--hn);font-weight:700;letter-spacing:var(--ls);font-s
   <div class="mono rv">(05) Contacto — Disponible para proyectos 2027</div>
   <div>
     <h2 class="c-big wide clip"><span class="fitline" style="display:block">¿Transformamos</span><span class="r">algo?</span></h2>
-    <button class="mail" id="mail"><span>hola@valentinabanchero.com</span><span>↗</span><span class="copied" id="copied">Copiado</span></button>
+    <button class="mail" id="mail"><span>valebanchero123@gmail.com</span><span>↗</span><span class="copied" id="copied">Copiado</span></button>
   </div>
   <div class="c-grid mono" style="grid-template-columns:repeat(3,1fr)">
-    <div>Redes<a href="https://instagram.com" target="_blank" rel="noopener">Instagram</a><a href="https://behance.net" target="_blank" rel="noopener">Behance</a></div>
+    <div>Contacto<a href="https://www.behance.net/valentibancher1" target="_blank" rel="noopener">Behance ↗</a><a href="https://wa.me/5493434402535" target="_blank" rel="noopener">WhatsApp ↗</a></div>
     <div>Disciplinas<a>Identidad · Motion · Posters</a><a>Web · Dirección de arte</a></div>
     <div>©2026<a href="#hero">Volver al inicio ↑</a></div>
   </div>
@@ -1963,7 +1968,7 @@ Promise.all([document.fonts.load('800 60px "Archivo V"'),document.fonts.load('50
     const c = Matter.render({ mat: 'wax', tint: '#ee2a1b', time: t, morph: .35 + con.v * .6, zoom: .7, seed: 8, w: S * .7, h: S * .7, mouse: [con.x - .5, con.y - .5] });
     if (c) ctx.drawImage(c, con.x * W - S / 2, con.y * H - S / 2, S, S);
   }
-  $('#mail').onclick = async () => { try { await navigator.clipboard.writeText('hola@valentinabanchero.com'); $('#copied').classList.add('on'); setTimeout(() => $('#copied').classList.remove('on'), 1600); } catch (e) { } };
+  $('#mail').onclick = async () => { try { await navigator.clipboard.writeText('valebanchero123@gmail.com'); $('#copied').classList.add('on'); setTimeout(() => $('#copied').classList.remove('on'), 1600); } catch (e) { } };
 
   /* ======================= BOLA GUÍA (viaja por anclas) ======================= */
   const ball = $('#ball');
@@ -2093,19 +2098,28 @@ Promise.all([document.fonts.load('800 60px "Archivo V"'),document.fonts.load('50
         <div class="ab-pic"><div style="background-image:url(assets/me/face.jpg);background-position:30% 40%"></div><div style="background-image:url(assets/me/face.jpg);background-size:auto 160%;background-position:52% 70%"></div><div style="background-image:url(assets/me/face.jpg);background-position:75% 50%"></div></div>
         <div>
           <h1 class="wide">Sobre mí</h1>
-          <p class="ab-lead"><b>Soy Valentina Banchero</b>, diseñadora gráfica y audiovisual. Trabajo entre la identidad, el motion, el 3D y la web: <b>materia en transformación</b>, una forma de diseñar que sigue cambiando conmigo.</p>
+          <p class="ab-lead"><b>Soy Valentina Banchero</b>, diseñadora gráfica y audiovisual. Hace más de tres años trabajo como freelance entre la identidad visual, el motion y la gráfica para la escena cultural y musical. Mi forma de diseñar es <b>creativa y experimental</b>: materia en transformación.</p>
           <div class="ab-grid">
             <div class="ab-sec"><h4 class="mono"><span>Formación</span><span>(01)</span></h4><ul>
-              <li class="todo"><span class="mono">20—</span><span>[Completar: carrera / institución]</span></li>
-              <li class="todo"><span class="mono">20—</span><span>[Completar: curso o especialización]</span></li>
-              <li class="todo"><span class="mono">20—</span><span>[Completar: curso o especialización]</span></li></ul></div>
+              <li><span class="mono">Título</span><span>Diseño Gráfico Artístico y Digital — Escuela Da Vinci (3 años)</span></li>
+              <li><span class="mono">3 años</span><span>Diseño Gráfico — Universidad Nacional del Litoral (UNL)</span></li>
+              <li><span class="mono">Master</span><span>Masterclass de identidad visual con motion graphics</span></li>
+              <li><span class="mono">Cursos</span><span>Illustrator, Photoshop y animación de video</span></li></ul></div>
             <div class="ab-sec"><h4 class="mono"><span>Experiencia</span><span>(02)</span></h4><ul>
-              <li><span class="mono">2026</span><span>MEET — stickers, 3D y video para la campaña Mundial</span></li>
-              <li><span class="mono">2026</span><span>Identidades visuales: Wake, Finolio</span></li>
-              <li><span class="mono">2025—26</span><span>Flyers animados para Emiliano Demarco, Cloudy y Cadelago</span></li></ul></div>
-            <div class="ab-sec"><h4 class="mono"><span>Servicios</span><span>(03)</span></h4><div class="ab-tags mono"><span>Identidad visual</span><span>Manual de marca</span><span>Motion graphics</span><span>3D</span><span>Posters</span><span>Landing pages</span><span>Dirección de arte</span><span>Redes</span></div></div>
-            <div class="ab-sec"><h4 class="mono"><span>Contacto</span><span>(04)</span></h4><ul>
-              <li><span class="mono">Mail</span><span>hola@valentinabanchero.com</span></li></ul></div>
+              <li><span class="mono">+3 años</span><span>Diseñadora gráfica y audiovisual freelance</span></li>
+              <li><span class="mono">Música</span><span>MEET, La Fábrica, The Rooftop Rec — flyers, motion y campañas</span></li>
+              <li><span class="mono">Editorial</span><span>Supernova — revista de pensamiento crítico</span></li>
+              <li><span class="mono">Marcas</span><span>Wake, Finolio, Bioferia</span></li>
+              <li><span class="mono">Artistas</span><span>Emiliano Demarco, Cloudy, Cadelago</span></li></ul></div>
+            <div class="ab-sec"><h4 class="mono"><span>Especialidad</span><span>(03)</span></h4>
+              <p class="ab-p">Diseño de flyers y animaciones experimentales y conceptuales.</p>
+              <div class="ab-tags mono"><span>Flyers</span><span>Motion graphics</span><span>Identidad visual</span><span>Manual de marca</span><span>Posters</span><span>Landing pages</span><span>Redes</span></div></div>
+            <div class="ab-sec"><h4 class="mono"><span>Herramientas</span><span>(04)</span></h4>
+              <div class="ab-tags mono"><span>Illustrator</span><span>Photoshop</span><span>InDesign</span><span>After Effects</span><span>Figma</span><span>CapCut</span><span>Claude</span><span>ChatGPT</span></div></div>
+            <div class="ab-sec ab-contact"><h4 class="mono"><span>Contacto</span><span>(05)</span></h4><ul>
+              <li><span class="mono">Mail</span><span>valebanchero123@gmail.com</span></li>
+              <li><span class="mono">WhatsApp</span><a href="https://wa.me/5493434402535" target="_blank" rel="noopener">+54 9 343 440-2535 ↗</a></li>
+              <li><span class="mono">Behance</span><a href="https://www.behance.net/valentibancher1" target="_blank" rel="noopener">behance.net/valentibancher1 ↗</a></li></ul></div>
           </div>
         </div>
       </div>` };
