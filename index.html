@@ -1007,7 +1007,7 @@ void main(){
    ============================================================ */
 const Intro = (() => {
   const C = { ink: '#0b0b0b', bone: '#ece7df', red: '#ee2a1b', deep: '#8f0f07', ice: '#a9d8ff', white: '#ffffff' };
-  const FONT = '"Archivo V"', MONO = '"JBM"';
+  const FONT = '"Helvetica Now Display"', MONO = '"Helvetica Now Display"';
   const DURATION = 11.2;           // fin de la secuencia (luego queda el hero vivo)
   let Q = 1;                        // calidad de render GL (1 = full)
   let MOUSE = [0, 0];
@@ -1022,18 +1022,18 @@ const Intro = (() => {
   const rnd = (n) => { const x = Math.sin(n * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); };
   const step = (t, s) => Math.floor(t / s);
 
-  function font(ctx, size, weight = 800) {
-    ctx.font = `${weight} ${size}px ${FONT}`;
-    try { ctx.fontStretch = 'expanded'; } catch (e) { }
-    ctx.letterSpacing = (-size * 0.035) + 'px';
-  }
-  function mono(ctx, size, weight = 500) {
-    ctx.font = `${weight} ${size}px ${MONO}`;
+  function font(ctx, size, weight = 700) {
+    ctx.font = `${weight >= 600 ? 700 : 300} ${size}px ${FONT}`;
     try { ctx.fontStretch = 'normal'; } catch (e) { }
-    ctx.letterSpacing = '0px';
+    ctx.letterSpacing = (-size * 0.02) + 'px';
+  }
+  function mono(ctx, size, weight = 400) {
+    ctx.font = `400 ${size}px ${MONO}`;
+    try { ctx.fontStretch = 'normal'; } catch (e) { }
+    ctx.letterSpacing = (-size * 0.02) + 'px';
   }
   /** tamaño para que `text` ocupe `maxW` */
-  function fit(ctx, text, maxW, weight = 800) {
+  function fit(ctx, text, maxW, weight = 700) {
     font(ctx, 100, weight); const w = ctx.measureText(text).width; return 100 * maxW / w;
   }
   /** dibuja una palabra letra por letra. opts.hide(i) / opts.swap(i,x,y,w,h) / opts.wave */
@@ -1045,8 +1045,8 @@ const Intro = (() => {
     const out = [];
     for (let i = 0; i < text.length; i++) {
       const ch = text[i];
-      const w = ctx.measureText(ch).width + (-size * 0.035);
-      const capH = size * 0.72;
+      const w = ctx.measureText(ch).width + (-size * 0.02);
+      const capH = size * 0.7;
       const box = { x: cx, y: y - capH, w, h: capH, i };
       out.push(box);
       if (opts.reveal !== undefined && i >= opts.reveal) { cx += w; continue; }
@@ -1058,7 +1058,7 @@ const Intro = (() => {
         const a = opts.wave(i, cx + w / 2);
         ctx.translate(cx + w / 2, y + a.dy);
         ctx.rotate(a.rot);
-        ctx.fillText(ch, -w / 2 - (-size * 0.035) / 2, 0);
+        ctx.fillText(ch, -w / 2 - (-size * 0.02) / 2, 0);
       } else ctx.fillText(ch, cx, y);
       ctx.restore();
       cx += w;
@@ -1170,9 +1170,9 @@ const Intro = (() => {
     else blob(ctx, cx, cy, B, B, { mat: 'wax', tint: HOT, time: t * 1.6, morph: v.grow ? .2 + lt * .5 : .55, seed: 2, zoom: .75 });
     handles(ctx, cx - B * .5, cy - B * .5, B, B, '#0b0b0b', Math.max(8, m * .012), false);
     // PORTFOLIO gigante, blanco sobre el bloque rojo
-    const size = Math.min(fit(ctx, 'PORTFOLIO', W * .9, 900), (H - barY) * 1.05);
+    const size = Math.min(fit(ctx, 'Portfolio', W * .9, 700), (H - barY) * 1.05);
     const n = Math.floor(clamp((lt - (v.textDelay || 0)) / .3) * 9);
-    word(ctx, 'PORTFOLIO', W / 2, barY + (H - barY) / 2 + size * .36, size, '#ffffff', { align: 'center', reveal: n, weight: 900 });
+    word(ctx, 'Portfolio', W / 2, barY + (H - barY) / 2 + size * .36, size, '#ffffff', { align: 'center', reveal: n, weight: 700 });
     // etiquetas en negro, mono bold
     const fs = Math.max(10, m * .014);
     const L = ['ESTADO — SÓLIDO', 'TEMP — 1083.4°C', 'FORMA — INESTABLE'];
@@ -1225,7 +1225,7 @@ const Intro = (() => {
   function shotStrip(ctx, W, H, lt, dur, t, v = {}) {
     bg(ctx, W, H, C.red);
     grid(ctx, W, H, 'rgba(236,231,223,.38)', 5, 3, [3, 5]);
-    const text = v.word || 'PORT';
+    const text = v.word || 'Port';
     const slots = v.slots || 5;
     const m = Math.min(W, H);
     const f = Math.min(W * .9 / slots, m * .22);
@@ -1266,9 +1266,9 @@ const Intro = (() => {
   // S5 · palabra en onda (rojo sobre negro)
   function shotWave(ctx, W, H, lt, dur, t, v = {}) {
     bg(ctx, W, H, v.bg || C.ink);
-    const size = fit(ctx, 'PORTFOLIO', W * 1.05);
+    const size = fit(ctx, 'Portfolio', W * 1.05);
     const x = W * .06 - lt * W * .5;
-    word(ctx, 'PORTFOLIO', x, H * .5 + size * .3, size, C.red, {
+    word(ctx, 'Portfolio', x, H * .5 + size * .3, size, C.red, {
       wave: (i, cx) => { const ph = (cx / W) * 3.2 + lt * 6; return { dy: Math.sin(ph) * size * .28, rot: Math.cos(ph) * .22 }; }
     });
   }
@@ -1277,12 +1277,12 @@ const Intro = (() => {
   function shotScale(ctx, W, H, lt, dur, t) {
     bg(ctx, W, H, C.bone);
     if (lt < .18) {
-      const s = fit(ctx, 'IN FLUX PORTFOLIO', W * .62);
-      word(ctx, 'IN FLUX PORTFOLIO', W / 2, H / 2 + s * .36, s, C.red, { align: 'center' });
+      const s = fit(ctx, 'In flux portfolio', W * .62);
+      word(ctx, 'In flux portfolio', W / 2, H / 2 + s * .36, s, C.red, { align: 'center' });
     } else {
-      const s = fit(ctx, 'PORTFOLIO', W * 1.7);
+      const s = fit(ctx, 'Portfolio', W * 1.7);
       const k = eo((lt - .18) / .5);
-      word(ctx, 'PORTFOLIO', lerp(W * .02, -W * .55, k), H / 2 + s * .36, s, C.red);
+      word(ctx, 'Portfolio', lerp(W * .02, -W * .55, k), H / 2 + s * .36, s, C.red);
     }
     ctx.fillStyle = C.red; ctx.fillRect(W * .04, H * .88, W * .07, H * .025);
   }
@@ -1291,7 +1291,7 @@ const Intro = (() => {
   function shotMateria(ctx, W, H, lt, dur, t) {
     bg(ctx, W, H, C.ink);
     dots(ctx, W, H, 'rgba(236,231,223,.22)', Math.max(18, Math.min(W, H) * .03));
-    const s1 = fit(ctx, 'MATERIA', W * 1.02), s2 = fit(ctx, 'EN FLUJO', W * 1.08);
+    const s1 = fit(ctx, 'Materia', W * 1.02), s2 = fit(ctx, 'en flujo', W * 1.08, 300);
     const s = Math.min(s1, s2, H * .42);
     const st = step(lt, .12);
     const m = Math.min(W, H);
@@ -1307,8 +1307,8 @@ const Intro = (() => {
       }
       return false;
     };
-    word(ctx, 'MATERIA', W * .1, H * .38, s, C.white, { hide: i => rnd(i + st * 7) < .16, swap: (i, b) => swapBox(i, b, 0) });
-    word(ctx, 'EN FLUJO', -W * .04, H * .38 + s * .95, s, C.white, { hide: i => rnd(i * 3 + st * 11) < .16, swap: (i, b) => swapBox(i, b, 1) });
+    word(ctx, 'Materia', W * .1, H * .38, s, C.white, { hide: i => rnd(i + st * 7) < .16, swap: (i, b) => swapBox(i, b, 0) });
+    word(ctx, 'en flujo', -W * .04, H * .38 + s * .95, s, C.white, { weight: 300, hide: i => rnd(i * 3 + st * 11) < .16, swap: (i, b) => swapBox(i, b, 1) });
     const B = m * .62;
     blob(ctx, W * .5, H * .52, B, B, { mat: 'wax', tint: C.red, time: t * 1.3, morph: .55 + lt * .2, seed: 7 });
   }
@@ -1325,11 +1325,11 @@ const Intro = (() => {
   function shotTrans(ctx, W, H, lt, dur, t) {
     bg(ctx, W, H, C.ink);
     const m = Math.min(W, H);
-    const s = Math.min(fit(ctx, 'FORMA', W * .6), H * .3);
+    const s = Math.min(fit(ctx, 'forma', W * .6), H * .3);
     const st = step(lt, .1);
-    const lines = [['TRANS', W * .04, H * .33], ['FORMA', W * .26, H * .33 + s * .95], ['CIÓN', W * .5, H * .33 + s * 1.9]];
-    lines.forEach(([txt, x, y], li) => {
-      word(ctx, txt, x, y, s, C.white, {
+    const lines = [['Trans', W * .04, H * .33, 700], ['forma', W * .26, H * .33 + s * .95, 300], ['ción', W * .5, H * .33 + s * 1.9, 700]];
+    lines.forEach(([txt, x, y, wt], li) => {
+      word(ctx, txt, x, y, s, C.white, { weight: wt,
         swap: (i, b) => {
           const pick = Math.floor(rnd(st * 5 + li * 17) * txt.length);
           if (i !== pick || rnd(st + li) < .35) return false;
@@ -1388,14 +1388,14 @@ const Intro = (() => {
     grid(ctx, W, H, 'rgba(236,231,223,.07)', 6, 4);
     const pad = Math.max(16, W * .025);
     const portrait = H > W * 1.1;
-    const s = portrait ? fit(ctx, 'FOLIO', W - pad * 2) : Math.min(fit(ctx, 'FOLIO', W * .66), H * .36);
+    const s = portrait ? fit(ctx, 'Folio', W - pad * 2) : Math.min(fit(ctx, 'Folio', W * .66), H * .36);
     const k1 = eo((lt - .05) / .55), k2 = eo((lt - .2) / .55);
     // palabras con revelado por máscara
     ctx.save(); ctx.beginPath(); ctx.rect(0, 0, W * k1 + 1, H); ctx.clip();
-    word(ctx, 'PORT', pad, portrait ? H * .3 : H * .2 + s * .72, s, C.bone);
+    word(ctx, 'Port', pad, portrait ? H * .3 : H * .2 + s * .72, s, C.bone);
     ctx.restore();
     ctx.save(); ctx.beginPath(); ctx.rect(W * (1 - k2), 0, W, H); ctx.clip();
-    word(ctx, 'FOLIO', W - pad, portrait ? H * .82 : H - pad * 1.6, s, C.bone, { align: 'right' });
+    word(ctx, 'folio', W - pad, portrait ? H * .82 : H - pad * 1.6, s, C.bone, { align: 'right', weight: 300 });
     ctx.restore();
     // materia
     const grow = eo(lt / .7);
@@ -1435,7 +1435,7 @@ const Intro = (() => {
     [7.60, 7.90, (c, W, H, lt, d, t) => shotGlass(c, W, H, lt, d, t, { blur: true })],
     [7.90, 8.60, (c, W, H, lt, d, t) => shotSamples(c, W, H, lt, d, t, { alt: 'chrome', altTint: '#ffffff' })],
     [8.60, 9.70, (c, W, H, lt, d, t) => shotStrip(c, W, H, lt, d, t, {
-      word: 'PORTFOLIO', slots: 9, map: [0, 1, 2, 3, 4, 5, 6, 7, 8],
+      word: 'Portfolio', slots: 9, map: [0, 1, 2, 3, 4, 5, 6, 7, 8],
       times: [.15, .5, .25, .62, .35, .7, .45, .8, .55]
     })],
     [9.70, 10.0, (c, W, H, lt, d, t) => shotWave(c, W, H, lt, d, t)],
