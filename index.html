@@ -917,6 +917,19 @@ p,.s-desc,.m-par,.ab-lead{text-wrap:pretty}
 .m-meet .tk img{border-radius:0}
 .m-meet .ph{background:#141414;box-shadow:0 0 0 1px rgba(255,255,255,.14),0 0 0 6px #0c0c0c,0 0 0 7px rgba(255,255,255,.08),0 50px 90px rgba(0,0,0,.9),0 0 120px rgba(150,120,255,.22),0 30px 80px rgba(255,90,40,.12)}
 .m-meet::before{content:"";position:absolute;left:50%;bottom:-2%;width:46%;height:10%;transform:translateX(-50%);background:radial-gradient(closest-side,rgba(180,160,255,.25),transparent);filter:blur(8px)}
+
+/* ===== But Be ===== */
+.m-bbv{position:relative;width:min(100%,calc(78vh * 16 / 9));margin:0 auto;aspect-ratio:16/9;border-radius:14px;overflow:hidden;background:#000;box-shadow:0 40px 90px rgba(0,0,0,.25)}
+.m-bbv video{width:100%;height:100%;object-fit:cover;display:block}
+.bbv-play{position:absolute;left:16px;bottom:16px;padding:.7em 1.2em;border-radius:999px;background:#ff1a0a;color:#fff}
+.bbw{position:relative;aspect-ratio:16/9;overflow:hidden;background:#000}
+.bbw video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.55}
+.bbw-ui{position:absolute;inset:0;padding:4% 5%;display:flex;flex-direction:column;color:#fff;background:linear-gradient(90deg,rgba(0,0,0,.75),rgba(0,0,0,.1))}
+.bbw-nav{display:flex;gap:4%;align-items:center;opacity:.9}.bbw-nav b{margin-right:auto;font-weight:700}
+.bbw-h{margin-top:auto;font-family:var(--hn);font-weight:700;letter-spacing:-.02em;line-height:.88;font-size:clamp(22px,2.8vw,56px)}
+.bbw-sv{display:flex;gap:4%;margin-top:5%;color:#9ee35a;flex-wrap:wrap}
+.bb-player{padding:0 var(--pad) 80px}
+.bb-player video{width:100%;max-height:82vh;aspect-ratio:16/9;background:#000;display:block;border-radius:12px}
 </style></head>
 <body>
 <div class="grain"></div>
@@ -1833,7 +1846,7 @@ Promise.all([document.fonts.load('800 60px "Archivo V"'),document.fonts.load('50
 
   /* ======================= ÍNDICE ======================= */
   const CH = [
-    ['d-tesis', 'Tesis', 'Último proyecto', 'Bioferia · equipo', 'assets/po/bioferia.jpg', '50% 40%'],
+    ['d-tesis', 'But Be', 'Trabajo en equipo', '03 proyectos', 'assets/po/bioferia.jpg', '50% 40%'],
     ['d-id', 'Identidad', 'Estado sólido', '02 proyectos', 'assets/id/wake-2.jpg', '50% 50%'],
     ['d-po', 'Posters', 'Estado líquido', '08 piezas', 'assets/po/bioferia.jpg', '50% 40%'],
     ['d-mo', 'Motion', 'Estado gaseoso', '02 proyectos', 'assets/mo/demarco.jpg', '50% 40%'],
@@ -1843,7 +1856,7 @@ Promise.all([document.fonts.load('800 60px "Archivo V"'),document.fonts.load('50
     <ul class="ix-list mono">${CH.map(([id, n, s, c], i) => `<li data-i="${i}"><a href="#${id}" data-cur="Ir"><span>(${pad2(i)})</span><span>${n}</span><span class="ix-c">${c}</span></a></li>`).join('')}</ul>
     <div class="ix-strips">${CH.map(([id, n, s, c, img, pos], i) => `<a class="ix-card" href="#${id}" data-i="${i}" data-cur="Ver ${n}" style="--img:url(${img});--pos:${pos};--o:${[0, 6, -4, 9, 2][i]}%;--sb:${i % 2 ? '#141414' : '#f2f2f2'};--sf:${i % 2 ? '#f2f2f2' : '#0b0b0b'}">
       <span class="ix-solid"></span>
-      <span class="ix-desc">${['Bioferia, universo del proyecto.', 'Marcas, logotipos y manuales.', 'Afiches, gráfica y merch.', 'Flyers animados, audiovisual y 3D.', 'Landing pages y dirección de arte.'][i]}</span>
+      <span class="ix-desc">${['Tesis, video concepto y web.', 'Marcas, logotipos y manuales.', 'Afiches, gráfica y merch.', 'Flyers animados, audiovisual y 3D.', 'Landing pages y dirección de arte.'][i]}</span>
       <span class="ix-btn mono">Ver sección →</span>
       <span class="ix-num mono">${pad2(i)}</span>
       <span class="ix-name wide">${n}</span>
@@ -1859,8 +1872,10 @@ Promise.all([document.fonts.load('800 60px "Archivo V"'),document.fonts.load('50
   const wList = $('#wList'), works = $('#works');
   const THEME = { black: ['#070707', '#f2f2f2'], white: ['#ffffff', '#0b0b0b'], gray: ['#e7e6e3', '#0b0b0b'], red: [HOT, '#0b0b0b'] };
   const SLOTS = [
-    { div: ['(00)', 'Tesis', 'Último proyecto · 2026 · Trabajo en equipo'], th: 'black', ac: '#9ee35a', mat: 'glass', did: 'd-tesis' },
-    { id: 'p-tesis', kind: 'tesis', th: 'black', ac: '#9ee35a', mat: 'glass', meta: ['(00.01) Proyecto de tesis', '2026'], name: 'Bioferia', desc: 'Universo del proyecto: una feria sustentable convertida en experiencia. Entrada, acciones ambientales y Catálisis, el juego para hacer crecer tu semilla, más una campaña en vía pública.', tags: ['Tesis', 'Equipo BUTBE', 'App', 'Web', 'Campaña'], open: 'ext:https://pitchbio.vercel.app/', btn: 'Entrar al universo ↗' },
+    { div: ['(00)', 'But Be', 'Agencia · Trabajo en equipo · 03 proyectos'], th: 'black', ac: '#9ee35a', mat: 'glass', did: 'd-tesis' },
+    { id: 'p-tesis', kind: 'tesis', th: 'black', ac: '#9ee35a', mat: 'glass', team: 'Proyecto de tesis · en equipo', meta: ['(00.01) Proyecto de tesis', '2026'], name: 'Bioferia', desc: 'Universo del proyecto: una feria sustentable convertida en experiencia. Entrada, acciones ambientales y Catálisis, el juego para hacer crecer tu semilla, más una campaña en vía pública.', tags: ['Tesis', 'Equipo BUTBE', 'App', 'Web', 'Campaña'], open: 'ext:https://pitchbio.vercel.app/', btn: 'Entrar al universo ↗' },
+    { id: 'p-bbvid', kind: 'bbvid', th: 'white', ac: HOT, mat: 'chrome', rev: 1, team: 'Agencia But Be · en equipo', meta: ['(00.02) Video concepto', '2026'], name: 'But Be concepto', desc: 'Video manifiesto de la agencia: una parte única puede cambiar el todo. Tipografía cinética, texturas y efectos para presentar la identidad de But Be.', tags: ['Motion', 'Concepto', 'Efectos', '1:20'], open: 'bbvid:0' },
+    { id: 'p-bbweb', kind: 'bbweb', th: 'black', ac: '#9ee35a', mat: 'glassw', team: 'Agencia But Be · en equipo', meta: ['(00.03) Sitio web', '2026'], name: 'But Be web', desc: 'El sitio de la agencia: marcas con personalidad, claridad y estrategia. Identidad visual, social media, campañas 360 y diseño editorial.', tags: ['Web', 'Identidad', 'Agencia'], open: 'ext:https://butbestudio.com/', btn: 'Visitar butbestudio.com ↗' },
     { div: ['(01)', 'Identidades', 'Estado sólido · 02 proyectos'], th: 'white', ac: HOT, mat: 'pixel', did: 'd-id' },
     { id: 'p-wake', kind: 'id', k: 0, th: 'white', ac: HOT, mat: 'pixel', meta: ['(01.01) Identidad', '2026'], name: 'Wake', desc: DATA.id[0].desc, tags: ['Logotipo', 'Patrones', 'Paleta', 'Mockups'], open: 'id:0' },
     { id: 'p-finolio', kind: 'id', k: 1, th: 'white', ac: HOT, mat: 'pixel', rev: 1, meta: ['(01.02) Identidad', '2026'], name: 'Finolio', desc: DATA.id[1].desc, tags: ['Logotipo', 'UI', 'App', 'Website'], open: 'id:1' },
@@ -1879,6 +1894,12 @@ Promise.all([document.fonts.load('800 60px "Archivo V"'),document.fonts.load('50
     if (S.kind === 'web') { const w = DATA.web[S.k]; return `<div class="m-web"><div class="laptop"><div class="lt-screen"><div class="lt-view"><img src="assets/web/${w.id}.jpg" alt="Landing ${w.name}"></div></div><div class="lt-base"></div></div><div class="lt-shadow"></div><div class="float f1" style="background-image:url(assets/web/${w.id}.jpg);background-position:0 18%"></div><div class="float f2" style="background-image:url(assets/web/${w.id}.jpg);background-position:0 62%"></div></div>`; }
     if (S.kind === 'tesis') return `<div class="m-tes"><div class="tes-win"><div class="tes-bar"><i></i><i></i><i></i><span class="mono">pitchbio.vercel.app</span><b class="mono">Universo del proyecto</b></div>
       <div class="tes-uni"><div class="tu-bg"></div><canvas class="tu-cv"></canvas><div class="tu-burst"></div><div class="tu-glow"></div></div></div></div>`;
+    if (S.kind === 'bbvid') return `<div class="m-bbv"><video src="assets/butbe/concepto-prev.mp4" poster="assets/butbe/concepto.jpg" muted loop playsinline preload="metadata"></video><div class="bbv-play mono">▶ Ver con sonido · 1:20</div></div>`;
+    if (S.kind === 'bbweb') return `<div class="m-tes"><div class="tes-win"><div class="tes-bar"><i></i><i></i><i></i><span class="mono">butbestudio.com</span><b class="mono">Agencia But Be</b></div>
+      <div class="bbw"><video src="assets/butbe/concepto-prev.mp4" poster="assets/butbe/butbe-logo.jpg" muted loop playsinline preload="metadata"></video>
+      <div class="bbw-ui"><div class="bbw-nav mono"><b>BUT BE</b><span>Inicio</span><span>Quiénes somos</span><span>Método</span><span>Proyectos</span><span>Contacto</span></div>
+      <div class="bbw-h">Marcas con<br>personalidad<br>y propósito.</div>
+      <div class="bbw-sv mono">${['Identidad visual', 'Social media', 'Campañas 360', 'Diseño editorial'].map((t, k) => `<span>0${k + 1} ${t}</span>`).join('')}</div></div></div></div></div>`;
     if (S.kind === 'mo') return `<div class="m-iso"><div class="iso-plane">${DATA.mo.map((m, i) => `<div class="iso-c" data-i="${i}"><div class="iso-sh"></div><div class="iso-v"><video src="assets/mo/${m.id}.mp4" poster="assets/mo/${m.id}.jpg" muted loop playsinline preload="metadata"></video><span class="mono">${pad2(i + 1)}</span></div></div>`).join('')}</div><div class="now mono"><span class="nm"></span><span class="ct"></span></div></div>`;
     if (S.kind === 'po') return `<div class="m-po">${DATA.po.map(p => `<div class="pc"><img src="assets/po/${p.src}.jpg" alt="${p.t}" draggable="false"></div>`).join('')}</div>`;
     return `<div class="m-meet">${[3, 9, 10, 14, 16, 5].map(f => `<div class="fg"><img src="assets/meet/fig-${pad2(f)}.jpg" alt="" draggable="false"></div>`).join('')}<div class="ph"><video src="assets/meet/video.mp4" poster="assets/meet/video.jpg" muted loop playsinline preload="metadata"></video></div><div class="tk"><img src="assets/meet/ticket.png" alt="Golden ticket"></div></div>`;
@@ -1898,7 +1919,7 @@ Promise.all([document.fonts.load('800 60px "Archivo V"'),document.fonts.load('50
         <div class="s-grid">
           <div class="s-text">
             <div class="s-meta mono"><span>${S.meta[0]}</span><span>${S.meta[1]}</span></div>
-            <h3 class="s-name wide">${S.name}</h3>${S.kind === 'tesis' ? '<div class="tes-chip mono">Proyecto en equipo</div>' : ''}
+            <h3 class="s-name wide">${S.name}</h3>${S.team ? `<div class="tes-chip mono">${S.team}</div>` : ''}
             <p class="s-desc">${S.desc}</p>
             <ul class="s-tags mono">${S.tags.map(t => `<li>${t}</li>`).join('')}</ul>
             ${S.open.startsWith('ext:') ? `<a class="s-btn mono" data-cur="Abrir" href="${S.open.slice(4)}" target="_blank" rel="noopener">${S.btn} </a>` : `<button class="s-btn mono" data-cur="Abrir" data-open="${S.open}">Ver proyecto completo <span>→</span></button>`}
@@ -1916,7 +1937,7 @@ Promise.all([document.fonts.load('800 60px "Archivo V"'),document.fonts.load('50
   }
 
   /* --- videos de preview: play solo en pantalla --- */
-  const PV = $$('.m-idv video');
+  const PV = $$('.m-idv video, .m-bbv video, .bbw video');
   const pvio = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { const p = e.target.play(); p && p.catch(() => { }); } else e.target.pause(); }), { threshold: .3 });
   PV.forEach(v => pvio.observe(v));
 
@@ -2228,6 +2249,11 @@ Promise.all([document.fonts.load('800 60px "Archivo V"'),document.fonts.load('50
     addEventListener('keydown', key);
     v.muted = false; load(start); syncSnd();
   }
+  function tplBbvid() {
+    return { bg: '#070707', fg: '#f2f2f2', ac: HOT, cat: '(00.02) But Be · Video concepto', name: 'But Be concepto', html: `
+      <div class="p-head"><div><h1 class="wide">But Be concepto</h1><div class="tes-chip mono" style="margin-top:16px">Agencia But Be · en equipo</div></div><div><p>Video manifiesto de la agencia: una parte única puede cambiar el todo. Tipografía cinética, texturas y efectos para presentar la identidad de But Be.</p></div></div>
+      <div class="bb-player"><video src="assets/butbe/concepto.mp4" poster="assets/butbe/concepto.jpg" controls autoplay playsinline></video></div>` };
+  }
   function tplMeet() {
     const m = DATA.meet;
     return { bg: '#070707', fg: '#f2f2f2', ac: HOT, cat: '(03) Audiovisual · 3D', name: 'MEET × Mundial 2026', html: `
@@ -2242,7 +2268,7 @@ Promise.all([document.fonts.load('800 60px "Archivo V"'),document.fonts.load('50
   }
   function fillProj(key) {
     const [type, k] = key.split(':'), i = +k;
-    const T = type === 'about' ? tplAbout() : type === 'pos' ? tplPos() : type === 'mos' ? tplMos() : type === 'meet' ? tplMeet() : type === 'id' ? tplId(DATA.id[i]) : type === 'web' ? tplWeb(DATA.web[i]) : type === 'mo' ? tplMo(i) : tplPo(i);
+    const T = type === 'bbvid' ? tplBbvid() : type === 'about' ? tplAbout() : type === 'pos' ? tplPos() : type === 'mos' ? tplMos() : type === 'meet' ? tplMeet() : type === 'id' ? tplId(DATA.id[i]) : type === 'web' ? tplWeb(DATA.web[i]) : type === 'mo' ? tplMo(i) : tplPo(i);
     projEl.style.setProperty('--pbg', T.bg); projEl.style.setProperty('--pfg', T.fg); projEl.style.setProperty('--pac', T.ac);
     $('#pCat').textContent = T.cat; $('#pName').textContent = T.name; pBody.innerHTML = T.html; projEl.scrollTop = 0;
     pBody.querySelectorAll('.rv').forEach(el => pio.observe(el));
