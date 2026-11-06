@@ -967,6 +967,12 @@ p,.s-desc,.m-par,.ab-lead{text-wrap:pretty}
 .br-n{color:var(--bac)}
 .br-top{position:absolute;left:4%;right:4%;top:4%;display:flex;justify-content:space-between;z-index:5;opacity:.75;pointer-events:none}
 @media (max-width:820px){.br-c.dim{filter:blur(3px) brightness(.55)}}
+
+.bbw-vid{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;opacity:1!important}
+.bbw-nav{background:#050505!important;border-bottom:1px solid rgba(255,255,255,.08)}
+.bbw-nav img{filter:none}
+
+.bbw-vid{top:12%!important;height:88%!important;object-fit:contain!important;background:#000}
 </style></head>
 <body>
 <div class="grain"></div>
@@ -1969,11 +1975,7 @@ Promise.all([document.fonts.load('800 60px "Archivo V"'),document.fonts.load('50
     if (S.kind === 'bbvid') return `<div class="m-bbv"><video src="assets/butbe/concepto-prev.mp4" poster="assets/butbe/concepto.jpg" muted loop playsinline preload="metadata"></video><div class="bbv-play mono">▶ Ver con sonido · 1:20</div></div>`;
     if (S.kind === 'bbweb') return `<div class="m-tes"><div class="tes-win"><div class="tes-bar"><i></i><i></i><i></i><span class="mono">butbestudio.com</span><b class="mono">Agencia But Be</b></div>
       <div class="bbw"><div class="bbw-nav mono"><img src="assets/butbe/logo-w.png" alt="But Be"><span>Inicio</span><span>But Be</span><span>Quiénes somos</span><span>Método</span><span>Proyectos</span><span>Contacto</span></div>
-      <div class="bbw-page">
-        <section class="bbw-hero"><img src="assets/butbe/logo-w.png" alt=""><p class="mono">Agencia de diseño · Marcas · Identidad · Web</p></section>
-        <section class="bbw-claim">Creamos marcas con <b>personalidad, claridad</b>&nbsp;y&nbsp;<b>estrategia.</b></section>
-        <section class="bbw-svc">${[['Identidad visual', 'Marcas con personalidad y propósito.'], ['Social media', 'Ideas que conectan con tu audiencia.'], ['Campañas 360', 'Creatividad con objetivos reales.'], ['Diseño editorial', 'Piezas que comunican y perduran.']].map(([t, d], k) => `<div><span class="mono">0${k + 1}</span><h5>${t}</h5><p>${d}</p></div>`).join('')}</section>
-        <section class="bbw-hero"><img src="assets/butbe/logo-w.png" alt=""><p class="mono">Encontrá la parte que cambia el todo</p></section>
+      <video class="bbw-vid" src="assets/butbe/proyectos.mp4" poster="assets/butbe/proyectos.jpg" muted loop playsinline preload="metadata"></video>
       </div></div></div></div>`;
     if (S.kind === 'mo') return `<div class="m-iso"><div class="iso-plane">${DATA.mo.map((m, i) => `<div class="iso-c" data-i="${i}"><div class="iso-sh"></div><div class="iso-v"><video src="assets/mo/${m.id}.mp4" poster="assets/mo/${m.id}.jpg" muted loop playsinline preload="metadata"></video><span class="mono">${pad2(i + 1)}</span></div></div>`).join('')}</div><div class="now mono"><span class="nm"></span><span class="ct"></span></div></div>`;
     if (S.kind === 'po') return `<div class="m-po">${DATA.po.map(p => `<div class="pc"><img src="assets/po/${p.src}.jpg" alt="${p.t}" draggable="false"></div>`).join('')}</div>`;
