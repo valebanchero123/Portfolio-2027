@@ -874,6 +874,29 @@ nav .brand{font-family:var(--hn);font-weight:700;letter-spacing:var(--ls);font-s
 @media (max-width:820px){.iso-c{width:21vw}.iso-c.on .iso-v{transform:translateZ(50px)}}
 
 @media (max-width:820px){.s-grid,.slot.rev .s-grid{grid-template-columns:1fr!important}.slot.rev .s-text{order:0}.iso-c{width:15vw}.s-text{max-width:none}}
+
+/* ===== tesis: ventana del universo ===== */
+.m-tes{position:relative;width:min(100%,calc(80vh * 16 / 10.5));margin:0 auto;padding:4% 3%}
+.tes-win{border-radius:14px;overflow:hidden;background:#0d140d;box-shadow:0 50px 120px rgba(0,0,0,.55),0 0 0 1px rgba(158,227,90,.25);transform:perspective(1600px) rotateY(-8deg) rotateX(4deg);transition:transform .9s cubic-bezier(.2,.8,.2,1)}
+.m-tes:hover .tes-win{transform:perspective(1600px) rotateY(0) rotateX(0)}
+.tes-bar{display:flex;align-items:center;gap:7px;padding:11px 14px;background:#151f14;color:#c9d8c2}
+.tes-bar i{width:10px;height:10px;border-radius:50%;background:#2c3a2a}
+.tes-bar span{margin-left:10px;opacity:.7}.tes-bar b{margin-left:auto;font-weight:400;color:#9ee35a}
+.tes-body{display:grid;grid-template-columns:1fr 1.05fr;aspect-ratio:16/9}
+.tes-poster{background-size:cover;background-position:50% 35%;animation:tesZ 14s ease-in-out infinite alternate}
+@keyframes tesZ{from{background-size:110%}to{background-size:135%;background-position:50% 55%}}
+.tes-side{padding:7% 8%;display:flex;flex-direction:column;gap:6px;color:#e9f3e3;background:radial-gradient(80% 70% at 100% 0%,rgba(158,227,90,.22),transparent 70%)}
+.tes-k{color:#9ee35a;margin-bottom:6px}
+.tes-h{font-family:var(--hn);font-weight:700;letter-spacing:-.02em;line-height:.82;font-size:clamp(26px,3vw,58px);margin-bottom:auto}
+.tes-row{display:grid;grid-template-columns:28px 1fr auto;padding:8px 0;border-top:1px solid rgba(233,243,227,.18);opacity:0;transform:translateX(12px);animation:tesR 6s infinite;animation-delay:calc(var(--d) * .25s)}
+@keyframes tesR{0%{opacity:0;transform:translateX(12px)}8%,80%{opacity:1;transform:none}92%,100%{opacity:0}}
+.tes-row span:first-child{color:#9ee35a}
+.tes-seed{display:flex;align-items:center;gap:10px;margin-top:10px}
+.tes-seed i{width:12px;height:12px;border-radius:50%;background:#9ee35a;box-shadow:0 0 0 0 rgba(158,227,90,.7);animation:seed 2s infinite}
+@keyframes seed{to{box-shadow:0 0 0 14px rgba(158,227,90,0)}}
+.tes-chip{position:absolute;right:0;top:0;padding:.6em 1.1em;border-radius:999px;background:#9ee35a;color:#0b0b0b}
+a.s-media{display:block;color:inherit}
+@media (max-width:820px){.tes-body{grid-template-columns:1fr;aspect-ratio:auto}.tes-poster{aspect-ratio:4/3}.tes-win{transform:none}}
 </style></head>
 <body>
 <div class="grain"></div>
@@ -1790,18 +1813,19 @@ Promise.all([document.fonts.load('800 60px "Archivo V"'),document.fonts.load('50
 
   /* ======================= ÍNDICE ======================= */
   const CH = [
+    ['d-tesis', 'Tesis', 'Último proyecto', 'Bioferia · equipo', 'assets/po/bioferia.jpg', '50% 40%'],
     ['d-id', 'Identidad', 'Estado sólido', '02 proyectos', 'assets/id/wake-2.jpg', '50% 50%'],
     ['d-po', 'Posters', 'Estado líquido', '08 piezas', 'assets/po/bioferia.jpg', '50% 40%'],
     ['d-mo', 'Motion', 'Estado gaseoso', '02 proyectos', 'assets/mo/demarco.jpg', '50% 40%'],
     ['d-web', 'Web', 'Estado vítreo', '02 landings', 'assets/cover/axioma.jpg', '50% 30%'],
   ];
   $('#idx').innerHTML = `<div class="ix">
-    <ul class="ix-list mono">${CH.map(([id, n, s, c], i) => `<li data-i="${i}"><a href="#${id}" data-cur="Ir"><span>(${pad2(i + 1)})</span><span>${n}</span><span class="ix-c">${c}</span></a></li>`).join('')}</ul>
-    <div class="ix-strips">${CH.map(([id, n, s, c, img, pos], i) => `<a class="ix-card" href="#${id}" data-i="${i}" data-cur="Ver ${n}" style="--img:url(${img});--pos:${pos};--o:${[4, -4, 8, 0][i]}%;--sb:${i % 2 ? '#141414' : '#f2f2f2'};--sf:${i % 2 ? '#f2f2f2' : '#0b0b0b'}">
+    <ul class="ix-list mono">${CH.map(([id, n, s, c], i) => `<li data-i="${i}"><a href="#${id}" data-cur="Ir"><span>(${pad2(i)})</span><span>${n}</span><span class="ix-c">${c}</span></a></li>`).join('')}</ul>
+    <div class="ix-strips">${CH.map(([id, n, s, c, img, pos], i) => `<a class="ix-card" href="#${id}" data-i="${i}" data-cur="Ver ${n}" style="--img:url(${img});--pos:${pos};--o:${[0, 6, -4, 9, 2][i]}%;--sb:${i % 2 ? '#141414' : '#f2f2f2'};--sf:${i % 2 ? '#f2f2f2' : '#0b0b0b'}">
       <span class="ix-solid"></span>
-      <span class="ix-desc">${['Marcas, logotipos y manuales.', 'Afiches, gráfica y merch.', 'Flyers animados, audiovisual y 3D.', 'Landing pages y dirección de arte.'][i]}</span>
+      <span class="ix-desc">${['Bioferia, universo del proyecto.', 'Marcas, logotipos y manuales.', 'Afiches, gráfica y merch.', 'Flyers animados, audiovisual y 3D.', 'Landing pages y dirección de arte.'][i]}</span>
       <span class="ix-btn mono">Ver sección →</span>
-      <span class="ix-num mono">${pad2(i + 1)}</span>
+      <span class="ix-num mono">${pad2(i)}</span>
       <span class="ix-name wide">${n}</span>
       <span class="ix-foot mono"><span>${s}</span><span class="ix-tag">${c}</span></span>
       <i class="h"></i><i class="h"></i><i class="h"></i><i class="h"></i></a>`).join('')}</div></div>`;
@@ -1815,6 +1839,8 @@ Promise.all([document.fonts.load('800 60px "Archivo V"'),document.fonts.load('50
   const wList = $('#wList'), works = $('#works');
   const THEME = { black: ['#070707', '#f2f2f2'], white: ['#ffffff', '#0b0b0b'], gray: ['#e7e6e3', '#0b0b0b'], red: [HOT, '#0b0b0b'] };
   const SLOTS = [
+    { div: ['(00)', 'Tesis', 'Último proyecto · 2026 · Trabajo en equipo'], th: 'black', ac: '#9ee35a', mat: 'glass', did: 'd-tesis' },
+    { id: 'p-tesis', kind: 'tesis', th: 'black', ac: '#9ee35a', mat: 'glass', meta: ['(00.01) Proyecto de tesis', '2026'], name: 'Bioferia', desc: 'Universo del proyecto: una feria sustentable convertida en experiencia. Entrada, acciones ambientales y Catálisis, el juego para hacer crecer tu semilla, más una campaña en vía pública.', tags: ['Tesis', 'Equipo BUTBE', 'App', 'Web', 'Campaña'], open: 'ext:https://pitchbio.vercel.app/', btn: 'Entrar al universo ↗' },
     { div: ['(01)', 'Identidades', 'Estado sólido · 02 proyectos'], th: 'white', ac: HOT, mat: 'pixel', did: 'd-id' },
     { id: 'p-wake', kind: 'id', k: 0, th: 'white', ac: HOT, mat: 'pixel', meta: ['(01.01) Identidad', '2026'], name: 'Wake', desc: DATA.id[0].desc, tags: ['Logotipo', 'Patrones', 'Paleta', 'Mockups'], open: 'id:0' },
     { id: 'p-finolio', kind: 'id', k: 1, th: 'white', ac: HOT, mat: 'pixel', rev: 1, meta: ['(01.02) Identidad', '2026'], name: 'Finolio', desc: DATA.id[1].desc, tags: ['Logotipo', 'UI', 'App', 'Website'], open: 'id:1' },
@@ -1831,6 +1857,12 @@ Promise.all([document.fonts.load('800 60px "Archivo V"'),document.fonts.load('50
     if (S.kind === 'id') return `<div class="m-idv"><video src="assets/id/${DATA.id[S.k].id}-mc.mp4" poster="assets/id/${DATA.id[S.k].id}-mc.jpg" muted loop playsinline preload="metadata"></video><div class="cap mono"><span>Match cut — el logo en todas sus aplicaciones</span><span>Manual de marca</span></div></div>`;
     if (S.kind === 'id') return `<div class="m-id"><canvas></canvas><div class="dots">${DATA.id[S.k].pages.map(() => '<i></i>').join('')}</div><div class="cap mono"><span class="pg">01 — Portada</span><span>Manual de marca</span></div></div>`;
     if (S.kind === 'web') { const w = DATA.web[S.k]; return `<div class="m-web"><div class="laptop"><div class="lt-screen"><div class="lt-view"><img src="assets/web/${w.id}.jpg" alt="Landing ${w.name}"></div></div><div class="lt-base"></div></div><div class="lt-shadow"></div><div class="float f1" style="background-image:url(assets/web/${w.id}.jpg);background-position:0 18%"></div><div class="float f2" style="background-image:url(assets/web/${w.id}.jpg);background-position:0 62%"></div></div>`; }
+    if (S.kind === 'tesis') return `<div class="m-tes"><div class="tes-win"><div class="tes-bar"><i></i><i></i><i></i><span class="mono">pitchbio.vercel.app</span><b class="mono">Universo del proyecto</b></div>
+      <div class="tes-body"><div class="tes-poster" style="background-image:url(assets/po/bioferia.jpg)"></div>
+      <div class="tes-side"><div class="tes-k mono">Bioferia · BUTBE</div><div class="tes-h">Universo<br>del proyecto</div>
+      ${['Sectores y espacios', 'Catálisis — el juego', 'Activemos el cambio', 'Campaña en vía pública'].map((t, k) => `<div class="tes-row mono" style="--d:${k}"><span>${pad2(k + 1)}</span><span>${t}</span><span>→</span></div>`).join('')}
+      <div class="tes-seed"><i></i><span class="mono">Tu semilla crece</span></div></div></div></div>
+      <div class="tes-chip mono">Proyecto en equipo</div></div>`;
     if (S.kind === 'mo') return `<div class="m-iso"><div class="iso-plane">${DATA.mo.map((m, i) => `<div class="iso-c" data-i="${i}"><div class="iso-sh"></div><div class="iso-v"><video src="assets/mo/${m.id}.mp4" poster="assets/mo/${m.id}.jpg" muted loop playsinline preload="metadata"></video><span class="mono">${pad2(i + 1)}</span></div></div>`).join('')}</div><div class="now mono"><span class="nm"></span><span class="ct"></span></div></div>`;
     if (S.kind === 'po') return `<div class="m-po">${DATA.po.map(p => `<div class="pc"><img src="assets/po/${p.src}.jpg" alt="${p.t}" draggable="false"></div>`).join('')}</div>`;
     return `<div class="m-meet">${[3, 9, 10, 14, 16, 5].map(f => `<div class="fg"><img src="assets/meet/fig-${pad2(f)}.jpg" alt="" draggable="false"></div>`).join('')}<div class="ph"><video src="assets/meet/video.mp4" poster="assets/meet/video.jpg" muted loop playsinline preload="metadata"></video></div><div class="tk"><img src="assets/meet/fig-17.jpg" alt="Golden ticket"></div></div>`;
@@ -1853,9 +1885,9 @@ Promise.all([document.fonts.load('800 60px "Archivo V"'),document.fonts.load('50
             <h3 class="s-name wide">${S.name}</h3>
             <p class="s-desc">${S.desc}</p>
             <ul class="s-tags mono">${S.tags.map(t => `<li>${t}</li>`).join('')}</ul>
-            <button class="s-btn mono" data-cur="Abrir" data-open="${S.open}">Ver proyecto completo <span>→</span></button>
+            ${S.open.startsWith('ext:') ? `<a class="s-btn mono" data-cur="Abrir" href="${S.open.slice(4)}" target="_blank" rel="noopener">${S.btn} </a>` : `<button class="s-btn mono" data-cur="Abrir" data-open="${S.open}">Ver proyecto completo <span>→</span></button>`}
           </div>
-          <div class="s-media" data-cur="Ver proyecto" data-open="${S.open}" data-kind="${S.kind}"><i class="anchor"></i>${media(S)}</div>
+          ${S.open.startsWith('ext:') ? `<a class="s-media" data-cur="Entrar" href="${S.open.slice(4)}" target="_blank" rel="noopener" data-kind="${S.kind}">` : `<div class="s-media" data-cur="Ver proyecto" data-open="${S.open}" data-kind="${S.kind}">`}<i class="anchor"></i>${media(S)}${S.open.startsWith('ext:') ? '</a>' : '</div>'}
         </div>
       </article>`).join('');
   const SECS = $$('#wList > *');
