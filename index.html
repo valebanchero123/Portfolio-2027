@@ -821,6 +821,11 @@ nav .brand{font-family:var(--hn);font-weight:700;letter-spacing:var(--ls);font-s
 @media (max-width:820px){.ab{grid-template-columns:1fr}.ab-pic{position:relative;top:0;height:60vh}.ab-grid{grid-template-columns:1fr}}
 
 @media (max-width:820px){nav .links a[data-open]{display:none}nav .links #sndBtn{display:none}.cv-top{top:64px}}
+
+.cv-lab{top:calc(clamp(56px,4.6vw,84px) + 18px)}
+
+.cv-lab{mix-blend-mode:normal;color:#fff;text-shadow:0 1px 8px rgba(0,0,0,.55)}
+.cv-lab b{color:#fff;opacity:.7}
 </style></head>
 <body>
 <div class="grain"></div>
@@ -845,7 +850,6 @@ nav .brand{font-family:var(--hn);font-weight:700;letter-spacing:var(--ls);font-s
   <div id="cover" aria-label="Portada">
     <div class="cv-strips" id="cvStrips"></div>
     <div class="cv-grain"></div>
-    <div class="cv-top mono"><span>(VB) — Portfolio 2027</span><span id="cvState">Estado 01 · Sólido</span><span>Buenos Aires, AR</span></div>
     <div class="cv-band">
       <div class="cv-name"><span class="tb">Valentina</span> <span class="tl">Banchero</span></div>
       <div class="cv-side">
@@ -895,8 +899,7 @@ nav .brand{font-family:var(--hn);font-weight:700;letter-spacing:var(--ls);font-s
     <h2 class="c-big wide clip"><span class="fitline" style="display:block">¿Transformamos</span><span class="r">algo?</span></h2>
     <button class="mail" id="mail"><span>hola@valentinabanchero.com</span><span>↗</span><span class="copied" id="copied">Copiado</span></button>
   </div>
-  <div class="c-grid mono">
-    <div>Base<a>Buenos Aires, AR</a></div>
+  <div class="c-grid mono" style="grid-template-columns:repeat(3,1fr)">
     <div>Redes<a href="https://instagram.com" target="_blank" rel="noopener">Instagram</a><a href="https://behance.net" target="_blank" rel="noopener">Behance</a></div>
     <div>Disciplinas<a>Identidad · Motion · Posters</a><a>Web · Dirección de arte</a></div>
     <div>©2026<a href="#hero">Volver al inicio ↑</a></div>
@@ -1679,7 +1682,6 @@ Promise.all([document.fonts.load('800 60px "Archivo V"'),document.fonts.load('50
     if (now > cvAlt) {   // cambio de color global
       const on = !cover.classList.contains('alt'); cover.classList.toggle('alt', on);
       STR.forEach((S, i) => setTimeout(() => mutate(S, on ? 1 : 0), i * 110));
-      $('#cvState').textContent = on ? 'Estado 02 · Líquido' : 'Estado 01 · Sólido';
       cvAlt = now + (on ? 4200 : 9000);
     }
   }
@@ -2091,7 +2093,7 @@ Promise.all([document.fonts.load('800 60px "Archivo V"'),document.fonts.load('50
         <div class="ab-pic"><div style="background-image:url(assets/me/face.jpg);background-position:30% 40%"></div><div style="background-image:url(assets/me/face.jpg);background-size:auto 160%;background-position:52% 70%"></div><div style="background-image:url(assets/me/face.jpg);background-position:75% 50%"></div></div>
         <div>
           <h1 class="wide">Sobre mí</h1>
-          <p class="ab-lead"><b>Soy Valentina Banchero</b>, diseñadora gráfica y audiovisual de Buenos Aires. Trabajo entre la identidad, el motion, el 3D y la web: <b>materia en transformación</b>, una forma de diseñar que sigue cambiando conmigo.</p>
+          <p class="ab-lead"><b>Soy Valentina Banchero</b>, diseñadora gráfica y audiovisual. Trabajo entre la identidad, el motion, el 3D y la web: <b>materia en transformación</b>, una forma de diseñar que sigue cambiando conmigo.</p>
           <div class="ab-grid">
             <div class="ab-sec"><h4 class="mono"><span>Formación</span><span>(01)</span></h4><ul>
               <li class="todo"><span class="mono">20—</span><span>[Completar: carrera / institución]</span></li>
@@ -2103,8 +2105,7 @@ Promise.all([document.fonts.load('800 60px "Archivo V"'),document.fonts.load('50
               <li><span class="mono">2025—26</span><span>Flyers animados para Emiliano Demarco, Cloudy y Cadelago</span></li></ul></div>
             <div class="ab-sec"><h4 class="mono"><span>Servicios</span><span>(03)</span></h4><div class="ab-tags mono"><span>Identidad visual</span><span>Manual de marca</span><span>Motion graphics</span><span>3D</span><span>Posters</span><span>Landing pages</span><span>Dirección de arte</span><span>Redes</span></div></div>
             <div class="ab-sec"><h4 class="mono"><span>Contacto</span><span>(04)</span></h4><ul>
-              <li><span class="mono">Mail</span><span>hola@valentinabanchero.com</span></li>
-              <li><span class="mono">Base</span><span>Buenos Aires, Argentina</span></li></ul></div>
+              <li><span class="mono">Mail</span><span>hola@valentinabanchero.com</span></li></ul></div>
           </div>
         </div>
       </div>` };
@@ -2150,7 +2151,6 @@ Promise.all([document.fonts.load('800 60px "Archivo V"'),document.fonts.load('50
   $$('.rv,.chap-open').forEach(el => rio.observe(el));
   const cio = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.querySelectorAll(':scope > .clip').forEach(c => c.classList.add('in')); cio.unobserve(e.target); } }), { threshold: .1 });
   $$('.clip').forEach(el => cio.observe(el.parentElement));
-  const clock = () => { try { $('#clock').textContent = 'BA ' + new Intl.DateTimeFormat('es-AR', { timeZone: 'America/Argentina/Buenos_Aires', hour: '2-digit', minute: '2-digit' }).format(new Date()); } catch (e) { } };
   /* títulos en una sola línea: achica la letra hasta que entre, sin cortar palabras */
   function fitLines() {
     $$('.fitline').forEach(el => {
