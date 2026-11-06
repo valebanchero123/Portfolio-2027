@@ -1747,19 +1747,18 @@ Promise.all([document.fonts.load('800 60px "Archivo V"'),document.fonts.load('50
 
   /* ======================= ÍNDICE ======================= */
   const CH = [
-    ['p-meet', 'MEET 26', '', 'Stickers · 3D · Video', 'assets/meet/feed-1.jpg', '50% 30%'],
     ['d-id', 'Identidad', 'Estado sólido', '02 proyectos', 'assets/id/wake-2.jpg', '50% 50%'],
     ['d-po', 'Posters', 'Estado líquido', '08 piezas', 'assets/po/bioferia.jpg', '50% 40%'],
-    ['d-mo', 'Motion', 'Estado gaseoso', '04 videos', 'assets/mo/demarco.jpg', '50% 40%'],
+    ['d-mo', 'Motion', 'Estado gaseoso', '02 proyectos', 'assets/mo/demarco.jpg', '50% 40%'],
     ['d-web', 'Web', 'Estado vítreo', '02 landings', 'assets/cover/axioma.jpg', '50% 30%'],
   ];
   $('#idx').innerHTML = `<div class="ix">
-    <ul class="ix-list mono">${CH.map(([id, n, s, c], i) => `<li data-i="${i}"><a href="#${id}" data-cur="Ir"><span>(${i ? pad2(i) : '★'})</span><span>${n}</span><span class="ix-c">${c}</span></a></li>`).join('')}</ul>
-    <div class="ix-strips">${CH.map(([id, n, s, c, img, pos], i) => `<a class="ix-card" href="#${id}" data-i="${i}" data-cur="Ver ${n}" style="--img:url(${img});--pos:${pos};--o:${[0, 6, -4, 9, 2][i]}%;--sb:${i % 2 ? '#141414' : '#f2f2f2'};--sf:${i % 2 ? '#f2f2f2' : '#0b0b0b'}">
+    <ul class="ix-list mono">${CH.map(([id, n, s, c], i) => `<li data-i="${i}"><a href="#${id}" data-cur="Ir"><span>(${pad2(i + 1)})</span><span>${n}</span><span class="ix-c">${c}</span></a></li>`).join('')}</ul>
+    <div class="ix-strips">${CH.map(([id, n, s, c, img, pos], i) => `<a class="ix-card" href="#${id}" data-i="${i}" data-cur="Ver ${n}" style="--img:url(${img});--pos:${pos};--o:${[4, -4, 8, 0][i]}%;--sb:${i % 2 ? '#141414' : '#f2f2f2'};--sf:${i % 2 ? '#f2f2f2' : '#0b0b0b'}">
       <span class="ix-solid"></span>
-      <span class="ix-desc">${['Stickers, 3D y video para MEET.', 'Marcas, logotipos y manuales.', 'Afiches, gráfica y merch.', 'Flyers animados para eventos.', 'Landing pages y dirección de arte.'][i]}</span>
+      <span class="ix-desc">${['Marcas, logotipos y manuales.', 'Afiches, gráfica y merch.', 'Flyers animados, audiovisual y 3D.', 'Landing pages y dirección de arte.'][i]}</span>
       <span class="ix-btn mono">Ver sección →</span>
-      <span class="ix-num mono">${i ? pad2(i) : '★'}</span>
+      <span class="ix-num mono">${pad2(i + 1)}</span>
       <span class="ix-name wide">${n}</span>
       <span class="ix-foot mono"><span>${s}</span><span class="ix-tag">${c}</span></span>
       <i class="h"></i><i class="h"></i><i class="h"></i><i class="h"></i></a>`).join('')}</div></div>`;
@@ -1773,15 +1772,14 @@ Promise.all([document.fonts.load('800 60px "Archivo V"'),document.fonts.load('50
   const wList = $('#wList'), works = $('#works');
   const THEME = { black: ['#070707', '#f2f2f2'], white: ['#ffffff', '#0b0b0b'], gray: ['#e7e6e3', '#0b0b0b'], red: [HOT, '#0b0b0b'] };
   const SLOTS = [
-    { div: ['(★)', 'Destacado', 'Caso del año · 01 proyecto'], th: 'black', ac: '#d8ff6a', mat: 'meet' },
-    { id: 'p-meet', kind: 'meet', th: 'black', ac: '#d8ff6a', mat: 'meet', meta: ['(★) Destacado', '2026'], name: 'MEET 26', desc: DATA.meet.desc, tags: ['Stickers', '3D', 'Video', 'Redes'], open: 'meet:0' },
     { div: ['(01)', 'Identidades', 'Estado sólido · 02 proyectos'], th: 'white', ac: HOT, mat: 'pixel', did: 'd-id' },
     { id: 'p-wake', kind: 'id', k: 0, th: 'white', ac: HOT, mat: 'pixel', meta: ['(01.01) Identidad', '2026'], name: 'Wake', desc: DATA.id[0].desc, tags: ['Logotipo', 'Patrones', 'Paleta', 'Mockups'], open: 'id:0' },
     { id: 'p-finolio', kind: 'id', k: 1, th: 'white', ac: HOT, mat: 'pixel', rev: 1, meta: ['(01.02) Identidad', '2026'], name: 'Finolio', desc: DATA.id[1].desc, tags: ['Logotipo', 'UI', 'App', 'Website'], open: 'id:1' },
     { div: ['(02)', 'Posters', 'Estado líquido · 08 piezas'], th: 'black', ac: HOT, mat: 'glass', did: 'd-po' },
     { id: 'p-posters', kind: 'wall', th: 'black', ac: HOT, mat: 'glass', meta: ['(02.01) Gráfica', '2025—26'], name: 'Posters', desc: 'Serie de afiches para Sweed, Bioferia y proyectos personales: tipografía expresiva, fotografía intervenida y retículas que se rompen.', tags: ['Sweed', 'Bioferia', 'Focus', 'Merch'], open: 'pos:0' },
-    { div: ['(03)', 'Motion', 'Estado gaseoso · 04 videos'], th: 'white', ac: HOT, mat: 'chrome', did: 'd-mo' },
+    { div: ['(03)', 'Motion', 'Estado gaseoso · 02 proyectos'], th: 'white', ac: HOT, mat: 'chrome', did: 'd-mo' },
     { id: 'p-motion', kind: 'mo', th: 'white', ac: HOT, mat: 'chrome', rev: 1, meta: ['(03.01) Motion', '2026'], name: 'Flyers animados', desc: 'Piezas verticales para lanzar fechas y artistas: Emiliano Demarco, Cloudy y Semana Cadelago. Animación, 3D y edición pensadas para stories y reels.', tags: ['Demarco', 'Cloudy', 'Cadelago', '9:16'], open: 'mos:0' },
+    { id: 'p-meet', kind: 'meet', th: 'black', ac: HOT, mat: 'meet', meta: ['(03.02) Audiovisual · 3D', '2026'], name: 'MEET 26', desc: DATA.meet.desc, tags: ['Audiovisual', '3D', 'Stickers'], open: 'meet:0' },
     { div: ['(04)', 'Web', 'Estado vítreo · 02 landings'], th: 'black', ac: '#a9d8ff', mat: 'glassw', did: 'd-web' },
     { id: 'p-axioma', kind: 'web', k: 0, th: 'black', ac: '#a9d8ff', mat: 'glassw', meta: ['(04.01) Landing page', '2026'], name: 'Axioma', desc: DATA.web[0].desc, tags: ['Landing', 'Moda', 'Dirección de arte'], open: 'web:0' },
     { id: 'p-lythium', kind: 'web', k: 1, th: 'white', ac: HOT, mat: 'glassw', rev: 1, meta: ['(04.02) Landing page', '2026'], name: 'Lythium', desc: DATA.web[1].desc, tags: ['Landing', 'Skincare', 'Redes'], open: 'web:1' },
@@ -2127,7 +2125,7 @@ Promise.all([document.fonts.load('800 60px "Archivo V"'),document.fonts.load('50
   }
   function tplMeet() {
     const m = DATA.meet;
-    return { bg: '#070707', fg: '#f2f2f2', ac: '#d8ff6a', cat: '(★) Caso destacado', name: 'MEET × Mundial 2026', html: `
+    return { bg: '#070707', fg: '#f2f2f2', ac: HOT, cat: '(03) Audiovisual · 3D', name: 'MEET × Mundial 2026', html: `
       <div class="p-head"><div><h1 class="wide" style="background:linear-gradient(90deg,#f4ff7a,#f78fc0);-webkit-background-clip:text;background-clip:text;color:transparent">${m.name}</h1></div><div><p>${m.desc}</p>
       <dl class="mono"><dt>Cliente</dt><dd>${m.client}</dd><dt>Año</dt><dd>${m.year}</dd><dt>Entregables</dt><dd>${m.role}</dd></dl></div></div>
       <div class="p-video"><video src="assets/meet/video.mp4" poster="assets/meet/video.jpg" controls autoplay playsinline loop style="aspect-ratio:720/1250"></video><img src="assets/meet/feed-1.jpg" alt="Pieza feed MEET" style="height:min(82vh,1100px);width:auto;max-width:100%"></div>
