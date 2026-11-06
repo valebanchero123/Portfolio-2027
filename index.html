@@ -499,6 +499,25 @@ nav .links a:hover{color:var(--red)}
 .po-gallery figure:hover img{transform:translateY(-8px) scale(1.03)}
 .po-gallery figcaption{display:flex;justify-content:space-between;gap:10px;padding-top:10px;opacity:.7}
 @media (max-width:820px){.po-gallery{grid-template-columns:1fr 1fr}.po-wall{height:78vh}}
+
+/* contacto en una línea + sin cortar palabras */
+#contacto .c-big{font-size:clamp(40px,10.5vw,200px);hyphens:none;overflow-wrap:normal;word-break:keep-all}
+h1,h2,h3,.wide{hyphens:none;overflow-wrap:normal;word-break:keep-all}
+.divider h2{min-width:0}
+/* overlays: secciones legibles sobre blanco o negro */
+.p-sec{border-top:1px solid currentColor!important;opacity:.85}
+.p-browser{border-color:currentColor}
+/* botones redondeados */
+.s-btn,.p-close,.skip,.case-btn,.b-btn,.w-btn,.mr-btn,.p-light .nav button,.replay,.u-close{border-radius:999px}
+.s-btn{padding:15px 24px}
+.s-tags li{border-radius:999px;padding:5px 12px}
+.p-light .nav button{padding:10px 18px}
+.mail{border-radius:999px}
+.idx .row:hover{border-radius:14px}
+.pw-center{border-radius:22px}
+.chips span{border-radius:10px}
+
+@media (max-width:820px){.mail{font-size:4.8vw;gap:.3em}}
 </style></head>
 <body>
 <div class="grain"></div>
@@ -552,7 +571,7 @@ nav .links a:hover{color:var(--red)}
     <canvas id="conCv"></canvas>
   <div class="mono rv">(05) Contacto — Disponible para proyectos 2027</div>
   <div>
-    <h2 class="c-big wide clip">¿Transfor<br>mamos <span class="r">algo?</span></h2>
+    <h2 class="c-big wide clip"><span class="fitline" style="display:block">¿Transformamos</span><span class="r">algo?</span></h2>
     <button class="mail" id="mail"><span>hola@valentinabanchero.com</span><span>↗</span><span class="copied" id="copied">Copiado</span></button>
   </div>
   <div class="c-grid mono">
@@ -1358,7 +1377,7 @@ Promise.all([document.fonts.load('800 60px "Archivo V"'),document.fonts.load('50
       <div class="po-gallery" id="poGallery">${DATA.po.map((p, i) => `<figure data-open="po:${i}" data-cur="Ver grande" style="--d:${i * .07}s"><div class="fr"><img src="assets/po/${p.src}.jpg" alt="${p.t}" loading="lazy"></div><figcaption class="mono"><span>${pad2(i + 1)}</span><span>${p.t}</span></figcaption></figure>`).join('')}</div>
     </article>`;
   wList.innerHTML = SLOTS.map(S => S.kind === 'wall' ? wallHTML(S) : S.div
-    ? `<div class="divider" ${S.did ? `id="${S.did}"` : ''} data-th="${S.th}" data-ac="${S.ac}" data-mat="${S.mat}"><h2 class="wide"><small>${S.div[0]}</small>${S.div[1]}</h2><span class="mono">${S.div[2]}</span></div>`
+    ? `<div class="divider" ${S.did ? `id="${S.did}"` : ''} data-th="${S.th}" data-ac="${S.ac}" data-mat="${S.mat}"><h2 class="wide"><small>${S.div[0]}</small><span class="fitline" style="display:block">${S.div[1]}</span></h2><span class="mono">${S.div[2]}</span></div>`
     : `<article class="slot${S.rev ? ' rev' : ''}" id="${S.id}" data-th="${S.th}" data-ac="${S.ac}" data-mat="${S.mat}">
         <div class="s-grid">
           <div class="s-text">
@@ -1608,41 +1627,42 @@ Promise.all([document.fonts.load('800 60px "Archivo V"'),document.fonts.load('50
     })();
   }
   function tplId(b) {
-    return { bg: b.bg, fg: '#ffffff', ac: b.ac, cat: '(01) Identidad visual', name: b.name, html: `
+    return { bg: '#ffffff', fg: '#0b0b0b', ac: b.ac, cat: '(01) Identidad visual', name: b.name, html: `
       <div class="p-head"><div><h1 class="wide">${b.name}</h1></div><div><p>${b.desc}</p>
       <dl class="mono"><dt>Año</dt><dd>${b.year}</dd><dt>Rol</dt><dd>${b.role}</dd><dt>Láminas</dt><dd>${b.pages.length}</dd></dl></div></div>
       <div class="p-pages">${b.pages.map((p, i) => `<figure class="rv"><img src="${b.file(i)}" alt="${b.name} — ${p}" loading="lazy"><figcaption><span>${pad2(i + 1)} — ${p}</span><span>${b.name}</span></figcaption></figure>`).join('')}</div>` };
   }
   function tplWeb(w) {
-    return { bg: '#0b0b0b', fg: '#ece7df', ac: w.ac, cat: '(04) Landing page', name: w.name, html: `
+    const light = w.id === 'lythium';
+    return { bg: light ? '#ffffff' : '#070707', fg: light ? '#0b0b0b' : '#f2f2f2', ac: light ? HOT : w.ac, cat: '(04) Landing page', name: w.name, html: `
       <div class="p-head"><div><h1 class="wide">${w.name}</h1></div><div><p>${w.desc}</p><dl class="mono"><dt>Rol</dt><dd>${w.role}</dd><dt>Paleta</dt><dd>${w.colors.join(' · ')}</dd></dl></div></div>
       <div class="p-browser"><div class="bar"><i></i><i></i><i></i><span>${w.url}</span></div><img src="assets/web/${w.id}.jpg" alt="Landing ${w.name}"></div>` };
   }
   function tplMo(i) {
     const m = DATA.mo[i];
-    return { bg: HOT, fg: '#0b0b0b', ac: '#0b0b0b', cat: '(03) Motion', name: m.t, html: `
+    return { bg: '#ffffff', fg: '#0b0b0b', ac: HOT, cat: '(03) Motion', name: m.t, html: `
       <div class="p-head"><div><h1 class="wide" style="font-size:clamp(44px,8vw,150px)">${m.t}</h1></div><div><p>${m.c}. Pieza vertical para redes, 9:16, ${m.d}.</p></div></div>
       <div class="p-video"><video src="assets/mo/${m.id}.mp4" poster="assets/mo/${m.id}.jpg" controls autoplay playsinline loop></video></div>` };
   }
   function tplPo(i) {
     const p = DATA.po[i];
-    return { bg: '#0b0b0b', fg: '#ece7df', ac: HOT, cat: '(02) Posters · ' + pad2(i + 1) + '/' + pad2(DATA.po.length), name: p.t, html: `
+    return { bg: '#070707', fg: '#f2f2f2', ac: HOT, cat: '(02) Posters · ' + pad2(i + 1) + '/' + pad2(DATA.po.length), name: p.t, html: `
       <div class="p-light"><img src="assets/po/${p.src}.jpg" alt="${p.t}"><div class="mono" style="margin-top:16px">${p.t} — ${p.c}</div>
       <div class="nav mono"><button data-po="${(i + DATA.po.length - 1) % DATA.po.length}">← Anterior</button><button data-po="${(i + 1) % DATA.po.length}">Siguiente →</button></div></div>` };
   }
   function tplPos() {
-    return { bg: '#0b0b0b', fg: '#ece7df', ac: HOT, cat: '(02) Posters', name: 'Selección de posters', html: `
+    return { bg: '#070707', fg: '#f2f2f2', ac: HOT, cat: '(02) Posters', name: 'Selección de posters', html: `
       <div class="p-head"><div><h1 class="wide" style="font-size:clamp(54px,9vw,170px)">Posters</h1></div><div><p>Serie de afiches para Sweed, Bioferia y proyectos personales: tipografía expresiva, fotografía intervenida y retículas que se rompen.</p></div></div>
       <div class="p-grid">${DATA.po.map((p, i) => `<figure class="rv" data-po="${i}" style="cursor:none" data-cur="Ver grande"><img src="assets/po/${p.src}.jpg" alt="${p.t}" loading="lazy"><figcaption>${pad2(i + 1)} — ${p.t}</figcaption></figure>`).join('')}</div>` };
   }
   function tplMos() {
-    return { bg: HOT, fg: '#0b0b0b', ac: '#0b0b0b', cat: '(03) Motion', name: 'Flyers animados', html: `
+    return { bg: '#ffffff', fg: '#0b0b0b', ac: HOT, cat: '(03) Motion', name: 'Flyers animados', html: `
       <div class="p-head"><div><h1 class="wide" style="font-size:clamp(48px,8vw,150px)">Flyers animados</h1></div><div><p>Piezas verticales para lanzar fechas y artistas. Animación, 3D y edición para stories y reels. Tocá un video para escucharlo.</p></div></div>
       <div class="p-grid" style="grid-template-columns:repeat(auto-fill,minmax(220px,1fr))">${DATA.mo.map(m => `<figure><video src="assets/mo/${m.id}.mp4" poster="assets/mo/${m.id}.jpg" controls playsinline loop preload="metadata" style="aspect-ratio:9/16;object-fit:cover;background:#000"></video><figcaption>${m.t} — ${m.c}</figcaption></figure>`).join('')}</div>` };
   }
   function tplMeet() {
     const m = DATA.meet;
-    return { bg: '#050505', fg: '#f2f2f2', ac: '#d8ff6a', cat: '(★) Caso destacado', name: 'MEET × Mundial 2026', html: `
+    return { bg: '#070707', fg: '#f2f2f2', ac: '#d8ff6a', cat: '(★) Caso destacado', name: 'MEET × Mundial 2026', html: `
       <div class="p-head"><div><h1 class="wide" style="background:linear-gradient(90deg,#f4ff7a,#f78fc0);-webkit-background-clip:text;background-clip:text;color:transparent">${m.name}</h1></div><div><p>${m.desc}</p>
       <dl class="mono"><dt>Cliente</dt><dd>${m.client}</dd><dt>Año</dt><dd>${m.year}</dd><dt>Entregables</dt><dd>${m.role}</dd></dl></div></div>
       <div class="p-video"><video src="assets/meet/video.mp4" poster="assets/meet/video.jpg" controls autoplay playsinline loop style="aspect-ratio:720/1250"></video><img src="assets/meet/feed-1.jpg" alt="Pieza feed MEET" style="height:min(82vh,1100px);width:auto;max-width:100%"></div>
@@ -1664,7 +1684,8 @@ Promise.all([document.fonts.load('800 60px "Archivo V"'),document.fonts.load('50
   const pio = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); pio.unobserve(e.target); } }), { root: projEl, threshold: .1 });
   function openProj(key) {
     const type = key.split(':')[0];
-    const color = { id: DATA.id[+key.split(':')[1]]?.bg, mo: HOT, mos: HOT, meet: '#050505' }[type] || '#0b0b0b';
+    const k = +key.split(':')[1];
+    const color = { id: '#ffffff', mo: '#ffffff', mos: '#ffffff', web: k === 1 ? '#ffffff' : '#070707' }[type] || '#070707';
     $$('#works video').forEach(v => v.pause()); MO.forEach(M => M.cur = -1); MEETS.forEach(M => M.playing = false);
     wipeAnim(color, 1, () => { fillProj(key); proj.open = true; projEl.classList.add('open'); projEl.setAttribute('aria-hidden', 'false'); lock(true); wipeAnim(color, -1); });
   }
@@ -1681,6 +1702,15 @@ Promise.all([document.fonts.load('800 60px "Archivo V"'),document.fonts.load('50
   $$('.clip').forEach(el => cio.observe(el.parentElement));
   const clock = () => { try { $('#clock').textContent = 'BA ' + new Intl.DateTimeFormat('es-AR', { timeZone: 'America/Argentina/Buenos_Aires', hour: '2-digit', minute: '2-digit' }).format(new Date()); } catch (e) { } };
   clock(); setInterval(clock, 15000);
+  /* títulos en una sola línea: achica la letra hasta que entre, sin cortar palabras */
+  function fitLines() {
+    $$('.fitline').forEach(el => {
+      el.style.fontSize = ''; const max = parseFloat(getComputedStyle(el).fontSize);
+      const box = el.parentElement.clientWidth; el.style.whiteSpace = 'nowrap';
+      const w = el.scrollWidth; if (w > box) el.style.fontSize = Math.floor(max * box / w * .98) + 'px';
+    });
+  }
+  document.fonts.ready.then(fitLines); addEventListener('resize', fitLines); setTimeout(fitLines, 400);
 
   /* ======================= LOOP ======================= */
   Intro.setQuality(.62);
