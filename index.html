@@ -859,6 +859,21 @@ nav .brand{font-family:var(--hn);font-weight:700;letter-spacing:var(--ls);font-s
 .sv-b.on{background:#ff1a0a}
 @media (hover:none){.sv-zone,.sv-b,.sv-th{cursor:pointer}}
 @media (max-width:820px){.sv{grid-template-columns:1fr}.sv-stage{order:-1}.sv-phone{height:auto;width:min(100%,calc((100vh - 120px) * 9 / 16))}.sv-help{display:none}}
+
+/* ===== motion: flyers en vista isométrica ===== */
+.m-iso{position:relative;width:min(100%,calc(82vh * 16 / 11));aspect-ratio:16/11;margin:0 auto;perspective:2200px}
+.iso-plane{position:absolute;left:50%;top:50%;display:flex;gap:clamp(18px,2vw,34px);transform-style:preserve-3d;transition:transform .5s ease-out}
+.iso-c{position:relative;width:clamp(110px,10vw,190px);aspect-ratio:9/16;transform-style:preserve-3d;cursor:none}
+.iso-v{position:absolute;inset:0;border-radius:10px;overflow:hidden;background:#000;transform:translateZ(0);transition:transform .8s cubic-bezier(.2,.8,.2,1),filter .8s;filter:grayscale(1) brightness(.75);box-shadow:0 0 0 1px rgba(0,0,0,.08)}
+.iso-v video{width:100%;height:100%;object-fit:cover;display:block}
+.iso-v span{position:absolute;left:8px;top:6px;color:#fff;text-shadow:0 1px 6px #000}
+.iso-sh{position:absolute;inset:4%;border-radius:12px;background:rgba(0,0,0,.35);filter:blur(10px);opacity:.25;transition:opacity .8s,transform .8s}
+.iso-c.on .iso-v{transform:translateZ(90px);filter:none}
+.iso-c.on .iso-sh{opacity:.6;transform:translate(26px,26px) scale(1.04)}
+.m-iso .now{position:absolute;left:0;right:0;bottom:-6px;display:flex;justify-content:space-between}
+@media (max-width:820px){.iso-c{width:21vw}.iso-c.on .iso-v{transform:translateZ(50px)}}
+
+@media (max-width:820px){.s-grid,.slot.rev .s-grid{grid-template-columns:1fr!important}.slot.rev .s-text{order:0}.iso-c{width:15vw}.s-text{max-width:none}}
 </style></head>
 <body>
 <div class="grain"></div>
@@ -1816,7 +1831,7 @@ Promise.all([document.fonts.load('800 60px "Archivo V"'),document.fonts.load('50
     if (S.kind === 'id') return `<div class="m-idv"><video src="assets/id/${DATA.id[S.k].id}-mc.mp4" poster="assets/id/${DATA.id[S.k].id}-mc.jpg" muted loop playsinline preload="metadata"></video><div class="cap mono"><span>Match cut — el logo en todas sus aplicaciones</span><span>Manual de marca</span></div></div>`;
     if (S.kind === 'id') return `<div class="m-id"><canvas></canvas><div class="dots">${DATA.id[S.k].pages.map(() => '<i></i>').join('')}</div><div class="cap mono"><span class="pg">01 — Portada</span><span>Manual de marca</span></div></div>`;
     if (S.kind === 'web') { const w = DATA.web[S.k]; return `<div class="m-web"><div class="laptop"><div class="lt-screen"><div class="lt-view"><img src="assets/web/${w.id}.jpg" alt="Landing ${w.name}"></div></div><div class="lt-base"></div></div><div class="lt-shadow"></div><div class="float f1" style="background-image:url(assets/web/${w.id}.jpg);background-position:0 18%"></div><div class="float f2" style="background-image:url(assets/web/${w.id}.jpg);background-position:0 62%"></div></div>`; }
-    if (S.kind === 'mo') return `<div class="m-mo">${DATA.mo.map(m => `<div class="ph"><video src="assets/mo/${m.id}.mp4" poster="assets/mo/${m.id}.jpg" muted loop playsinline preload="metadata"></video></div>`).join('')}<div class="now mono"><span class="nm"></span><span class="ct"></span></div></div>`;
+    if (S.kind === 'mo') return `<div class="m-iso"><div class="iso-plane">${DATA.mo.map((m, i) => `<div class="iso-c" data-i="${i}"><div class="iso-sh"></div><div class="iso-v"><video src="assets/mo/${m.id}.mp4" poster="assets/mo/${m.id}.jpg" muted loop playsinline preload="metadata"></video><span class="mono">${pad2(i + 1)}</span></div></div>`).join('')}</div><div class="now mono"><span class="nm"></span><span class="ct"></span></div></div>`;
     if (S.kind === 'po') return `<div class="m-po">${DATA.po.map(p => `<div class="pc"><img src="assets/po/${p.src}.jpg" alt="${p.t}" draggable="false"></div>`).join('')}</div>`;
     return `<div class="m-meet">${[3, 9, 10, 14, 16, 5].map(f => `<div class="fg"><img src="assets/meet/fig-${pad2(f)}.jpg" alt="" draggable="false"></div>`).join('')}<div class="ph"><video src="assets/meet/video.mp4" poster="assets/meet/video.jpg" muted loop playsinline preload="metadata"></video></div><div class="tk"><img src="assets/meet/fig-17.jpg" alt="Golden ticket"></div></div>`;
   }
@@ -1903,39 +1918,21 @@ Promise.all([document.fonts.load('800 60px "Archivo V"'),document.fonts.load('50
     Wb.f2.style.transform = `translate3d(${mouse.nx * 14}px,${(sp - .5) * 70}px,80px) rotateY(-18deg) rotateZ(3deg)`;
   }
 
-  /* --- motion: carrusel de celulares --- */
-  const MO = $$('.m-mo').map(el => ({ el, phs: [...el.querySelectorAll('.ph')], vids: [...el.querySelectorAll('video')], nm: el.querySelector('.nm'), ct: el.querySelector('.ct'), i: 0, t0: 0, cur: -1, playing: false }));
+  /* --- motion: flyers isométricos --- */
+  const MO = $$('.m-iso').map(el => ({ el, cs: [...el.querySelectorAll('.iso-c')], vids: [...el.querySelectorAll('video')], nm: el.querySelector('.nm'), ct: el.querySelector('.ct'), i: 0, t0: 0, cur: -1, playing: false, hover: -1 }));
+  MO.forEach(M => M.cs.forEach((c, k) => { c.addEventListener('pointerenter', () => { M.hover = k; M.i = k; M.t0 = performance.now(); }); c.addEventListener('pointerleave', () => M.hover = -1); }));
   function moFrame(M, now) {
     const vis = onScreen(M.el);
     if (!vis) { if (M.playing) { M.vids.forEach(v => v.pause()); M.playing = false; M.cur = -1; } return; }
+    if (!M.playing) { M.vids.forEach(v => { const p = v.play(); p && p.catch(() => { }); }); M.playing = true; }
     if (!M.t0) M.t0 = now;
-    if (now - M.t0 > 4200) { M.i = (M.i + 1) % M.phs.length; M.t0 = now; }
+    if (M.hover < 0 && now - M.t0 > 3600) { M.i = (M.i + 1) % M.cs.length; M.t0 = now; }
     if (M.cur !== M.i) {
-      M.cur = M.i; M.playing = true; const n = M.phs.length;
-      M.phs.forEach((p, j) => {
-        let d = (j - M.i + n) % n; if (d > n / 2) d -= n;
-        const x = d * 62, s = d === 0 ? 1 : .74, op = Math.abs(d) > 1 ? 0 : d === 0 ? 1 : .55;
-        p.style.transform = `translate(-50%,-50%) translateX(${x}%) scale(${s}) rotateY(${-d * 14}deg)`;
-        p.style.opacity = op; p.style.zIndex = 10 - Math.abs(d); p.style.filter = d === 0 ? 'none' : 'grayscale(1)';
-      });
-      M.vids.forEach((v, j) => { if (j === M.i) { v.currentTime = 0; const pr = v.play(); pr && pr.catch(() => { }); } else v.pause(); });
-      M.nm.textContent = DATA.mo[M.i].t; M.ct.textContent = `${pad2(M.i + 1)} / ${pad2(n)}`;
+      M.cur = M.i;
+      M.cs.forEach((c, k) => c.classList.toggle('on', k === M.i));
+      M.nm.textContent = DATA.mo[M.i].t; M.ct.textContent = `${pad2(M.i + 1)} / ${pad2(M.cs.length)}`;
     }
-  }
-
-  /* --- posters: abanico que se abre --- */
-  const PO = $$('.m-po').map(el => ({ el, cards: [...el.querySelectorAll('.pc')], slot: el.closest('.slot'), hover: -1, open: 0 }));
-  PO.forEach(P => P.cards.forEach((c, i) => { c.addEventListener('pointerenter', () => P.hover = i); c.addEventListener('pointerleave', () => { if (P.hover === i) P.hover = -1; }); }));
-  function poFrame(P) {
-    if (!onScreen(P.el)) return;
-    P.open = lerp(P.open, P.slot.classList.contains('in') ? 1 : 0, .05);
-    const n = P.cards.length, mid = (n - 1) / 2;
-    P.cards.forEach((c, i) => {
-      const d = i - mid, a = d * 9 * P.open + mouse.nx * 3, x = d * 11 * P.open, y = Math.abs(d) * 2.2 * P.open;
-      const lift = P.hover === i ? -14 : 0;
-      c.style.transform = `translate(-50%,-50%) translateX(${x}%) translateY(${y + lift}%) rotate(${a}deg) ${P.hover === i ? 'scale(1.08)' : ''}`;
-      c.style.zIndex = P.hover === i ? 50 : 10 + i;
-    });
+    M.el.querySelector('.iso-plane').style.transform = `translate(-50%,-50%) rotateX(${55 - mouse.ny * 4}deg) rotateZ(${-38 + mouse.nx * 5}deg)`;
   }
 
   /* --- posters: muro curvo en movimiento --- */
