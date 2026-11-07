@@ -1132,6 +1132,16 @@ p,.s-desc,.m-par,.ab-lead{text-wrap:pretty}
 #totalCount{font-size:var(--sm)!important;opacity:1!important}
 .tes-bar .mono{font-size:var(--xs)!important;white-space:nowrap}
 @media (max-width:620px){.tes-bar .mono:last-child{display:none}}
+/* contacto: elegir cómo enviar */
+.cf-wrap.sent .cf-done{pointer-events:auto}
+.cf-opts{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;max-width:30em;margin-top:6px}
+.cf-opt{font-family:var(--hn);font-size:var(--sm);text-transform:uppercase;letter-spacing:-.02em;font-weight:400;padding:.85em 1.4em;border-radius:999px;border:1px solid rgba(242,242,242,.5);color:#f2f2f2;background:rgba(5,5,5,.55);cursor:pointer;transition:background .25s,color .25s,border-color .25s;text-shadow:none}
+.cf-opt:hover{background:#f2f2f2;color:#050505;border-color:#f2f2f2}
+.cf-opt.main{background:#ff1a0a;border-color:#ff1a0a;color:#fff}
+.cf-opt.main:hover{background:#fff;color:#ff1a0a;border-color:#fff}
+.cf-back{background:none;border:0;color:rgba(242,242,242,.85);cursor:pointer;margin-top:4px;text-shadow:none}
+.cf-back:hover{color:#ff1a0a}
+.cf-done .mono{color:rgba(242,242,242,.9)!important}
 </style></head>
 <body>
 <div class="grain"></div>
@@ -1214,7 +1224,7 @@ p,.s-desc,.m-par,.ab-lead{text-wrap:pretty}
       <div class="cf-err mono" id="cfErr"></div>
       <button class="cf-send mono" type="submit" data-cur="Enviar">Transformame <span>→</span></button>
     </form>
-    <div class="cf-stage"><canvas id="cfCv"></canvas><div class="cf-state"><span class="mono" id="cfStN">(00)</span><b id="cfSt">En reposo</b></div><div class="cf-done" id="cfDone"><b>Tu mensaje está<br>en transformación.</b><span class="mono">Se abrió tu correo con todo listo para enviar</span></div></div>
+    <div class="cf-stage"><canvas id="cfCv"></canvas><div class="cf-state"><span class="mono" id="cfStN">(00)</span><b id="cfSt">En reposo</b></div><div class="cf-done" id="cfDone"><b>Tu mensaje está<br>en transformación.</b><span class="mono">Elegí cómo enviarlo: ya está todo escrito</span><div class="cf-opts"><a id="cfGmail" class="cf-opt main" target="_blank" rel="noopener">Gmail ↗</a><a id="cfOutlook" class="cf-opt" target="_blank" rel="noopener">Outlook ↗</a><a id="cfApp" class="cf-opt">App de correo ↗</a><button type="button" id="cfCopy" class="cf-opt">Copiar mensaje</button></div><button type="button" id="cfBack" class="cf-back mono">← Editar mensaje</button></div></div>
   </div>
   <div class="c-grid mono" style="grid-template-columns:repeat(3,1fr)">
     <div>Contacto<a href="https://www.instagram.com/va.graphicdesign_/" target="_blank" rel="noopener">Instagram ↗</a><a href="https://www.behance.net/valentibancher1" target="_blank" rel="noopener">Behance ↗</a><a href="https://wa.me/5493434402535" target="_blank" rel="noopener">WhatsApp ↗</a></div>
@@ -2456,8 +2466,14 @@ Promise.all([document.fonts.load('800 60px "Archivo V"'),document.fonts.load('50
     cfs.burst = 1; cfs.sent = true; uiTone(220, .4, .06);
     $('#cfWrap').classList.add('sent');
     const body = `Hola Valentina,\n\n${x}\n\nQué necesito: ${[...cfs.chips].join(', ') || '—'}\n\n${v}\n${m}`;
-    setTimeout(() => { location.href = `mailto:valebanchero123@gmail.com?subject=${encodeURIComponent('Proyecto — ' + v)}&body=${encodeURIComponent(body)}`; }, 1400);
+    const TO = 'valebanchero123@gmail.com', su = 'Proyecto — ' + v, E = encodeURIComponent;
+    $('#cfGmail').href = `https://mail.google.com/mail/?view=cm&fs=1&to=${TO}&su=${E(su)}&body=${E(body)}`;
+    $('#cfOutlook').href = `https://outlook.live.com/mail/0/deeplink/compose?to=${TO}&subject=${E(su)}&body=${E(body)}`;
+    $('#cfApp').href = `mailto:${TO}?subject=${E(su)}&body=${E(body)}`;
+    $('#cfCopy').onclick = () => { const t = `Para: ${TO}\nAsunto: ${su}\n\n${body}`; const ok = () => { $('#cfCopy').textContent = 'Copiado ✓'; uiTone(1200, .06, .04); }; (navigator.clipboard ? navigator.clipboard.writeText(t).then(ok) : Promise.reject()).catch(() => { const a = document.createElement('textarea'); a.value = t; document.body.appendChild(a); a.select(); document.execCommand('copy'); a.remove(); ok(); }); };
   });
+  $('#cfBack').onclick = () => { cfs.sent = false; $('#cfWrap').classList.remove('sent'); $('#cfCopy').textContent = 'Copiar mensaje'; };
+  $$('.cf-opt[href]').forEach(a => a.addEventListener('click', () => uiTone(880, .1, .05)));
   function conFrame(t) {
     if (!onScreen(cfCv)) return;
     const ctx = fitCanvas(cfCv), W = cfCv.width, H = cfCv.height; ctx.clearRect(0, 0, W, H);
