@@ -1025,6 +1025,21 @@ p,.s-desc,.m-par,.ab-lead{text-wrap:pretty}
 .dk-hero video{width:100%;height:100%;object-fit:cover;display:block}
 .m-deck .now{position:absolute;left:0;right:0;bottom:-6px;display:flex;justify-content:space-between;gap:20px}
 .dk-form{color:var(--wac)}
+
+/* ===== PORTADA v2 ===== */
+.cv-strips{gap:5px!important;padding:clamp(64px,5vw,92px) 0 0}
+.cv-s{flex:1 1 0;animation:none!important;opacity:0;transform:translateY(6%);transition:opacity 1s cubic-bezier(.2,.8,.2,1),transform 1.2s cubic-bezier(.2,.8,.2,1);transition-delay:calc(var(--i) * .08s)}
+#cover.on .cv-s{opacity:1;transform:none}
+.cv-s .cv-l{position:absolute;inset:0;opacity:0;transition:opacity 1.3s ease;clip-path:none!important;background:none!important;filter:grayscale(1) contrast(1.12) brightness(.96)}
+.cv-s .cv-l.in{opacity:1}
+.cv-s .cv-l img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;will-change:transform,object-position;transition:transform .2s linear}
+.cv-s .cv-tint{opacity:0;transition:none;background:#ff1a0a;mix-blend-mode:multiply}
+.cv-s.hot .cv-l{filter:grayscale(1) contrast(1.35) brightness(1.18)}
+.cv-scan,.cv-lab,.cv-hd{display:none!important}
+.cv-band{background:linear-gradient(0deg,rgba(5,5,5,.92) 30%,rgba(5,5,5,0))!important}
+#cover.alt .cv-band{background:linear-gradient(0deg,rgba(5,5,5,.92) 30%,rgba(5,5,5,0))!important}
+
+.cv-s.hot .cv-l{filter:grayscale(1) contrast(1.6) brightness(1.05)}
 </style></head>
 <body>
 <div class="grain"></div>
@@ -1843,52 +1858,48 @@ Promise.all([document.fonts.load('800 60px "Archivo V"'),document.fonts.load('50
   addEventListener('keydown', e => { if (started && !introDone && [' ', 'Escape', 'ArrowDown'].includes(e.key)) skipIntro(); if (e.key === 'Escape' && proj.open) closeProj(); });
   lock(true); if (reduce) introT = Intro.HERO_AT;
 
-  /* ===================== PORTADA ===================== */
+  /* ===================== PORTADA v2: franjas fluidas ===================== */
   const cover = $('#cover'), cvStrips = $('#cvStrips');
-  const IMG = { f: 'assets/me/face.jpg' };
-  // recortes: [imagen, tamaño %, x %, y %]
-  const CROPS = [['f', 330, 14, 40], ['f', 520, 47, 62], ['f', 230, 52, 42], ['f', 560, 58, 78], ['f', 300, 86, 38],
-                 ['f', 700, 36, 46], ['f', 420, 62, 30], ['f', 380, 70, 55], ['f', 620, 22, 30], ['f', 260, 40, 70], ['f', 900, 50, 60]];
-  const STATES = ['st-mono', 'st-red', 'st-inv', 'st-burn'];
-  const SNAMES = ['Sólido', 'Líquido', 'Gaseoso', 'Plasma'];
-  const N = 5;
-  cvStrips.innerHTML = Array.from({ length: N }, (_, i) => `<div class="cv-s st-mono" style="--i:${i}" data-cur="Mutar">
-    <div class="cv-l a"></div><div class="cv-l b"></div><div class="cv-tint"></div><div class="cv-scan"></div>
-    <span class="cv-lab mono">(VB) ✦ 0${i + 1}<br><b>—</b></span><div class="cv-hd"><i></i><i></i><i></i><i></i></div></div>`).join('');
-  const STR = $$('.cv-s').map((el, i) => ({ el, a: el.querySelector('.cv-l.a'), b: el.querySelector('.cv-l.b'), lab: el.querySelector('.cv-lab b'), crop: i, st: 0, ph: Math.random() * 6, busy: false }));
-  const setCrop = (L, c) => { const [im, sz] = CROPS[c]; L.style.backgroundImage = `url(${IMG[im]})`; L.style.backgroundSize = sz + '% auto'; L.dataset.c = c; };
-  STR.forEach((S, i) => { setCrop(S.a, i); S.lab.textContent = SNAMES[0]; });
-  function mutate(S, forceState) {
-    if (S.busy) return; S.busy = true;
+  const FACE = 'assets/me/face.jpg';
+  // recortes: [escala, x%, y%] sobre la foto
+  const CROPS = [[2.0, 30, 42], [2.2, 50, 62], [1.8, 52, 38], [2.4, 58, 76], [2.0, 82, 42], [1.5, 42, 50], [2.6, 62, 34], [2.2, 72, 58], [2.4, 34, 34], [1.8, 46, 70], [1.3, 50, 50], [2.8, 54, 64]];
+  const isMob = () => innerWidth < 820;
+  const NS = 6, INSET = [[0, 7], [9, 0], [3, 12], [12, 2], [0, 9], [6, 4]];
+  cvStrips.innerHTML = Array.from({ length: NS }, (_, i) => `<div class="cv-s" style="--i:${i};--t:${INSET[i][0]}%;--b:${INSET[i][1]}%" data-cur="">
+    <div class="cv-l a"><img src="${FACE}" alt="" draggable="false"></div><div class="cv-l b"><img src="${FACE}" alt="" draggable="false"></div><div class="cv-tint"></div></div>`).join('');
+  const STR = $$('.cv-s').map((el, i) => ({ el, A: el.querySelector('.cv-l.a'), B: el.querySelector('.cv-l.b'), tint: el.querySelector('.cv-tint'), crop: i * 2 % CROPS.length, front: 'A', ph: Math.random() * 6, g: 1, red: 0 }));
+  const place = (L, c, t, ph, dir) => { const [k, x, y] = CROPS[c]; const im = L.firstElementChild; im.style.objectPosition = `${x + Math.sin(t * .11 + ph) * 4}% ${y + Math.cos(t * .09 + ph) * 4 * dir}%`; im.style.transform = `scale(${k * (1 + Math.sin(t * .13 + ph) * .03)})`; im.style.transformOrigin = `${x}% ${y}%`; };
+  function swap(S) {
     let nc; do { nc = Math.floor(Math.random() * CROPS.length); } while (STR.some(o => o.crop === nc));
-    setCrop(S.b, nc); S.b.style.backgroundPosition = S.a.style.backgroundPosition;
-    const ns = forceState ?? (Math.random() < .55 ? 0 : 1 + Math.floor(Math.random() * 3));
-    requestAnimationFrame(() => S.b.classList.add('go'));
-    setTimeout(() => {
-      setCrop(S.a, nc); S.crop = nc; S.b.classList.remove('go');
-      S.el.classList.remove(...STATES); S.el.classList.add(STATES[ns]); S.st = ns; S.lab.textContent = SNAMES[ns];
-      S.busy = false;
-    }, 600);
-    if (typeof uiTone === 'function') uiTone(500 + ns * 180, .05, .02);
+    const back = S.front === 'A' ? S.B : S.A, fr = S.front === 'A' ? S.A : S.B;
+    S.next = nc; back.classList.add('in'); fr.classList.remove('in'); S.front = S.front === 'A' ? 'B' : 'A'; S.crop = nc;
   }
-  STR.forEach(S => S.el.addEventListener('pointerenter', () => mutate(S, 1)));
-  let cvShown = false, cvT0 = 0, cvNext = 0, cvAlt = 0;
-  function showCover(v) { cvShown = v; cover.classList.toggle('on', v); if (v) { cvT0 = performance.now(); cvNext = cvT0 + 2600; cvAlt = cvT0 + 9000; } }
+  STR.forEach(S => S.A.classList.add('in'));
+  let cvShown = false, cvT0 = 0, cvNext = 0, waveT = 0, mxs = .5;
+  function showCover(v) { cvShown = v; cover.classList.toggle('on', v); if (v) { cvT0 = performance.now(); cvNext = cvT0 + 2400; waveT = cvT0 + 5000; } }
   function coverFrame(now) {
     if (!cvShown || !onScreen(cover)) return;
-    const t = (now - cvT0) / 1000;
+    const t = (now - cvT0) / 1000, n = isMob() ? 4 : NS;
+    // acordeón: el ancho sigue al cursor
+    const r = cover.getBoundingClientRect(); const mx = isTouch ? .5 + Math.sin(t * .25) * .35 : clamp((mouse.x - r.left) / r.width);
+    mxs = lerp(mxs, mx, .06);
     STR.forEach((S, i) => {
-      const c = CROPS[S.crop];
-      const x = c[2] + Math.sin(t * .23 + S.ph) * 3 + mouse.nx * (i - 2) * .8, y = c[3] + Math.cos(t * .19 + S.ph) * 3 + mouse.ny * 1.5;
-      S.a.style.backgroundPosition = `${x}% ${y}%`;
-      S.a.style.transform = `scale(${1.04 + Math.sin(t * .3 + i) * .02})`;
+      if (i >= n) { S.el.style.display = 'none'; return; } S.el.style.display = '';
+      const c = (i + .5) / n, w = 1 + 1.5 * Math.exp(-Math.pow((c - mxs) / .16, 2));
+      S.g = lerp(S.g, w, .12); S.el.style.flexGrow = S.g.toFixed(3);
+      const dir = i % 2 ? 1 : -1;
+      place(S.A, S.front === 'A' ? S.crop : (S.prevA ?? S.crop), t, S.ph, dir);
+      place(S.B, S.front === 'B' ? S.crop : (S.prevB ?? S.crop), t, S.ph, dir);
+      if (S.front === 'A') S.prevA = S.crop; else S.prevB = S.crop;
+      const ins = Math.sin(t * .4 + i) * 1.5;
+      S.el.style.clipPath = `inset(${Math.max(0, INSET[i][0] + ins)}% 0 ${Math.max(0, INSET[i][1] - ins)}% 0)`;
+      // ola de color suave
+      const wv = (now - waveT) / 1000, red = wv > 0 ? Math.max(0, 1 - Math.abs(wv * 1.6 - i * .45 - .4)) : 0;
+      S.tint.style.opacity = Math.min(1, red * 1.6).toFixed(3);
+      S.el.classList.toggle('hot', red > .35);
     });
-    if (now > cvNext) { mutate(STR[Math.floor(Math.random() * N)]); cvNext = now + 1800 + Math.random() * 1600; }
-    if (now > cvAlt) {   // cambio de color global
-      const on = !cover.classList.contains('alt'); cover.classList.toggle('alt', on);
-      STR.forEach((S, i) => setTimeout(() => mutate(S, on ? 1 : 0), i * 110));
-      cvAlt = now + (on ? 4200 : 9000);
-    }
+    if ((now - waveT) / 1000 > 6.5) waveT = now + 4000 + Math.random() * 2500;
+    if (now > cvNext) { swap(STR[Math.floor(Math.random() * n)]); cvNext = now + 1500 + Math.random() * 1400; }
   }
   $('#replay2').onclick = () => { showCover(false); $('#replay').click(); };
 
