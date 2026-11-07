@@ -1102,6 +1102,36 @@ p,.s-desc,.m-par,.ab-lead{text-wrap:pretty}
 .cv-state{position:absolute;right:var(--pad);top:calc(clamp(56px,4.6vw,84px) + 22px);z-index:4;color:#f2f2f2;display:flex;gap:8px;align-items:baseline}
 .cv-state span{color:#ff1a0a}.cv-state b{font-weight:400}
 .cv-band{background:linear-gradient(0deg,rgba(5,5,5,.95) 35%,rgba(5,5,5,0))!important}
+
+/* ===== LEGIBILIDAD v2: textos chicos más grandes y con contraste; títulos sin recortes ===== */
+:root{--sm:clamp(13px,.95vw,17px);--xs:clamp(12px,.78vw,15px)}
+.mono,nav .mono,nav .links,nav .links a,.divider h2 small,.divider .mono,.s-meta,.s-meta span,.tes-chip,.s-tags li,.s-btn,.bbv-play,
+.dk-form,.now,.now span,.cf-head,.cf-head span,.cf-chip,.cf-send,.cf-state,.c-grid div,.ix-btn,.ix-foot,.ix-foot span,.ix-tag,.ix-num,.ix-list li .ix-c,
+.cv-state,.cv-state b,.cv-btn,.cv-foot,.cv-foot span,.replay,.scroll,.scroll span,.m-top span,#states span,.copied,
+.po-card .cap,.p-pages figcaption,.p-grid figure figcaption,.p-browser .bar span,.w-browser span,.sv-th span,.po-gallery figcaption,.br-cap .mono{font-size:var(--sm)!important;font-weight:400}
+.ix-name{font-size:clamp(13px,.9vw,18px)}
+/* sin grises lavados: los textos chicos se leen completos */
+.ix-num{opacity:.9!important}.ix-list li .ix-c{opacity:.9!important}
+.p-pages figcaption,.p-grid figure figcaption,.divider .mono{opacity:.9!important}
+.bp-top span,.br-th span{opacity:.85!important}
+.p-browser .bar span,.w-browser span{color:#c8c8c8!important}
+/* chips y botones: más aire para la letra */
+.s-tags li,.tes-chip,.cf-chip{padding:.5em 1em!important;line-height:1.1}
+.s-btn,.ix-btn{padding:.95em 1.6em!important}
+/* textos internos de la composición de marca */
+.br-th{font-size:clamp(11px,.95vw,18px)!important}
+.bp-top span{font-size:3.8cqw!important}
+.bp-sw div span{font-size:3.2cqw!important}
+.bbw-nav{font-size:clamp(10px,.72vw,13px)!important}
+/* títulos: las letras con descendente (g, p, y) no se cortan */
+.clip.in{clip-path:inset(-.15em -.08em -.32em -.08em)}
+#contacto .c-big{padding-bottom:.16em}
+.case-title{padding-bottom:.2em!important;margin-bottom:-.14em}
+.states span.on{color:#050505!important}
+.wide .mono,.sec-head .mono{font-size:var(--sm)!important}
+#totalCount{font-size:var(--sm)!important;opacity:1!important}
+.tes-bar .mono{font-size:var(--xs)!important;white-space:nowrap}
+@media (max-width:620px){.tes-bar .mono:last-child{display:none}}
 </style></head>
 <body>
 <div class="grain"></div>
