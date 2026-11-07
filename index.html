@@ -1231,7 +1231,7 @@ float noise(vec3 x){
 float fbm(vec3 p){ float a=.5, s=0.; for(int i=0;i<4;i++){ s+=a*noise(p); p*=2.03; a*=.5; } return s; }
 float smin(float a,float b,float k){ float h=clamp(.5+.5*(b-a)/k,0.,1.); return mix(b,a,h)-k*h*(1.-h); }
 
-float map(vec3 p){
+float mapRaw(vec3 p){
   vec3 q = p;
   float t = uTime*.55 + uSeed*13.7;
   q.xz *= rot(t*.45*uSpin + uMouse.x*.8);
@@ -1241,7 +1241,8 @@ float map(vec3 p){
   float d = length(q) - core;
   for(int i=0;i<4;i++){
     float fi=float(i);
-    vec3 c = (0.12+split*.78)*vec3(sin(t*(.7+fi*.13)+fi*2.1), cos(t*(.9+fi*.11)+fi*1.3), sin(t*(.5+fi*.17)+fi*.7));
+    vec3 dir = vec3(sin(t*(.7+fi*.13)+fi*2.1), cos(t*(.9+fi*.11)+fi*1.3), sin(t*(.5+fi*.17)+fi*.7));
+    vec3 c = (0.12+split*.78)*dir/max(1.,length(dir));
     d = smin(d, length(q-c) - mix(.42,.30,split), mix(.45,.32,split));
   }
   float liquid = smoothstep(0.,.6,uMorph);
@@ -1253,6 +1254,8 @@ float map(vec3 p){
   // facetas cuando la materia "cristaliza" (morph negativo -> ~0)
   return d*.72;
 }
+// encuadre: la materia se achica al dividirse para que nunca toque el borde del cuadro
+float map(vec3 p){ float k = mix(1.18,1.62,smoothstep(.2,1.,uMorph)); return mapRaw(p*k)/k; }
 vec3 calcN(vec3 p){
   const vec2 k=vec2(1,-1); float h=.0015;
   return normalize(k.xyy*map(p+k.xyy*h)+k.yyx*map(p+k.yyx*h)+k.yxy*map(p+k.yxy*h)+k.xxx*map(p+k.xxx*h));
@@ -1269,6 +1272,7 @@ vec3 env(vec3 r){
 }
 void main(){
   vec2 uv = (vUv-.5)*2.;
+  float edge = smoothstep(1.,.86,max(abs(uv.x),abs(uv.y)));
   uv.x *= uRes.x/uRes.y;
   uv = uv*uZoom + uOff;
   vec3 ro = vec3(0.,0.,3.0), rd = normalize(vec3(uv,-1.9));
@@ -1290,7 +1294,7 @@ void main(){
       tt += .045;
     }
     acc = clamp(acc,0.,1.);
-    o = vec4(uTint*acc, acc);
+    o = vec4(uTint*acc, acc)*edge;
     gl_FragColor = o; return;
   }
   if(hit){
@@ -1325,6 +1329,7 @@ void main(){
     float a = smoothstep(.012,0.,md)*.0;
     o = vec4(0.,0.,0.,a);
   }
+  o.a *= edge;
   gl_FragColor = vec4(o.rgb*o.a, o.a);
 }`;
 
@@ -1940,15 +1945,25 @@ Promise.all([document.fonts.load('800 60px "Archivo V"'),document.fonts.load('50
     const cs = Math.max(7, Math.round(Math.min(W, H) / (innerWidth < 820 ? 60 : 92)));
     const cols = Math.ceil(W / cs), rows = Math.ceil(H / cs);
     const o = document.createElement('canvas'); o.width = cols; o.height = rows; const c = o.getContext('2d');
-    // encuadre: cubrir, cara un poco a la derecha en desktop
-    const k = Math.max(cols / face.naturalWidth, rows / face.naturalHeight) * 1.05;
+    // encuadre: el retrato entra completo entre el menú y la banda del nombre
+    const top = (($('nav') || {}).offsetHeight || 60) * DPR + cs, bot = H - ((cover.querySelector('.cv-band') || {}).offsetHeight || 0) * DPR * .82;
+    const r0 = top / cs, avail = Math.max(rows * .4, (bot - top) / cs);
+    const k = Math.min(cols * (innerWidth < 820 ? 1.15 : .92) / face.naturalWidth, avail / face.naturalHeight);
     const dw = face.naturalWidth * k, dh = face.naturalHeight * k;
-    const ox = innerWidth < 820 ? (cols - dw) / 2 : cols - dw + cols * .02, oy = (rows - dh) / 2 - rows * .04;
-    c.filter = 'grayscale(1) contrast(1.35)'; c.drawImage(face, ox, oy, dw, dh);
+    const ox = innerWidth < 820 ? (cols - dw) / 2 : cols - dw - cols * .02, oy = r0 + (avail - dh) / 2;
+    c.filter = 'grayscale(1) contrast(1.35)'; c.drawImage(face, ox, oy, dw, dh); c.filter = 'none';
+    // bordes fundidos: nada de cortes rectos
+    const fx = Math.max(2, dw * .12), fy = Math.max(2, dh * .12);
+    c.globalCompositeOperation = 'destination-in';
+    const gx = c.createLinearGradient(ox, 0, ox + dw, 0); gx.addColorStop(0, 'rgba(0,0,0,0)'); gx.addColorStop(fx / dw, '#000'); gx.addColorStop(1 - fx / dw, '#000'); gx.addColorStop(1, 'rgba(0,0,0,0)');
+    c.fillStyle = gx; c.fillRect(0, 0, cols, rows);
+    const gy = c.createLinearGradient(0, oy, 0, oy + dh); gy.addColorStop(0, 'rgba(0,0,0,0)'); gy.addColorStop(fy / dh, '#000'); gy.addColorStop(1 - fy / dh, '#000'); gy.addColorStop(1, 'rgba(0,0,0,0)');
+    c.fillStyle = gy; c.fillRect(0, 0, cols, rows); c.globalCompositeOperation = 'source-over';
+    PX.top = top; PX.bot = bot;
     const d = c.getImageData(0, 0, cols, rows).data;
     PX.cells = [];
     for (let j = 0; j < rows; j++) for (let i = 0; i < cols; i++) {
-      const l = d[(j * cols + i) * 4] / 255; if (l < .08) continue;
+      const l = d[(j * cols + i) * 4] / 255 * d[(j * cols + i) * 4 + 3] / 255; if (l < .08) continue;
       const tx = i * cs, ty = j * cs;
       PX.cells.push({ tx, ty, x: tx, y: ty, l, a: Math.random() * 6.28, r: Math.random(), hot: 0 });
     }
@@ -1971,7 +1986,7 @@ Promise.all([document.fonts.load('800 60px "Archivo V"'),document.fonts.load('50
     // fases: 0-5 rostro · 5-6.6 se derrite · 6.6-8 materia · 8-9.5 se rearma
     const melt = ph < 5 ? 0 : ph < 6.6 ? ease3((ph - 5) / 1.6) : ph < 8 ? 1 : 1 - ease3((ph - 8) / 1.5);
     const st = CST[ci % CST.length];
-    const cx = innerWidth < 820 ? W * .5 : W * .66, cy = H * .44, R = Math.min(W, H) * .2;
+    const zt = PX.top || 0, zb = PX.bot || H, cx = innerWidth < 820 ? W * .5 : W * .66, cy = (zt + zb) / 2, R = Math.min(W * .6, zb - zt) * .2;
     const r = cvPix.getBoundingClientRect();
     mxs.x = lerp(mxs.x, (mouse.x - r.left) * DPR, km); mxs.y = lerp(mxs.y, (mouse.y - r.top) * DPR, km);
     const MR = Math.min(W, H) * .16, cs = PX.cs;
