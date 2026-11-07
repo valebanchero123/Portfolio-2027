@@ -1040,6 +1040,17 @@ p,.s-desc,.m-par,.ab-lead{text-wrap:pretty}
 #cover.alt .cv-band{background:linear-gradient(0deg,rgba(5,5,5,.92) 30%,rgba(5,5,5,0))!important}
 
 .cv-s.hot .cv-l{filter:grayscale(1) contrast(1.6) brightness(1.05)}
+/* índice: textos más grandes */
+.ix-name{font-size:clamp(18px,1.5vw,30px)!important;letter-spacing:-.02em}
+.ix-num{font-size:clamp(12px,.85vw,16px)!important;left:16px;top:14px}
+.ix-card.on .ix-name{font-size:clamp(30px,3vw,62px)!important}
+.ix-desc{font-size:clamp(15px,1.15vw,22px)!important;top:clamp(56px,4.4vw,90px)!important}
+.ix-foot{font-size:clamp(11px,.8vw,15px)!important}
+.ix-btn{font-size:clamp(11px,.8vw,15px)!important}
+.ix-list li a{font-size:clamp(14px,1.05vw,20px)!important;padding:clamp(14px,1.1vw,22px) 0!important;grid-template-columns:clamp(38px,2.8vw,54px) 1fr!important}
+.ix-list li .ix-c{font-size:clamp(11px,.75vw,14px)!important;margin-top:4px}
+.ix{grid-template-columns:clamp(220px,17vw,340px) 1fr!important}
+#indice .sec-head .mono{font-size:clamp(12px,.85vw,16px)!important}
 </style></head>
 <body>
 <div class="grain"></div>
@@ -1098,7 +1109,7 @@ p,.s-desc,.m-par,.ab-lead{text-wrap:pretty}
 
 <!-- ÍNDICE -->
 <section id="indice">
-  <div class="sec-head"><h2 class="wide clip">Trabajos<sup class="mono" id="totalCount"></sup></h2><span class="mono rv">Cuatro estados de la materia<br>Elegí por dónde entrar</span></div>
+  <div class="sec-head"><h2 class="wide clip">Trabajos<sup class="mono" id="totalCount"></sup></h2><span class="mono rv">Cinco capítulos<br>Elegí por dónde entrar</span></div>
   <div class="idx" id="idx"></div>
 </section>
 
@@ -2463,6 +2474,40 @@ Promise.all([document.fonts.load('800 60px "Archivo V"'),document.fonts.load('50
     return { bg: '#070707', fg: '#f2f2f2', ac: HOT, cat: '(00.02) But Be · Video concepto', name: 'But Be concepto', html: `
       <div class="p-head"><div><h1 class="wide">But Be concepto</h1><div class="tes-chip mono" style="margin-top:16px">Agencia But Be · en equipo</div></div><div><p>Video manifiesto de la agencia: una parte única puede cambiar el todo. Tipografía cinética, texturas y efectos para presentar la identidad de But Be.</p></div></div>
       <div class="bb-player"><video src="assets/butbe/concepto.mp4" poster="assets/butbe/concepto.jpg" controls autoplay playsinline></video></div>` };
+  }
+  function tplAbout() {
+    return { bg: '#070707', fg: '#f2f2f2', ac: HOT, cat: '(VB) Sobre mí', name: 'Valentina Banchero', html: `
+      <div class="ab">
+        <div class="ab-pic"><div style="background-image:url(assets/me/face.jpg);background-position:30% 40%"></div><div style="background-image:url(assets/me/face.jpg);background-size:auto 160%;background-position:52% 70%"></div><div style="background-image:url(assets/me/face.jpg);background-position:75% 50%"></div></div>
+        <div>
+          <h1 class="wide">Sobre mí</h1>
+          <p class="ab-lead"><b>Soy Valentina Banchero</b>, diseñadora gráfica y audiovisual. Hace más de tres años trabajo como freelance entre la identidad visual, el motion y la gráfica para la escena cultural y musical. Mi forma de diseñar es <b>creativa y experimental</b>: materia en transformación.</p>
+          <div class="ab-grid">
+            <div class="ab-sec"><h4 class="mono"><span>Formación</span><span>(01)</span></h4><ul>
+              <li><span class="mono">Título</span><span>Diseño Gráfico Artístico y Digital — Escuela Da Vinci (3 años)</span></li>
+              <li><span class="mono">3 años</span><span>Diseño Gráfico — Universidad Nacional del Litoral (UNL)</span></li>
+              <li><span class="mono">Master</span><span>Masterclass de identidad visual con motion graphics</span></li>
+              <li><span class="mono">Cursos</span><span>Illustrator, Photoshop y animación de video</span></li></ul></div>
+            <div class="ab-sec"><h4 class="mono"><span>Experiencia</span><span>(02)</span></h4><ul>
+              <li><span class="mono">+3 años</span><span>Diseñadora gráfica y audiovisual freelance</span></li>
+              <li><span class="mono">Agencia</span><span>But Be — identidad, campañas y web en equipo</span></li>
+              <li><span class="mono">Música</span><span>MEET, La Fábrica, The Rooftop Rec, Vanguard</span></li>
+              <li><span class="mono">Editorial</span><span>Supernova — revista de pensamiento crítico</span></li>
+              <li><span class="mono">Marcas</span><span>Wake, Finolio, Bioferia</span></li>
+              <li><span class="mono">Artistas</span><span>Emiliano Demarco, Cloudy, Cadelago</span></li></ul></div>
+            <div class="ab-sec"><h4 class="mono"><span>Especialidad</span><span>(03)</span></h4>
+              <p class="ab-p">Diseño de flyers y animaciones experimentales y conceptuales.</p>
+              <div class="ab-tags mono"><span>Flyers</span><span>Motion graphics</span><span>Identidad visual</span><span>Manual de marca</span><span>Posters</span><span>Landing pages</span><span>Redes</span></div></div>
+            <div class="ab-sec"><h4 class="mono"><span>Herramientas</span><span>(04)</span></h4>
+              <div class="ab-tags mono"><span>Illustrator</span><span>Photoshop</span><span>InDesign</span><span>After Effects</span><span>Figma</span><span>CapCut</span><span>Claude</span><span>ChatGPT</span></div></div>
+            <div class="ab-sec ab-contact"><h4 class="mono"><span>Contacto</span><span>(05)</span></h4><ul>
+              <li><span class="mono">Mail</span><span>valebanchero123@gmail.com</span></li>
+              <li><span class="mono">WhatsApp</span><a href="https://wa.me/5493434402535" target="_blank" rel="noopener">+54 9 343 440-2535 ↗</a></li>
+              <li><span class="mono">Instagram</span><a href="https://www.instagram.com/va.graphicdesign_/" target="_blank" rel="noopener">@va.graphicdesign_ ↗</a></li>
+              <li><span class="mono">Behance</span><a href="https://www.behance.net/valentibancher1" target="_blank" rel="noopener">behance.net/valentibancher1 ↗</a></li></ul></div>
+          </div>
+        </div>
+      </div>` };
   }
   function tplMeet() {
     const m = DATA.meet;
