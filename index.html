@@ -1051,6 +1051,50 @@ p,.s-desc,.m-par,.ab-lead{text-wrap:pretty}
 .ix-list li .ix-c{font-size:clamp(11px,.75vw,14px)!important;margin-top:4px}
 .ix{grid-template-columns:clamp(220px,17vw,340px) 1fr!important}
 #indice .sec-head .mono{font-size:clamp(12px,.85vw,16px)!important}
+
+/* ===== Sobre mí: textos más grandes ===== */
+.ab-lead{font-size:clamp(22px,2.1vw,40px)!important;max-width:28ch}
+.ab-sec h4{font-size:clamp(12px,.9vw,17px)!important}
+.ab-sec li{font-size:clamp(16px,1.25vw,24px)!important;grid-template-columns:clamp(90px,7vw,130px) 1fr!important;padding:clamp(10px,.9vw,16px) 0}
+.ab-sec li .mono{font-size:clamp(11px,.8vw,15px)!important}
+.ab-p{font-size:clamp(16px,1.25vw,24px)!important}
+.ab-tags span{font-size:clamp(11px,.8vw,15px)!important}
+.ab-sec li a{text-decoration:none;border-bottom:1px solid rgba(255,26,10,.5)}
+
+/* ===== Formulario de contacto ===== */
+.cf-wrap{position:relative;z-index:2;display:grid;grid-template-columns:1.1fr 1fr;gap:clamp(30px,4vw,90px);align-items:center;margin:clamp(30px,4vw,70px) 0}
+.cf{display:flex;flex-direction:column;gap:clamp(16px,1.4vw,26px)}
+.cf-head{display:flex;justify-content:space-between;border-bottom:1px solid rgba(242,242,242,.25);padding-bottom:10px;color:rgba(242,242,242,.6)}
+#cfPct{color:#ff1a0a}
+.cf-f{display:flex;flex-direction:column;gap:8px}
+.cf-f>.mono{color:rgba(242,242,242,.55)}
+.cf input,.cf textarea{font-family:var(--hn);font-size:clamp(20px,1.7vw,32px);letter-spacing:-.02em;color:#f2f2f2;background:transparent;border:0;border-bottom:1px solid rgba(242,242,242,.25);padding:6px 0 12px;outline:0;transition:border-color .3s;resize:vertical;cursor:text}
+.cf input::placeholder,.cf textarea::placeholder{color:rgba(242,242,242,.25)}
+.cf input:focus,.cf textarea:focus{border-color:#ff1a0a}
+.cf-chips{display:flex;flex-wrap:wrap;gap:8px}
+.cf-chip{padding:.7em 1.2em;border-radius:999px;border:1px solid rgba(242,242,242,.3);color:#f2f2f2;transition:.25s;cursor:none}
+.cf-chip.on{background:#ff1a0a;border-color:#ff1a0a;color:#fff}
+.cf-chip:hover{border-color:#f2f2f2}
+.cf-err{color:#ff1a0a;min-height:1em}
+.cf-send{align-self:flex-start;display:inline-flex;gap:14px;align-items:center;padding:1.2em 2.1em;border-radius:999px;border:1.5px solid rgba(242,242,242,.4);color:#f2f2f2;font-size:clamp(12px,.9vw,16px)!important;transition:.35s;cursor:none}
+.cf-wrap.ready .cf-send{background:#ff1a0a;border-color:#ff1a0a;color:#fff;box-shadow:0 0 0 0 rgba(255,26,10,.6);animation:cfPulse 1.6s infinite}
+@keyframes cfPulse{to{box-shadow:0 0 0 18px rgba(255,26,10,0)}}
+.cf-send:hover{gap:24px}
+.cf-stage{position:relative;aspect-ratio:1;max-height:70vh;width:100%}
+.cf-stage canvas{position:absolute;inset:0;width:100%;height:100%}
+.cf-state{position:absolute;left:0;bottom:0;display:flex;align-items:flex-start;gap:8px;color:#f2f2f2}
+.cf-state b{font-family:var(--hn);font-weight:700;letter-spacing:-.02em;font-size:clamp(28px,2.8vw,56px);line-height:.82}
+.cf-state b.in{animation:brIn .6s cubic-bezier(.2,.8,.2,1)}
+.cf-state .mono{color:#ff1a0a}
+.cf-done{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;gap:14px;opacity:0;pointer-events:none;transition:opacity .8s .9s}
+.cf-done b{font-family:var(--hn);font-weight:700;letter-spacing:-.02em;line-height:.9;font-size:clamp(28px,2.6vw,52px);color:#fff}
+.cf-done .mono{color:rgba(242,242,242,.7)}
+.cf-wrap.sent .cf-done{opacity:1}
+.cf-wrap.sent .cf-state{opacity:0;transition:opacity .4s}
+#contacto{min-height:auto}
+@media (max-width:820px){.cf-wrap{grid-template-columns:1fr}.cf-stage{order:-1;max-width:70vw;margin:0 auto}}
+
+.cf-done{z-index:2;text-shadow:0 4px 30px rgba(0,0,0,.7)}
 </style></head>
 <body>
 <div class="grain"></div>
@@ -1118,11 +1162,22 @@ p,.s-desc,.m-par,.ab-lead{text-wrap:pretty}
 
 <!-- CONTACTO -->
 <section id="contacto">
-    <canvas id="conCv"></canvas>
   <div class="mono rv">(05) Contacto — Disponible para proyectos 2027</div>
   <div>
     <h2 class="c-big wide clip"><span class="fitline" style="display:block">¿Transformamos</span><span class="r">algo?</span></h2>
-    <button class="mail" id="mail"><span>valebanchero123@gmail.com</span><span>↗</span><span class="copied" id="copied">Copiado</span></button>
+    <a class="mail" id="mail" href="mailto:valebanchero123@gmail.com?subject=Hola%20Valentina"><span>valebanchero123@gmail.com</span><span>↗</span></a>
+  </div>
+  <div class="cf-wrap" id="cfWrap">
+    <form class="cf" id="cf" novalidate>
+      <div class="cf-head mono"><span>Formulario</span><span id="cfPct">00% transformado</span></div>
+      <label class="cf-f"><span class="mono">01 — Nombre</span><input name="nombre" autocomplete="name" placeholder="Cómo te llamás"></label>
+      <label class="cf-f"><span class="mono">02 — Mail</span><input name="mail" type="email" autocomplete="email" placeholder="tu@mail.com"></label>
+      <div class="cf-f"><span class="mono">03 — Qué necesitás</span><div class="cf-chips"><button type="button" class="cf-chip mono" data-v="Identidad">Identidad</button><button type="button" class="cf-chip mono" data-v="Motion">Motion</button><button type="button" class="cf-chip mono" data-v="Flyers">Flyers</button><button type="button" class="cf-chip mono" data-v="Web">Web</button><button type="button" class="cf-chip mono" data-v="Posters">Posters</button><button type="button" class="cf-chip mono" data-v="Otro">Otro</button></div></div>
+      <label class="cf-f"><span class="mono">04 — Contame tu idea</span><textarea name="msg" rows="4" placeholder="El proyecto, los tiempos, lo que imaginás…"></textarea></label>
+      <div class="cf-err mono" id="cfErr"></div>
+      <button class="cf-send mono" type="submit" data-cur="Enviar">Transformame <span>→</span></button>
+    </form>
+    <div class="cf-stage"><canvas id="cfCv"></canvas><div class="cf-state"><span class="mono" id="cfStN">(00)</span><b id="cfSt">En reposo</b></div><div class="cf-done" id="cfDone"><b>Tu mensaje está<br>en transformación.</b><span class="mono">Se abrió tu correo con todo listo para enviar</span></div></div>
   </div>
   <div class="c-grid mono" style="grid-template-columns:repeat(3,1fr)">
     <div>Contacto<a href="https://www.instagram.com/va.graphicdesign_/" target="_blank" rel="noopener">Instagram ↗</a><a href="https://www.behance.net/valentibancher1" target="_blank" rel="noopener">Behance ↗</a><a href="https://wa.me/5493434402535" target="_blank" rel="noopener">WhatsApp ↗</a></div>
@@ -2299,18 +2354,44 @@ Promise.all([document.fonts.load('800 60px "Archivo V"'),document.fonts.load('50
   }
 
   /* ======================= CONTACTO ======================= */
-  const conCv = $('#conCv'); const con = { x: .7, y: .5, v: 0 };
-  function conFrame(t) {
-    if (!onScreen(conCv)) return;
-    const ctx = fitCanvas(conCv), W = conCv.width, H = conCv.height; ctx.clearRect(0, 0, W, H);
-    const r = conCv.getBoundingClientRect(), tx = (mouse.x - r.left) / r.width, ty = (mouse.y - r.top) / r.height, px = con.x, py = con.y;
-    con.x = lerp(con.x, clamp(tx), .06); con.y = lerp(con.y, clamp(ty), .06);
-    con.v = lerp(con.v, Math.min(1, Math.hypot(con.x - px, con.y - py) * 40), .1);
-    const S = Math.min(W, H) * .5;
-    const c = Matter.render({ mat: 'wax', tint: '#ee2a1b', time: t, morph: .35 + con.v * .6, zoom: .7, seed: 8, w: S * .95, h: S * .95, mouse: [con.x - .5, con.y - .5] });
-    if (c) ctx.drawImage(c, con.x * W - S / 2, con.y * H - S / 2, S, S);
+  /* ===== CONTACTO: formulario que transforma la materia ===== */
+  const cf = $('#cf'), cfCv = $('#cfCv'), cfSt = $('#cfSt'), cfStN = $('#cfStN'), cfPct = $('#cfPct');
+  const CFS = [['En reposo', 'clay', '#3a3a3a'], ['Sólido', 'clay', '#ece7df'], ['Líquido', 'wax', '#ff1a0a'], ['Gaseoso', 'glass', '#a9d8ff'], ['Plasma', 'chrome', '#ffd9cf']];
+  const cfs = { p: 0, pv: 0, burst: 0, chips: new Set(), st: -1, sent: false };
+  cf.querySelectorAll('.cf-chip').forEach(c => c.onclick = () => { c.classList.toggle('on'); c.classList.contains('on') ? cfs.chips.add(c.dataset.v) : cfs.chips.delete(c.dataset.v); cfUpdate(); });
+  function cfUpdate() {
+    const v = cf.nombre.value.trim(), m = cf.mail.value.trim(), x = cf.msg.value.trim();
+    const parts = [v.length > 1, /\S+@\S+\.\S+/.test(m), cfs.chips.size > 0, Math.min(1, x.length / 60)];
+    cfs.p = (parts[0] + parts[1] + parts[2] + parts[3]) / 4;
+    const st = cfs.p >= 1 ? 4 : cfs.p > .7 ? 3 : cfs.p > .45 ? 2 : cfs.p > 0 ? 1 : 0;
+    if (st !== cfs.st) { cfs.st = st; cfSt.textContent = CFS[st][0]; cfStN.textContent = `(${pad2(st)})`; cfSt.classList.remove('in'); void cfSt.offsetWidth; cfSt.classList.add('in'); if (st) uiTone(400 + st * 160, .08, .03); }
+    cfPct.textContent = `${String(Math.round(cfs.p * 100)).padStart(2, '0')}% transformado`;
+    $('#cfWrap').classList.toggle('ready', cfs.p >= 1);
+    $('#cfErr').textContent = '';
   }
-  $('#mail').onclick = async () => { try { await navigator.clipboard.writeText('valebanchero123@gmail.com'); $('#copied').classList.add('on'); setTimeout(() => $('#copied').classList.remove('on'), 1600); } catch (e) { } };
+  cf.addEventListener('input', cfUpdate);
+  cf.addEventListener('submit', e => {
+    e.preventDefault();
+    const v = cf.nombre.value.trim(), m = cf.mail.value.trim(), x = cf.msg.value.trim();
+    if (!v || !/\S+@\S+\.\S+/.test(m) || !x) { $('#cfErr').textContent = !v ? 'Falta tu nombre' : !/\S+@\S+\.\S+/.test(m) ? 'Revisá tu mail' : 'Contame un poco de tu idea'; return; }
+    cfs.burst = 1; cfs.sent = true; uiTone(220, .4, .06);
+    $('#cfWrap').classList.add('sent');
+    const body = `Hola Valentina,\n\n${x}\n\nQué necesito: ${[...cfs.chips].join(', ') || '—'}\n\n${v}\n${m}`;
+    setTimeout(() => { location.href = `mailto:valebanchero123@gmail.com?subject=${encodeURIComponent('Proyecto — ' + v)}&body=${encodeURIComponent(body)}`; }, 1400);
+  });
+  function conFrame(t) {
+    if (!onScreen(cfCv)) return;
+    const ctx = fitCanvas(cfCv), W = cfCv.width, H = cfCv.height; ctx.clearRect(0, 0, W, H);
+    cfs.pv = lerp(cfs.pv, cfs.p, .05); cfs.burst = Math.max(0, cfs.burst - .012);
+    const st = CFS[Math.max(0, cfs.st)], b = cfs.burst;
+    const S = Math.min(W, H) * Math.min(.98, (.62 + cfs.pv * .32 + Math.sin(b * Math.PI) * .3) * (cfs.sent && b < .5 ? .55 + b : 1));
+    const typing = document.activeElement && cf.contains(document.activeElement) ? 1 : 0;
+    const c = Matter.render({ mat: cfs.sent ? 'wax' : st[1], tint: cfs.sent ? '#ff1a0a' : st[2], time: t * (1 + cfs.pv * 1.5 + typing * .5 + b * 4), morph: .05 + cfs.pv * .85 + b * .6, zoom: .7, seed: 8, w: S * .9, h: S * .9, mouse: [mouse.nx * .3, mouse.ny * .3], spin: 1 + cfs.pv * 1.5 });
+    ctx.globalAlpha = cfs.sent && b < .5 ? .35 + b : 1;
+    if (c) ctx.drawImage(c, W / 2 - S / 2, H / 2 - S / 2, S, S);
+    ctx.globalAlpha = 1;
+    if (b > 0) { ctx.strokeStyle = `rgba(255,26,10,${b})`; ctx.lineWidth = 2 * DPR; for (let k = 0; k < 3; k++) { ctx.beginPath(); ctx.arc(W / 2, H / 2, (1 - b) * Math.max(W, H) * (.4 + k * .25), 0, 7); ctx.stroke(); } }
+  }
 
   /* ======================= BOLA GUÍA (viaja por anclas) ======================= */
   const ball = $('#ball');
@@ -2494,14 +2575,14 @@ Promise.all([document.fonts.load('800 60px "Archivo V"'),document.fonts.load('50
               <li><span class="mono">Música</span><span>MEET, La Fábrica, The Rooftop Rec, Vanguard</span></li>
               <li><span class="mono">Editorial</span><span>Supernova — revista de pensamiento crítico</span></li>
               <li><span class="mono">Marcas</span><span>Wake, Finolio, Bioferia</span></li>
-              <li><span class="mono">Artistas</span><span>Emiliano Demarco, Cloudy, Cadelago</span></li></ul></div>
+</ul></div>
             <div class="ab-sec"><h4 class="mono"><span>Especialidad</span><span>(03)</span></h4>
               <p class="ab-p">Diseño de flyers y animaciones experimentales y conceptuales.</p>
               <div class="ab-tags mono"><span>Flyers</span><span>Motion graphics</span><span>Identidad visual</span><span>Manual de marca</span><span>Posters</span><span>Landing pages</span><span>Redes</span></div></div>
             <div class="ab-sec"><h4 class="mono"><span>Herramientas</span><span>(04)</span></h4>
               <div class="ab-tags mono"><span>Illustrator</span><span>Photoshop</span><span>InDesign</span><span>After Effects</span><span>Figma</span><span>CapCut</span><span>Claude</span><span>ChatGPT</span></div></div>
             <div class="ab-sec ab-contact"><h4 class="mono"><span>Contacto</span><span>(05)</span></h4><ul>
-              <li><span class="mono">Mail</span><span>valebanchero123@gmail.com</span></li>
+              <li><span class="mono">Mail</span><a href="mailto:valebanchero123@gmail.com?subject=Hola%20Valentina">valebanchero123@gmail.com ↗</a></li>
               <li><span class="mono">WhatsApp</span><a href="https://wa.me/5493434402535" target="_blank" rel="noopener">+54 9 343 440-2535 ↗</a></li>
               <li><span class="mono">Instagram</span><a href="https://www.instagram.com/va.graphicdesign_/" target="_blank" rel="noopener">@va.graphicdesign_ ↗</a></li>
               <li><span class="mono">Behance</span><a href="https://www.behance.net/valentibancher1" target="_blank" rel="noopener">behance.net/valentibancher1 ↗</a></li></ul></div>
